@@ -133,6 +133,7 @@ function extractHeadings(content: any[]): TOCItem[] {
 
 // Data fetching
 async function getPost(slug: string): Promise<BlogPost | null> {
+  if (!client) return null
   try {
     return await client.fetch(postBySlugQuery, { slug })
   } catch (error) {
@@ -142,6 +143,7 @@ async function getPost(slug: string): Promise<BlogPost | null> {
 }
 
 async function getRelatedPosts(categoryId: string, postId: string): Promise<RelatedPost[]> {
+  if (!client) return []
   try {
     return await client.fetch(relatedPostsQuery, { categoryId, postId }) || []
   } catch (error) {
