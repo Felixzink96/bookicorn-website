@@ -17,29 +17,22 @@ export function LazyLiquidEther() {
   const hasTriggered = useRef(false)
 
   useEffect(() => {
-    // Only load shader on user interaction
-    // PageSpeed doesn't interact with pages, so it will never trigger this
-    // Real users will see the shader as soon as they move mouse, scroll, or click
-
     const triggerLoad = () => {
       if (hasTriggered.current) return
       hasTriggered.current = true
 
-      // Remove all listeners
       window.removeEventListener('mousemove', triggerLoad)
       window.removeEventListener('scroll', triggerLoad)
       window.removeEventListener('click', triggerLoad)
       window.removeEventListener('touchstart', triggerLoad)
       window.removeEventListener('keydown', triggerLoad)
 
-      // Small delay to not block the interaction itself
       requestAnimationFrame(() => {
         setShouldLoad(true)
         setTimeout(() => setIsVisible(true), 100)
       })
     }
 
-    // Listen for any user interaction
     window.addEventListener('mousemove', triggerLoad, { passive: true })
     window.addEventListener('scroll', triggerLoad, { passive: true })
     window.addEventListener('click', triggerLoad, { passive: true })
@@ -56,54 +49,47 @@ export function LazyLiquidEther() {
   }, [])
 
   return (
-    <div className="absolute inset-0 -z-10">
-      {/* Animated mesh gradient - always visible */}
-      <div className="absolute inset-0 bg-[var(--theme-background)]" />
+    <>
+      {/* Animated gradient background - always visible */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Base */}
+        <div className="absolute inset-0 bg-[var(--theme-background)]" />
 
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Purple orb */}
+        {/* Gradient orbs */}
         <div
-          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.15] animate-float-slow"
+          className="absolute -top-[200px] -left-[200px] w-[600px] h-[600px] rounded-full animate-float-slow"
           style={{
-            background: 'radial-gradient(circle, #a855f7 0%, transparent 70%)',
-            top: '-10%',
-            left: '-5%',
+            background: 'radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, transparent 60%)',
+            filter: 'blur(60px)',
           }}
         />
-        {/* Pink orb */}
         <div
-          className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-[0.12] animate-float-medium"
+          className="absolute top-[10%] -right-[150px] w-[500px] h-[500px] rounded-full animate-float-medium"
           style={{
-            background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)',
-            top: '20%',
-            right: '-10%',
+            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 60%)',
+            filter: 'blur(50px)',
           }}
         />
-        {/* Yellow orb */}
         <div
-          className="absolute w-[400px] h-[400px] rounded-full blur-[80px] opacity-[0.10] animate-float-fast"
+          className="absolute bottom-[5%] left-[20%] w-[400px] h-[400px] rounded-full animate-float-fast"
           style={{
-            background: 'radial-gradient(circle, #facc15 0%, transparent 70%)',
-            bottom: '10%',
-            left: '30%',
+            background: 'radial-gradient(circle, rgba(250, 204, 21, 0.15) 0%, transparent 60%)',
+            filter: 'blur(40px)',
           }}
         />
-        {/* Cyan orb */}
         <div
-          className="absolute w-[550px] h-[550px] rounded-full blur-[110px] opacity-[0.12] animate-float-slow-reverse"
+          className="absolute -bottom-[100px] right-[10%] w-[550px] h-[550px] rounded-full animate-float-slow-reverse"
           style={{
-            background: 'radial-gradient(circle, #22d3ee 0%, transparent 70%)',
-            bottom: '-15%',
-            right: '20%',
+            background: 'radial-gradient(circle, rgba(34, 211, 238, 0.2) 0%, transparent 60%)',
+            filter: 'blur(55px)',
           }}
         />
       </div>
 
-      {/* LiquidEther - loaded on user interaction, fades in on top */}
+      {/* LiquidEther - loaded on user interaction */}
       {shouldLoad && (
         <div
-          className={`absolute inset-0 transition-opacity duration-1000 ${
+          className={`absolute inset-0 -z-10 transition-opacity duration-1000 ${
             isVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
@@ -118,6 +104,6 @@ export function LazyLiquidEther() {
           />
         </div>
       )}
-    </div>
+    </>
   )
 }
