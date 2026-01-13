@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useRef, useEffect } from 'react'
 import { ChevronDown } from 'lucide-react'
 
 interface AccordionProps {
@@ -15,6 +14,56 @@ interface AccordionProps {
     }>
     allowMultiple?: boolean
   }
+}
+
+function AccordionItem({
+  item,
+  isOpen,
+  onToggle,
+}: {
+  item: { question: string; answer: string; _key: string }
+  isOpen: boolean
+  onToggle: () => void
+}) {
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [height, setHeight] = useState<number | undefined>(undefined)
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setHeight(isOpen ? contentRef.current.scrollHeight : 0)
+    }
+  }, [isOpen])
+
+  return (
+    <div className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] overflow-hidden">
+      <button
+        className="w-full flex items-center justify-between p-4 text-left transition-colors hover:bg-[var(--theme-surfaceHover)]"
+        onClick={onToggle}
+      >
+        <span className="font-medium text-[var(--theme-text)]">
+          {item.question}
+        </span>
+        <span
+          className={`flex-shrink-0 w-8 h-8 rounded-lg bg-primary-500/10 flex items-center justify-center transition-transform duration-200 ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+        >
+          <ChevronDown className="w-4 h-4 text-primary-600" />
+        </span>
+      </button>
+
+      <div
+        style={{ height: height !== undefined ? `${height}px` : 'auto' }}
+        className="overflow-hidden transition-all duration-300 ease-out"
+      >
+        <div ref={contentRef}>
+          <div className="px-4 pb-4 text-sm text-[var(--theme-textSecondary)] leading-relaxed border-t border-[var(--theme-border)] pt-4">
+            {item.answer}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export function Accordion({ value }: AccordionProps) {
@@ -52,47 +101,14 @@ export function Accordion({ value }: AccordionProps) {
           {value.title}
         </h3>
       )}
-      {items.map((item, index) => {
-        const isOpen = openIndices.has(index)
-
-        return (
-          <div
-            key={item._key}
-            className="rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] overflow-hidden"
-          >
-            <button
-              className="w-full flex items-center justify-between p-4 text-left transition-colors hover:bg-[var(--theme-surfaceHover)]"
-              onClick={() => toggleItem(index)}
-            >
-              <span className="font-medium text-[var(--theme-text)]">
-                {item.question}
-              </span>
-              <span
-                className={`flex-shrink-0 w-8 h-8 rounded-lg bg-primary-500/10 flex items-center justify-center transition-transform duration-200 ${
-                  isOpen ? 'rotate-180' : ''
-                }`}
-              >
-                <ChevronDown className="w-4 h-4 text-primary-600" />
-              </span>
-            </button>
-
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                >
-                  <div className="px-4 pb-4 text-sm text-[var(--theme-textSecondary)] leading-relaxed border-t border-[var(--theme-border)] pt-4">
-                    {item.answer}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )
-      })}
+      {items.map((item, index) => (
+        <AccordionItem
+          key={item._key}
+          item={item}
+          isOpen={openIndices.has(index)}
+          onToggle={() => toggleItem(index)}
+        />
+      ))}
     </div>
   )
 }

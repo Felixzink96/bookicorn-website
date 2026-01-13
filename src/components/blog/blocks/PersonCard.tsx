@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { motion } from 'framer-motion'
 import { Mail, Linkedin, Twitter } from 'lucide-react'
 import { urlFor } from '../../../../sanity/lib/image'
 
@@ -22,10 +21,8 @@ export function PersonCard({ value }: PersonCardProps) {
   const hasSocials = value.email || value.linkedin || value.twitter
 
   return (
-    <motion.div
-      className="my-8 flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)]"
-      whileHover={{ y: -2 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+    <div
+      className="my-8 flex flex-col sm:flex-row gap-6 p-6 rounded-2xl border border-[var(--theme-border)] bg-[var(--theme-surface)] transition-transform duration-200 hover:-translate-y-0.5"
     >
       {/* Avatar */}
       {hasImage ? (
@@ -90,6 +87,6 @@ export function PersonCard({ value }: PersonCardProps) {
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   )
 }

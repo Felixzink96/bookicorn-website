@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import Button from '@/components/ui/Button'
 
@@ -23,14 +22,12 @@ export function PricingCard({ value }: PricingCardProps) {
   const features = value.features || []
 
   return (
-    <motion.div
-      className={`my-8 p-6 rounded-2xl border relative ${
+    <div
+      className={`my-8 p-6 rounded-2xl border relative transition-transform duration-200 hover:-translate-y-1 ${
         highlighted
           ? 'border-primary-500 bg-primary-500/5'
           : 'border-[var(--theme-border)] bg-[var(--theme-surface)]'
       }`}
-      whileHover={{ y: -4 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
     >
       {/* Highlight badge */}
       {highlighted && (
@@ -86,6 +83,6 @@ export function PricingCard({ value }: PricingCardProps) {
           </Button>
         </Link>
       )}
-    </motion.div>
+    </div>
   )
 }

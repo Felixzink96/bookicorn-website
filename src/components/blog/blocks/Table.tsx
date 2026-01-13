@@ -1,7 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
-
 interface TableProps {
   value: {
     headers?: string[]
@@ -37,13 +35,11 @@ export function Table({ value }: TableProps) {
         )}
         <tbody>
           {rows.map((row, rowIndex) => (
-            <motion.tr
+            <tr
               key={row._key}
-              className={`border-b last:border-b-0 border-[var(--theme-border)] ${
+              className={`border-b last:border-b-0 border-[var(--theme-border)] transition-colors hover:bg-[var(--theme-surfaceHover)] ${
                 striped && rowIndex % 2 === 1 ? 'bg-[var(--theme-surface)]' : ''
               }`}
-              whileHover={{ backgroundColor: 'var(--theme-surfaceHover)' }}
-              transition={{ duration: 0.15 }}
             >
               {row.cells.map((cell, cellIndex) => (
                 <td
@@ -53,7 +49,7 @@ export function Table({ value }: TableProps) {
                   {cell}
                 </td>
               ))}
-            </motion.tr>
+            </tr>
           ))}
         </tbody>
       </table>

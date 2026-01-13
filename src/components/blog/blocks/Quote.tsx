@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Quote as QuoteIcon } from 'lucide-react'
 
 interface QuoteProps {
@@ -13,10 +12,8 @@ interface QuoteProps {
 
 export function Quote({ value }: QuoteProps) {
   return (
-    <motion.blockquote
-      className="relative my-10 pl-8 py-4"
-      whileHover={{ x: 4 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+    <blockquote
+      className="relative my-10 pl-8 py-4 transition-transform duration-200 hover:translate-x-1"
     >
       {/* Gradient line */}
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-primary-500 via-purple-500 to-pink-500 rounded-full" />
@@ -45,6 +42,6 @@ export function Quote({ value }: QuoteProps) {
           )}
         </footer>
       )}
-    </motion.blockquote>
+    </blockquote>
   )
 }

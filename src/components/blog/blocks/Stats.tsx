@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { useInView } from 'framer-motion'
 
 interface StatsProps {
   value: {
@@ -13,6 +12,29 @@ interface StatsProps {
     layout?: 'row' | 'grid'
     variant?: 'minimal' | 'cards' | 'gradient'
   }
+}
+
+function useInView(ref: React.RefObject<HTMLElement | null>) {
+  const [isInView, setIsInView] = useState(false)
+
+  useEffect(() => {
+    if (!ref.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '-100px' }
+    )
+
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [ref])
+
+  return isInView
 }
 
 function CountUp({ value, inView }: { value: string; inView: boolean }) {
@@ -71,8 +93,8 @@ function CountUp({ value, inView }: { value: string; inView: boolean }) {
 }
 
 export function Stats({ value }: StatsProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref)
   const items = value.items || []
   const variant = value.variant || 'cards'
   const layout = value.layout || 'row'

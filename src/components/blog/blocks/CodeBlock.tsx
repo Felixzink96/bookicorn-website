@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import { Copy, Check } from 'lucide-react'
 
 interface CodeBlockProps {
@@ -46,10 +45,9 @@ export function CodeBlock({ value }: CodeBlockProps) {
         </div>
 
         {/* Copy button */}
-        <motion.button
+        <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs text-gray-400 hover:text-white hover:bg-[#2a2a2a] transition-colors"
-          whileTap={{ scale: 0.95 }}
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs text-gray-400 hover:text-white hover:bg-[#2a2a2a] transition-colors active:scale-95"
         >
           {copied ? (
             <>
@@ -62,7 +60,7 @@ export function CodeBlock({ value }: CodeBlockProps) {
               <span>Kopieren</span>
             </>
           )}
-        </motion.button>
+        </button>
       </div>
 
       {/* Code content */}

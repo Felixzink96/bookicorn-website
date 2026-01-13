@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import {
   Info,
   AlertTriangle,
@@ -56,10 +55,8 @@ export function InfoBox({ value }: InfoBoxProps) {
   const Icon = config.icon
 
   return (
-    <motion.div
-      className={`my-6 p-4 rounded-xl border ${config.border} ${config.bg}`}
-      whileHover={{ scale: 1.005 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+    <div
+      className={`my-6 p-4 rounded-xl border ${config.border} ${config.bg} transition-transform duration-200 hover:scale-[1.005]`}
     >
       <div className="flex gap-3">
         <Icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${config.iconColor}`} />
@@ -76,6 +73,6 @@ export function InfoBox({ value }: InfoBoxProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

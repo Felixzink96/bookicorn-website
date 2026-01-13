@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { FileText, FileImage, FileSpreadsheet, File, Download } from 'lucide-react'
 
 interface FileDownloadProps {
@@ -27,12 +26,10 @@ export function FileDownload({ value }: FileDownloadProps) {
   const Icon = getFileIcon(fileName)
 
   return (
-    <motion.a
+    <a
       href={value.fileUrl || '#'}
       download
-      className="my-6 flex items-center gap-4 p-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] group"
-      whileHover={{ scale: 1.01, y: -2 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      className="my-6 flex items-center gap-4 p-4 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] group transition-all duration-200 hover:scale-[1.01] hover:-translate-y-0.5"
     >
       {/* Icon */}
       <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500/20 transition-colors">
@@ -60,6 +57,6 @@ export function FileDownload({ value }: FileDownloadProps) {
       <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary-500/10 flex items-center justify-center group-hover:bg-primary-500 group-hover:text-white transition-all">
         <Download className="w-5 h-5 text-primary-600 group-hover:text-white transition-colors" />
       </div>
-    </motion.a>
+    </a>
   )
 }

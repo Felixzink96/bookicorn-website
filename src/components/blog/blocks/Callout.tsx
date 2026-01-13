@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Lightbulb, Info, AlertTriangle, CheckCircle, FileText } from 'lucide-react'
 
 interface CalloutProps {
@@ -55,10 +54,8 @@ export function Callout({ value }: CalloutProps) {
   const Icon = config.icon
 
   return (
-    <motion.div
-      className={`relative my-8 rounded-2xl border ${config.borderColor} ${config.bgColor} overflow-hidden`}
-      whileHover={{ scale: 1.005 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+    <div
+      className={`relative my-8 rounded-2xl border ${config.borderColor} ${config.bgColor} overflow-hidden transition-transform duration-200 hover:scale-[1.005]`}
     >
       {/* Gradient accent bar */}
       <div className={`absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b ${config.gradient}`} />
@@ -82,6 +79,6 @@ export function Callout({ value }: CalloutProps) {
           )}
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }

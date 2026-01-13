@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Play } from 'lucide-react'
 
 interface VideoProps {
@@ -54,11 +53,7 @@ export function Video({ value }: VideoProps) {
   }
 
   return (
-    <motion.figure
-      className="my-8"
-      whileHover={{ scale: 1.005 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-    >
+    <figure className="my-8 transition-transform duration-200 hover:scale-[1.005]">
       <div
         className={`relative ${aspectClasses[aspectRatio]} rounded-xl overflow-hidden border border-[var(--theme-border)] bg-black`}
       >
@@ -74,6 +69,6 @@ export function Video({ value }: VideoProps) {
           {caption}
         </figcaption>
       )}
-    </motion.figure>
+    </figure>
   )
 }
