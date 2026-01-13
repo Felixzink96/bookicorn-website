@@ -133,7 +133,6 @@ p {
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--theme-background);
 }
 
 ::selection {
