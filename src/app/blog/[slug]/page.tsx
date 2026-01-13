@@ -9,6 +9,7 @@ import { postBySlugQuery } from '../../../../sanity/lib/queries'
 import { urlFor } from '../../../../sanity/lib/image'
 import { PortableText } from '@portabletext/react'
 import LiquidEther from '@/components/ui/LiquidEther'
+import { LoadingState } from '@/components/patterns/LoadingState'
 
 // Rainbow colors matching our logo/button gradient
 const rainbowColors = ['#a855f7', '#ec4899', '#facc15', '#22d3ee', '#a855f7']
@@ -110,8 +111,8 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[var(--theme-background)] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen bg-[var(--theme-background)]">
+        <LoadingState text="Artikel wird geladen..." delay={0} fullScreen />
       </div>
     )
   }
@@ -207,7 +208,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       {/* Content */}
       <article className="mx-auto max-w-3xl px-6 py-16 lg:px-8">
         {/* Cover Image */}
-        {post.coverImage && (
+        {post.coverImage?.asset && (
           <div className="mb-12 -mt-8 relative aspect-video rounded-2xl overflow-hidden shadow-xl">
             <Image
               src={urlFor(post.coverImage).width(1200).height(675).url()}
@@ -230,7 +231,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         {post.author && (
           <div className="mt-16 pt-8 border-t border-[var(--theme-border)]">
             <div className="flex items-start gap-4">
-              {post.author.image && (
+              {post.author.image?.asset && (
                 <Image
                   src={urlFor(post.author.image).width(80).height(80).url()}
                   alt={post.author.name}

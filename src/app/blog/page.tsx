@@ -154,7 +154,7 @@ export default function BlogPage() {
               >
                 {/* Image */}
                 <div className="h-48 bg-gradient-to-br from-primary-400 to-primary-600 relative">
-                  {post.coverImage && (
+                  {post.coverImage?.asset && (
                     <Image
                       src={urlFor(post.coverImage).width(400).height(200).url()}
                       alt={post.title}
