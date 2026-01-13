@@ -219,7 +219,7 @@ function TableOfContents({
   )
 }
 
-// Mobile TOC Floating Snackbar Component with Morph Animation
+// Mobile TOC Floating Snackbar Component - Smooth Morph Animation
 function MobileTOC({
   headings,
   activeId,
@@ -228,6 +228,17 @@ function MobileTOC({
   activeId: string
 }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [showContent, setShowContent] = useState(false)
+
+  // Delay content show after morph animation
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => setShowContent(true), 150)
+      return () => clearTimeout(timer)
+    } else {
+      setShowContent(false)
+    }
+  }, [isOpen])
 
   if (headings.length === 0) return null
 
@@ -236,20 +247,22 @@ function MobileTOC({
   const progress = headings.length > 1 ? ((activeIndex + 1) / headings.length) * 100 : 100
 
   const scrollToHeading = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      const offset = 120
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY
-      window.scrollTo({
-        top: elementPosition - offset,
-        behavior: 'smooth',
-      })
-    }
     setIsOpen(false)
+    setTimeout(() => {
+      const element = document.getElementById(id)
+      if (element) {
+        const offset = 120
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY
+        window.scrollTo({
+          top: elementPosition - offset,
+          behavior: 'smooth',
+        })
+      }
+    }, 300)
   }
 
   return (
-    <div className="lg:hidden fixed bottom-6 left-4 right-4 z-50 pointer-events-none">
+    <div className="lg:hidden fixed inset-0 z-50 pointer-events-none">
       {/* Backdrop */}
       <AnimatePresence>
         {isOpen && (
@@ -257,168 +270,171 @@ function MobileTOC({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
             onClick={() => setIsOpen(false)}
           />
         )}
       </AnimatePresence>
 
-      {/* Snackbar Container - Uses layoutId for morphing */}
-      <div className="relative flex justify-center pointer-events-auto">
-        <motion.div
-          layoutId="toc-container"
-          onClick={() => !isOpen && setIsOpen(true)}
-          className={`
-            w-full max-w-sm bg-[var(--theme-surface)]/95 backdrop-blur-xl shadow-2xl border border-white/10 overflow-hidden
-            ${isOpen
-              ? 'rounded-2xl cursor-default'
-              : 'rounded-full cursor-pointer'
-            }
-          `}
-          transition={{ type: "spring" as const, stiffness: 500, damping: 35 }}
-          whileHover={!isOpen ? { scale: 1.02 } : undefined}
-          whileTap={!isOpen ? { scale: 0.98 } : undefined}
-        >
-          <AnimatePresence mode="wait">
-            {isOpen ? (
-              <motion.div
-                key="expanded-content"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-              >
-                {/* Header */}
-                <motion.div
-                  layoutId="toc-header"
-                  className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-primary-500/10 to-transparent border-b border-white/5"
-                >
-                  <div className="flex items-center gap-2">
-                    <motion.div
-                      layoutId="toc-icon"
-                      className="w-8 h-8 rounded-full bg-primary-500/20 flex items-center justify-center"
-                    >
-                      <List className="w-4 h-4 text-primary-500" />
-                    </motion.div>
-                    <span className="text-xs font-semibold text-[var(--theme-text)] uppercase tracking-wider">
-                      Inhaltsverzeichnis
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-                  >
-                    <X className="w-4 h-4 text-[var(--theme-textSecondary)]" />
-                  </button>
-                </motion.div>
+      {/* Single morphing container - stays at bottom, expands upward */}
+      <motion.div
+        layout
+        onClick={() => !isOpen && setIsOpen(true)}
+        className="pointer-events-auto fixed bottom-6 left-4 right-4"
+        style={{
+          backgroundColor: 'rgba(23, 23, 23, 0.95)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderRadius: isOpen ? 24 : 50,
+          boxShadow: isOpen
+            ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+            : '0 10px 40px -10px rgba(0, 0, 0, 0.3)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          cursor: isOpen ? 'default' : 'pointer',
+          overflow: 'hidden',
+        }}
+        transition={{
+          layout: {
+            type: 'spring',
+            stiffness: 400,
+            damping: 30,
+          },
+        }}
+        whileHover={!isOpen ? { scale: 1.02 } : undefined}
+        whileTap={!isOpen ? { scale: 0.98 } : undefined}
+      >
+        {/* Collapsed Content */}
+        {!isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-3 px-3 py-2.5"
+          >
+            {/* Progress Ring */}
+            <div className="relative w-9 h-9 flex-shrink-0">
+              <svg className="w-9 h-9 -rotate-90" viewBox="0 0 36 36">
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  className="text-white/10"
+                />
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="14"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  className="text-primary-500"
+                  strokeDasharray={88}
+                  strokeDashoffset={88 - (88 * progress) / 100}
+                  style={{ transition: 'stroke-dashoffset 0.5s ease-out' }}
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <List className="w-4 h-4 text-primary-500" />
+              </div>
+            </div>
 
-                {/* Headings List */}
-                <nav className="max-h-[50vh] overflow-y-auto overscroll-contain">
-                  <ul className="py-2">
-                    {headings.map((heading, index) => {
-                      const isActive = activeId === heading.id
-                      return (
-                        <motion.li
-                          key={heading.id}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: index * 0.02 }}
-                        >
-                          <button
-                            type="button"
-                            onClick={() => scrollToHeading(heading.id)}
-                            className={`w-full text-left px-4 py-2.5 text-sm transition-all flex items-center gap-3 ${
-                              heading.level === 'h3' ? 'pl-10' : ''
-                            } ${
-                              isActive
-                                ? 'text-primary-500 bg-primary-500/10'
-                                : 'text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] hover:bg-white/5'
-                            }`}
-                          >
-                            {heading.level === 'h2' && (
-                              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                                isActive ? 'bg-primary-500' : 'bg-[var(--theme-textTertiary)]'
-                              }`} />
-                            )}
-                            <span className={isActive ? 'font-medium' : ''}>{heading.text}</span>
-                          </button>
-                        </motion.li>
-                      )
-                    })}
-                  </ul>
-                </nav>
+            {/* Current Section */}
+            <span className="flex-1 text-sm font-medium text-[var(--theme-text)] truncate">
+              {activeHeading?.text}
+            </span>
 
-                {/* Progress Footer */}
-                <div className="px-4 py-3 border-t border-white/5 bg-black/20">
-                  <div className="flex items-center justify-between text-xs text-[var(--theme-textTertiary)] mb-2">
-                    <span>{activeIndex + 1} von {headings.length}</span>
-                    <span>{Math.round(progress)}%</span>
-                  </div>
-                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${progress}%` }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    />
-                  </div>
+            {/* Chevron */}
+            <ChevronUp className="w-4 h-4 text-[var(--theme-textTertiary)] flex-shrink-0" />
+          </motion.div>
+        )}
+
+        {/* Expanded Content */}
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showContent ? 1 : 0 }}
+            transition={{ duration: 0.15 }}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-primary-500/20 flex items-center justify-center">
+                  <List className="w-4 h-4 text-primary-500" />
                 </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="collapsed-content"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="flex items-center gap-3 pl-2 pr-4 py-2"
+                <span className="text-sm font-semibold text-[var(--theme-text)]">
+                  Inhaltsverzeichnis
+                </span>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setIsOpen(false)
+                }}
+                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
               >
-                {/* Progress Ring */}
-                <motion.div layoutId="toc-icon" className="relative w-9 h-9 flex-shrink-0">
-                  <svg className="w-9 h-9 -rotate-90" viewBox="0 0 36 36">
-                    <circle
-                      cx="18"
-                      cy="18"
-                      r="14"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      className="text-white/10"
-                    />
-                    <motion.circle
-                      cx="18"
-                      cy="18"
-                      r="14"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      className="text-primary-500"
-                      strokeDasharray={88}
-                      animate={{ strokeDashoffset: 88 - (88 * progress) / 100 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <List className="w-4 h-4 text-primary-500" />
-                  </div>
-                </motion.div>
+                <X className="w-4 h-4 text-[var(--theme-textSecondary)]" />
+              </button>
+            </div>
 
-                {/* Current Section Text */}
-                <motion.span
-                  layoutId="toc-text"
-                  className="text-sm font-medium text-[var(--theme-text)] truncate max-w-[180px]"
-                >
-                  {activeHeading?.text}
-                </motion.span>
+            {/* Headings List */}
+            <nav className="max-h-[45vh] overflow-y-auto overscroll-contain">
+              <ul className="py-2">
+                {headings.map((heading, index) => {
+                  const isActive = activeId === heading.id
+                  return (
+                    <motion.li
+                      key={heading.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 10 }}
+                      transition={{ delay: index * 0.03, duration: 0.2 }}
+                    >
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          scrollToHeading(heading.id)
+                        }}
+                        className={`w-full text-left px-4 py-2.5 text-sm transition-all flex items-center gap-3 ${
+                          heading.level === 'h3' ? 'pl-12' : ''
+                        } ${
+                          isActive
+                            ? 'text-primary-500 bg-primary-500/10'
+                            : 'text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] hover:bg-white/5'
+                        }`}
+                      >
+                        {heading.level === 'h2' && (
+                          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                            isActive ? 'bg-primary-500' : 'bg-white/20'
+                          }`} />
+                        )}
+                        <span className={isActive ? 'font-medium' : ''}>{heading.text}</span>
+                      </button>
+                    </motion.li>
+                  )
+                })}
+              </ul>
+            </nav>
 
-                {/* Chevron */}
-                <ChevronUp className="w-4 h-4 text-[var(--theme-textTertiary)] flex-shrink-0 ml-auto" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </div>
+            {/* Progress Footer */}
+            <div className="px-4 py-3 border-t border-white/5 bg-black/10">
+              <div className="flex items-center justify-between text-xs text-[var(--theme-textTertiary)] mb-2">
+                <span>{activeIndex + 1} von {headings.length} Abschnitten</span>
+                <span>{Math.round(progress)}%</span>
+              </div>
+              <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </motion.div>
     </div>
   )
 }
