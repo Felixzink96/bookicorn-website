@@ -15,7 +15,7 @@ import { postBySlugQuery, relatedPostsQuery } from '../../../../sanity/lib/queri
 import { urlFor } from '../../../../sanity/lib/image'
 import { PortableText } from '@portabletext/react'
 import Button from '@/components/ui/Button'
-import { LazyLiquidEther } from '@/components/blog/LazyLiquidEther'
+import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
 import { customBlockComponents } from '@/components/blog/BlockRenderers'
 import { TableOfContents } from '@/components/blog/TableOfContents'
 import { SocialShare } from '@/components/blog/SocialShare'

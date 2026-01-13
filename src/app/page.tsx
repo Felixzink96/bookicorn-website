@@ -13,7 +13,7 @@ import {
   Star,
 } from 'lucide-react'
 import { RegisterButton } from '@/components/ui/CTAButton'
-import LiquidEther from '@/components/ui/LiquidEther'
+import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
 
 const features = [
   {
@@ -87,33 +87,12 @@ const comparisonPoints = [
   { feature: 'Vertragsbindung', bookicorn: 'Keine', competitor: '12 Monate' },
 ]
 
-// Rainbow color palette matching our logo/button gradient
-const rainbowColors = ['#a855f7', '#ec4899', '#facc15', '#22d3ee', '#a855f7']
-
 export default function HomePage() {
   return (
     <div className="bg-[var(--theme-background)]">
       {/* Hero Section with LiquidEther Background */}
       <div className="relative isolate overflow-hidden min-h-[90vh] flex items-center">
-        {/* LiquidEther Background */}
-        <div className="absolute inset-0 -z-10">
-          <LiquidEther
-            colors={rainbowColors}
-            mouseForce={20}
-            cursorSize={100}
-            isViscous={false}
-            iterationsViscous={32}
-            iterationsPoisson={32}
-            resolution={0.5}
-            isBounce={false}
-            autoDemo={true}
-            autoSpeed={0.5}
-            autoIntensity={2.2}
-            takeoverDuration={0.25}
-            autoResumeDelay={3000}
-            autoRampDuration={0.6}
-          />
-        </div>
+        <LazyLiquidEther />
 
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40 w-full">
           <div className="mx-auto max-w-3xl text-center">

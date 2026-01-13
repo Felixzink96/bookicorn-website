@@ -6,13 +6,11 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, Calendar, User, BookOpen, Filter, X, ChevronDown, Search } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import LiquidEther from '@/components/ui/LiquidEther'
+import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
 import { LoadingState } from '@/components/patterns/LoadingState'
 import { client, isSanityConfigured } from '../../../sanity/lib/client'
 import { postsQuery, categoriesQuery } from '../../../sanity/lib/queries'
 import { urlFor } from '../../../sanity/lib/image'
-
-const rainbowColors = ['#a855f7', '#ec4899', '#facc15', '#22d3ee', '#a855f7']
 
 interface BlogPost {
   _id: string
@@ -230,17 +228,7 @@ export default function BlogPage() {
     <div className="bg-[var(--theme-background)] min-h-screen">
       {/* Hero with LiquidEther */}
       <div className="relative isolate overflow-hidden min-h-[35vh] flex items-center">
-        <div className="absolute inset-0 -z-10">
-          <LiquidEther
-            colors={rainbowColors}
-            mouseForce={20}
-            cursorSize={100}
-            resolution={0.5}
-            autoDemo={true}
-            autoSpeed={0.5}
-            autoIntensity={2.2}
-          />
-        </div>
+        <LazyLiquidEther />
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 w-full">
           <motion.div
             className="mx-auto max-w-2xl text-center"

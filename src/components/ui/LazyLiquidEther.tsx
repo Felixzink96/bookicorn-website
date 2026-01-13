@@ -57,24 +57,50 @@ export function LazyLiquidEther() {
 
   return (
     <div className="absolute inset-0 -z-10">
-      {/* Gradient placeholder matching LiquidEther colors */}
-      <div
-        className={`absolute inset-0 transition-opacity duration-1000 ${
-          isVisible ? 'opacity-0' : 'opacity-100'
-        }`}
-        style={{
-          background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 25%, #facc15 50%, #22d3ee 75%, #a855f7 100%)',
-          opacity: 0.15,
-        }}
-      />
-      <div
-        className={`absolute inset-0 bg-[var(--theme-background)] transition-opacity duration-1000 ${
-          isVisible ? 'opacity-0' : 'opacity-100'
-        }`}
-        style={{ mixBlendMode: 'overlay' }}
-      />
+      {/* Animated mesh gradient - always visible */}
+      <div className="absolute inset-0 bg-[var(--theme-background)]" />
 
-      {/* LiquidEther - loaded after delay, fades in */}
+      {/* Animated gradient orbs */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Purple orb */}
+        <div
+          className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-[0.15] animate-float-slow"
+          style={{
+            background: 'radial-gradient(circle, #a855f7 0%, transparent 70%)',
+            top: '-10%',
+            left: '-5%',
+          }}
+        />
+        {/* Pink orb */}
+        <div
+          className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-[0.12] animate-float-medium"
+          style={{
+            background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)',
+            top: '20%',
+            right: '-10%',
+          }}
+        />
+        {/* Yellow orb */}
+        <div
+          className="absolute w-[400px] h-[400px] rounded-full blur-[80px] opacity-[0.10] animate-float-fast"
+          style={{
+            background: 'radial-gradient(circle, #facc15 0%, transparent 70%)',
+            bottom: '10%',
+            left: '30%',
+          }}
+        />
+        {/* Cyan orb */}
+        <div
+          className="absolute w-[550px] h-[550px] rounded-full blur-[110px] opacity-[0.12] animate-float-slow-reverse"
+          style={{
+            background: 'radial-gradient(circle, #22d3ee 0%, transparent 70%)',
+            bottom: '-15%',
+            right: '20%',
+          }}
+        />
+      </div>
+
+      {/* LiquidEther - loaded on user interaction, fades in on top */}
       {shouldLoad && (
         <div
           className={`absolute inset-0 transition-opacity duration-1000 ${

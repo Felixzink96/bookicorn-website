@@ -3,10 +3,7 @@
 import Link from 'next/link'
 import { Heart, Target, Zap } from 'lucide-react'
 import Button from '@/components/ui/Button'
-import LiquidEther from '@/components/ui/LiquidEther'
-
-// Rainbow colors matching our logo/button gradient
-const rainbowColors = ['#a855f7', '#ec4899', '#facc15', '#22d3ee', '#a855f7']
+import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
 
 const values = [
   {
@@ -34,17 +31,7 @@ export default function AboutPage() {
     <div className="bg-[var(--theme-background)]">
       {/* Hero with LiquidEther */}
       <div className="relative isolate overflow-hidden min-h-[50vh] flex items-center">
-        <div className="absolute inset-0 -z-10">
-          <LiquidEther
-            colors={rainbowColors}
-            mouseForce={20}
-            cursorSize={100}
-            resolution={0.5}
-            autoDemo={true}
-            autoSpeed={0.5}
-            autoIntensity={2.2}
-          />
-        </div>
+        <LazyLiquidEther />
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 w-full">
           <div className="mx-auto max-w-2xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl">

@@ -44,6 +44,34 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'hero-gradient': 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e3a8a 100%)',
       },
+      animation: {
+        'float-slow': 'float-slow 20s ease-in-out infinite',
+        'float-medium': 'float-medium 15s ease-in-out infinite',
+        'float-fast': 'float-fast 12s ease-in-out infinite',
+        'float-slow-reverse': 'float-slow-reverse 18s ease-in-out infinite',
+      },
+      keyframes: {
+        'float-slow': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(30px, -30px) scale(1.05)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+        },
+        'float-medium': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(-40px, 30px) scale(1.1)' },
+        },
+        'float-fast': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '25%': { transform: 'translate(20px, -20px) scale(1.05)' },
+          '50%': { transform: 'translate(-10px, 30px) scale(0.98)' },
+          '75%': { transform: 'translate(25px, 10px) scale(1.02)' },
+        },
+        'float-slow-reverse': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(-25px, 35px) scale(1.08)' },
+          '66%': { transform: 'translate(35px, -25px) scale(0.92)' },
+        },
+      },
     },
   },
   plugins: [],
