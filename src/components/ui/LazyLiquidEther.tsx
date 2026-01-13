@@ -48,64 +48,63 @@ export function LazyLiquidEther() {
   }, [])
 
   return (
-    <div className="absolute inset-0 -z-10 overflow-hidden">
+    <div className="absolute inset-0 -z-10">
       {/* Base background */}
       <div className="absolute inset-0 bg-[var(--theme-background)]" />
 
-      {/* Animated aurora-like gradient */}
-      <div className="absolute inset-0">
-        {/* Primary purple blob - top left */}
-        <div
-          className="absolute w-[80vw] h-[80vh] -top-[20%] -left-[20%] animate-float-slow"
-          style={{
-            background: 'conic-gradient(from 180deg at 50% 50%, #a855f7 0deg, #ec4899 120deg, #a855f7 240deg, #ec4899 360deg)',
-            filter: 'blur(100px)',
-            opacity: 0.4,
-            borderRadius: '50%',
-          }}
-        />
+      {/* Light mode gradient */}
+      <div
+        className="absolute inset-0 dark:hidden"
+        style={{
+          backgroundImage: `
+            radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.4) 0%, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.35) 0%, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.4) 0%, transparent 50%),
+            radial-gradient(at 0% 100%, rgba(250, 204, 21, 0.3) 0%, transparent 50%),
+            radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 70%)
+          `,
+        }}
+      />
 
-        {/* Cyan/teal blob - bottom right */}
-        <div
-          className="absolute w-[70vw] h-[70vh] -bottom-[20%] -right-[20%] animate-float-medium"
-          style={{
-            background: 'conic-gradient(from 0deg at 50% 50%, #22d3ee 0deg, #3b82f6 120deg, #22d3ee 240deg, #a855f7 360deg)',
-            filter: 'blur(100px)',
-            opacity: 0.35,
-            borderRadius: '50%',
-          }}
-        />
+      {/* Dark mode gradient - more vibrant */}
+      <div
+        className="absolute inset-0 hidden dark:block"
+        style={{
+          backgroundImage: `
+            radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.5) 0%, transparent 50%),
+            radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.45) 0%, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.5) 0%, transparent 50%),
+            radial-gradient(at 0% 100%, rgba(250, 204, 21, 0.35) 0%, transparent 50%),
+            radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 70%)
+          `,
+        }}
+      />
 
-        {/* Yellow accent - center */}
+      {/* Animated glow layer - light mode */}
+      <div className="absolute inset-0 animate-pulse-slow dark:hidden">
         <div
-          className="absolute w-[50vw] h-[50vh] top-[30%] left-[25%] animate-float-fast"
+          className="absolute inset-0"
           style={{
-            background: 'radial-gradient(circle, #facc15 0%, #f97316 50%, transparent 70%)',
-            filter: 'blur(80px)',
-            opacity: 0.25,
-            borderRadius: '50%',
-          }}
-        />
-
-        {/* Pink highlight - top right */}
-        <div
-          className="absolute w-[40vw] h-[40vh] -top-[10%] right-[10%] animate-float-slow-reverse"
-          style={{
-            background: 'radial-gradient(circle, #ec4899 0%, #d946ef 50%, transparent 70%)',
-            filter: 'blur(70px)',
-            opacity: 0.3,
-            borderRadius: '50%',
+            backgroundImage: `
+              radial-gradient(at 30% 20%, rgba(168, 85, 247, 0.3) 0%, transparent 40%),
+              radial-gradient(at 70% 80%, rgba(34, 211, 238, 0.3) 0%, transparent 40%)
+            `,
           }}
         />
       </div>
 
-      {/* Noise texture overlay for depth */}
-      <div
-        className="absolute inset-0 opacity-[0.015]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-        }}
-      />
+      {/* Animated glow layer - dark mode */}
+      <div className="absolute inset-0 animate-pulse-slow hidden dark:block">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              radial-gradient(at 30% 20%, rgba(168, 85, 247, 0.4) 0%, transparent 40%),
+              radial-gradient(at 70% 80%, rgba(34, 211, 238, 0.4) 0%, transparent 40%)
+            `,
+          }}
+        />
+      </div>
 
       {/* LiquidEther - loaded on user interaction */}
       {shouldLoad && (
