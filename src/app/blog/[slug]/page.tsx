@@ -708,10 +708,6 @@ function createPortableTextComponents(content: any[]) {
         const Component = customBlockComponents.infoBox
         return <Component value={value} />
       },
-      newsletterBox: ({ value }: { value: any }) => {
-        const Component = customBlockComponents.newsletterBox
-        return <Component value={value} />
-      },
       pricingCard: ({ value }: { value: any }) => {
         const Component = customBlockComponents.pricingCard
         return <Component value={value} />
