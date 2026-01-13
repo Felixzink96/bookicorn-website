@@ -9,7 +9,7 @@ export const postsQuery = groq`
     excerpt,
     coverImage,
     publishedAt,
-    readTime,
+    content,
     "author": author->{name, image, role},
     "category": category->{title, slug, color}
   }
@@ -24,7 +24,6 @@ export const postBySlugQuery = groq`
     excerpt,
     coverImage,
     publishedAt,
-    readTime,
     content,
     seoTitle,
     seoDescription,
@@ -54,7 +53,7 @@ export const postsByCategoryQuery = groq`
     excerpt,
     coverImage,
     publishedAt,
-    readTime,
+    content,
     "author": author->{name, image, role},
     "category": category->{title, slug, color}
   }
@@ -74,7 +73,7 @@ export const relatedPostsQuery = groq`
     excerpt,
     coverImage,
     publishedAt,
-    readTime,
+    content,
     "category": category->{title, slug, color}
   }
 `

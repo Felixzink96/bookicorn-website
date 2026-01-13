@@ -21,7 +21,7 @@ interface BlogPost {
   excerpt: string
   coverImage?: any
   publishedAt: string
-  readTime: number
+  content?: any[]
   author?: {
     name: string
     image: any
@@ -62,6 +62,50 @@ const cardVariants = {
       damping: 15
     }
   }
+}
+
+// Calculate reading time from Portable Text content
+function calculateReadingTime(content: any[]): number {
+  if (!content) return 0
+
+  const WORDS_PER_MINUTE = 200
+  let wordCount = 0
+
+  const extractText = (blocks: any[]): void => {
+    blocks.forEach((block) => {
+      if (block._type === 'block' && block.children) {
+        block.children.forEach((child: any) => {
+          if (child.text) {
+            wordCount += child.text.split(/\s+/).filter(Boolean).length
+          }
+        })
+      } else if (block._type === 'callout' && block.content) {
+        wordCount += block.content.split(/\s+/).filter(Boolean).length
+      } else if (block._type === 'featureList' && block.items) {
+        block.items.forEach((item: any) => {
+          if (item.text) wordCount += item.text.split(/\s+/).filter(Boolean).length
+        })
+      } else if (block._type === 'accordion' && block.items) {
+        block.items.forEach((item: any) => {
+          if (item.question) wordCount += item.question.split(/\s+/).filter(Boolean).length
+          if (item.answer) wordCount += item.answer.split(/\s+/).filter(Boolean).length
+        })
+      } else if (block._type === 'timeline' && block.items) {
+        block.items.forEach((item: any) => {
+          if (item.title) wordCount += item.title.split(/\s+/).filter(Boolean).length
+          if (item.description) wordCount += item.description.split(/\s+/).filter(Boolean).length
+        })
+      } else if (block._type === 'proConList') {
+        if (block.pros) block.pros.forEach((t: string) => { wordCount += t.split(/\s+/).filter(Boolean).length })
+        if (block.cons) block.cons.forEach((t: string) => { wordCount += t.split(/\s+/).filter(Boolean).length })
+      } else if (block._type === 'quote' && block.text) {
+        wordCount += block.text.split(/\s+/).filter(Boolean).length
+      }
+    })
+  }
+
+  extractText(content)
+  return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE))
 }
 
 // Read time filter options
@@ -147,7 +191,7 @@ export default function BlogPage() {
       const option = readTimeOptions.find(o => o.value === selectedReadTime)
       if (option) {
         result = result.filter(post => {
-          const time = post.readTime || 0
+          const time = calculateReadingTime(post.content || [])
           if (option.max && !option.min) return time < option.max
           if (option.min && !option.max) return time >= option.min
           if (option.min && option.max) return time >= option.min && time < option.max
@@ -162,9 +206,9 @@ export default function BlogPage() {
         case 'oldest':
           return new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime()
         case 'shortest':
-          return (a.readTime || 0) - (b.readTime || 0)
+          return calculateReadingTime(a.content || []) - calculateReadingTime(b.content || [])
         case 'longest':
-          return (b.readTime || 0) - (a.readTime || 0)
+          return calculateReadingTime(b.content || []) - calculateReadingTime(a.content || [])
         case 'newest':
         default:
           return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
@@ -486,11 +530,11 @@ export default function BlogPage() {
                       )}
 
                       {/* Read Time Badge */}
-                      {post.readTime && (
+                      {post.content && (
                         <div className="absolute top-3 right-3">
                           <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-black/50 backdrop-blur-sm text-white">
                             <Clock className="w-3 h-3" />
-                            {post.readTime} min
+                            {calculateReadingTime(post.content)} min
                           </span>
                         </div>
                       )}

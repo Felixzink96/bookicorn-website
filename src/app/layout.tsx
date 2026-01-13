@@ -75,6 +75,11 @@ export default function RootLayout({
   return (
     <html lang="de" suppressHydrationWarning>
       <head>
+        {/* Preconnect to Sanity CDN for faster image loading */}
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+        <link rel="preconnect" href="https://m2fpcq3b.apicdn.sanity.io" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://m2fpcq3b.apicdn.sanity.io" />
         {/* Prevent FOUC for dark mode */}
         <script
           dangerouslySetInnerHTML={{
