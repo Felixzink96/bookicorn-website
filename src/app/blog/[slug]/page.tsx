@@ -815,7 +815,7 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
   const hasCoverImage = post.coverImage?.asset
 
   return (
-    <div className="bg-[var(--theme-background)] pb-16 lg:pb-0">
+    <div className="bg-[var(--theme-background)] min-h-screen pb-16 lg:pb-0">
       {/* Hero Header with LiquidEther - Split Layout */}
       <header className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10">
