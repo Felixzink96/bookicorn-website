@@ -1,0 +1,444 @@
+@import "tailwindcss";
+
+@theme {
+  /* Lime Theme - Synchronisiert mit Buchungsplattform */
+  --color-primary-50: #f7fee7;
+  --color-primary-100: #ecfccb;
+  --color-primary-200: #d9f99d;
+  --color-primary-300: #bef264;
+  --color-primary-400: #a3e635;
+  --color-primary-500: #84cc16;
+  --color-primary-600: #65a30d;
+  --color-primary-700: #4d7c0f;
+  --color-primary-800: #3f6212;
+  --color-primary-900: #365314;
+  --color-primary-950: #1a2e05;
+
+  /* Accent Colors */
+  --color-accent-50: #ecfdf5;
+  --color-accent-100: #d1fae5;
+  --color-accent-200: #a7f3d0;
+  --color-accent-300: #6ee7b7;
+  --color-accent-400: #34d399;
+  --color-accent-500: #10b981;
+  --color-accent-600: #059669;
+  --color-accent-700: #047857;
+  --color-accent-800: #065f46;
+  --color-accent-900: #064e3b;
+
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Theme Colors - EXAKT wie Buchungsplattform */
+  --theme-error: #ef4444;
+  --theme-success: #10B981;
+  --theme-warning: #F59E0B;
+  --theme-info: #8B5CF6;
+}
+
+/* Light Mode (Default) - EXAKT wie Buchungsplattform */
+:root {
+  --theme-background: #ffffff;
+  --theme-surface: #f9fafb;
+  --theme-surfaceHover: #f3f4f6;
+  --theme-text: rgb(41, 41, 41);
+  --theme-textSecondary: #6b7280;
+  --theme-textTertiary: #9ca3af;
+  --theme-border: #e5e7eb;
+  --theme-borderHover: #d1d5db;
+}
+
+/* Dark Mode - EXAKT wie Buchungsplattform (Neutral Gray) */
+.dark {
+  --theme-background: #09090b;
+  --theme-surface: #121215;
+  --theme-surfaceHover: #1a1a1f;
+  --theme-text: #f5f5f5;
+  --theme-textSecondary: #a1a1a1;
+  --theme-textTertiary: #737373;
+  --theme-border: #2a2a2a;
+  --theme-borderHover: #3a3a3a;
+}
+
+body {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+  font-family: var(--font-family-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Dark mode body */
+.dark body {
+  background-color: var(--theme-background);
+  color: var(--theme-text);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--theme-text);
+}
+
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: var(--theme-text);
+}
+
+p {
+  color: var(--theme-text);
+}
+
+.dark p {
+  color: var(--theme-text);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.38);
+  border-radius: 100px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.38);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: var(--color-primary-500);
+  color: white;
+}
+
+/* Gradient text utility */
+@utility gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--color-primary-500), var(--color-accent-500));
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+/* Card styles */
+.card {
+  background-color: var(--theme-surface);
+  color: var(--theme-text);
+  border: 1px solid var(--theme-border);
+}
+
+/* Header - Light Mode */
+header {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: var(--theme-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Header - Dark Mode */
+.dark header {
+  background-color: rgba(9, 9, 11, 0.9);
+  border-color: var(--theme-border);
+}
+
+/* Footer - Dark Mode */
+.dark footer {
+  background-color: #09090b;
+}
+
+/* Navigation text colors */
+.nav-link {
+  color: var(--theme-textSecondary);
+}
+
+.nav-link:hover {
+  color: var(--theme-text);
+}
+
+/* Primary button colors */
+.bg-primary-600 {
+  background-color: var(--color-primary-500);
+}
+
+.hover\:bg-primary-700:hover {
+  background-color: var(--color-primary-600);
+}
+
+.text-primary-600 {
+  color: var(--color-primary-600);
+}
+
+.dark .text-primary-600 {
+  color: var(--color-primary-400);
+}
+
+/* Gray text overrides for theme */
+.text-gray-600 {
+  color: var(--theme-textSecondary);
+}
+
+.text-gray-500 {
+  color: var(--theme-textSecondary);
+}
+
+.text-gray-400 {
+  color: var(--theme-textTertiary);
+}
+
+.text-gray-900 {
+  color: var(--theme-text);
+}
+
+/* Border colors */
+.border-gray-100,
+.border-gray-200 {
+  border-color: var(--theme-border);
+}
+
+/* Background overrides */
+.bg-white {
+  background-color: var(--theme-background);
+}
+
+.bg-gray-50 {
+  background-color: var(--theme-surface);
+}
+
+.bg-gray-100 {
+  background-color: var(--theme-surfaceHover);
+}
+
+/* Dark mode specific */
+.dark .bg-white {
+  background-color: var(--theme-surface);
+}
+
+.dark .bg-gray-50 {
+  background-color: var(--theme-surface);
+}
+
+.dark .bg-gray-100 {
+  background-color: var(--theme-surfaceHover);
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500 {
+  color: var(--theme-textSecondary);
+}
+
+.dark .text-gray-400 {
+  color: var(--theme-textTertiary);
+}
+
+.dark .text-gray-900 {
+  color: var(--theme-text);
+}
+
+.dark .border-gray-100,
+.dark .border-gray-200 {
+  border-color: var(--theme-border);
+}
+
+/* Slate colors for dark mode backgrounds */
+.dark .bg-slate-900 {
+  background-color: var(--theme-background);
+}
+
+.dark .bg-slate-800 {
+  background-color: var(--theme-surface);
+}
+
+.dark .bg-slate-700 {
+  background-color: var(--theme-surfaceHover);
+}
+
+.dark .border-slate-800,
+.dark .border-slate-700 {
+  border-color: var(--theme-border);
+}
+
+.dark .text-gray-300 {
+  color: var(--theme-textSecondary);
+}
+
+/* Interactive elements */
+button:not(:disabled),
+a,
+[role="button"],
+.cursor-pointer {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+/* ===== RAINBOW GRADIENT BUTTON - Bookicorn Style ===== */
+
+/* Gentle Glow Pulse Animation */
+@keyframes gentleGlow {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* Rainbow Gradient Border Button */
+.btn-rainbow-gradient {
+  position: relative;
+  background: transparent;
+  border: none;
+  z-index: 0;
+  overflow: visible;
+  isolation: isolate;
+  padding: 0 !important;
+}
+
+/* Rainbow Border - 90% der Button-Höhe */
+.btn-rainbow-gradient::before {
+  content: '';
+  position: absolute;
+  left: -1.7px;
+  right: -1.7px;
+  top: 10%;
+  bottom: -1.7px;
+  background: linear-gradient(90deg,
+    rgb(168, 85, 247) 0%,
+    rgb(236, 72, 153) 25%,
+    rgb(250, 204, 21) 50%,
+    rgb(34, 211, 238) 75%,
+    rgb(168, 85, 247) 100%
+  );
+  border-radius: 1rem;
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* Rainbow Gradient Glow UNTER dem Button */
+.btn-rainbow-gradient::after {
+  content: '';
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  bottom: -18px;
+  height: 30px;
+  background: linear-gradient(90deg,
+    rgba(168, 85, 247, 0.7) 0%,
+    rgba(236, 72, 153, 0.5) 25%,
+    rgba(250, 204, 21, 0.4) 50%,
+    rgba(34, 211, 238, 0.5) 75%,
+    rgba(168, 85, 247, 0.7) 100%
+  );
+  filter: blur(15px);
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: -3;
+  border-radius: 100%;
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  animation: gentleGlow 4s ease-in-out infinite;
+  transition: filter 0.3s ease, opacity 0.3s ease, bottom 0.3s ease, height 0.3s ease;
+}
+
+/* Hover: Stärkerer Glow */
+.btn-rainbow-gradient:hover::after {
+  filter: blur(20px);
+  opacity: 1;
+  bottom: -22px;
+  height: 36px;
+}
+
+/* Content Wrapper */
+.btn-content-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  z-index: 1;
+  pointer-events: none;
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
+.btn-content-wrapper > * {
+  pointer-events: auto;
+}
+
+/* Size overrides */
+.btn-rainbow-gradient.text-sm .btn-content-wrapper {
+  padding: 0.375rem 0.875rem;
+}
+
+.btn-rainbow-gradient.text-lg .btn-content-wrapper {
+  padding: 0.625rem 1.5rem;
+}
+
+/* Button Background Layer - LIGHT MODE */
+.btn-content-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: inset 0 1px 0 rgb(0 0 0 / 0.1);
+}
+
+/* Button Background Layer - DARK MODE */
+.dark .btn-content-wrapper::before {
+  background: rgba(15, 15, 15, 0.95);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.4);
+}
+
+/* Inner Rainbow Glow */
+.btn-content-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60%;
+  background: linear-gradient(90deg,
+    rgba(168, 85, 247, 0.2) 0%,
+    rgba(236, 72, 153, 0.15) 25%,
+    rgba(250, 204, 21, 0.1) 50%,
+    rgba(34, 211, 238, 0.15) 75%,
+    rgba(168, 85, 247, 0.2) 100%
+  );
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  border-radius: 0 0 1rem 1rem;
+  pointer-events: none;
+  z-index: 0;
+}
