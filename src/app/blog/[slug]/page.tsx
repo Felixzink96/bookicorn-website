@@ -27,6 +27,7 @@ import { PortableText } from '@portabletext/react'
 import Button from '@/components/ui/Button'
 import LiquidEther from '@/components/ui/LiquidEther'
 import { LoadingState } from '@/components/patterns/LoadingState'
+import { customBlockComponents } from '@/components/blog/BlockRenderers'
 
 const rainbowColors = ['#a855f7', '#ec4899', '#facc15', '#22d3ee', '#a855f7']
 
@@ -614,14 +615,21 @@ function createPortableTextComponents(content: any[]) {
     types: {
       image: ({ value }: { value: any }) => {
         if (!value?.asset?._ref) return null
+        const sizeClasses = {
+          small: 'max-w-md mx-auto',
+          normal: 'max-w-2xl mx-auto',
+          large: 'max-w-4xl mx-auto',
+          full: 'w-full',
+        }
+        const size = value.size || 'normal'
         return (
-          <figure className="my-8">
+          <figure className={`my-8 ${sizeClasses[size as keyof typeof sizeClasses]}`}>
             <Image
-              src={urlFor(value).width(800).url()}
+              src={urlFor(value).width(1200).url()}
               alt={value.alt || ''}
-              width={800}
-              height={450}
-              className="rounded-xl"
+              width={1200}
+              height={675}
+              className="rounded-xl w-full"
             />
             {value.caption && (
               <figcaption className="mt-3 text-center text-sm text-[var(--theme-textTertiary)]">
@@ -630,6 +638,87 @@ function createPortableTextComponents(content: any[]) {
             )}
           </figure>
         )
+      },
+      // Custom Block Types
+      callout: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.callout
+        return <Component value={value} />
+      },
+      ctaButton: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.ctaButton
+        return <Component value={value} />
+      },
+      featureList: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.featureList
+        return <Component value={value} />
+      },
+      proConList: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.proConList
+        return <Component value={value} />
+      },
+      divider: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.divider
+        return <Component value={value} />
+      },
+      codeBlock: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.codeBlock
+        return <Component value={value} />
+      },
+      stats: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.stats
+        return <Component value={value} />
+      },
+      quote: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.quote
+        return <Component value={value} />
+      },
+      comparisonTable: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.comparisonTable
+        return <Component value={value} />
+      },
+      accordion: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.accordion
+        return <Component value={value} />
+      },
+      video: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.video
+        return <Component value={value} />
+      },
+      gallery: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.gallery
+        return <Component value={value} />
+      },
+      timeline: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.timeline
+        return <Component value={value} />
+      },
+      personCard: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.personCard
+        return <Component value={value} />
+      },
+      fileDownload: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.fileDownload
+        return <Component value={value} />
+      },
+      table: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.table
+        return <Component value={value} />
+      },
+      infoBox: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.infoBox
+        return <Component value={value} />
+      },
+      newsletterBox: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.newsletterBox
+        return <Component value={value} />
+      },
+      pricingCard: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.pricingCard
+        return <Component value={value} />
+      },
+      embed: ({ value }: { value: any }) => {
+        const Component = customBlockComponents.embed
+        return <Component value={value} />
       },
     },
     marks: {
@@ -650,6 +739,21 @@ function createPortableTextComponents(content: any[]) {
         <code className="px-1.5 py-0.5 rounded bg-[var(--theme-surface)] text-primary-600 text-sm font-mono">
           {children}
         </code>
+      ),
+      highlight: ({ children }: { children?: React.ReactNode }) => (
+        <mark className="bg-primary-500/20 text-[var(--theme-text)] px-1 rounded">
+          {children}
+        </mark>
+      ),
+      underline: ({ children }: { children?: React.ReactNode }) => (
+        <span className="underline underline-offset-2 decoration-primary-500">
+          {children}
+        </span>
+      ),
+      'strike-through': ({ children }: { children?: React.ReactNode }) => (
+        <span className="line-through text-[var(--theme-textTertiary)]">
+          {children}
+        </span>
       ),
     },
     block: {
