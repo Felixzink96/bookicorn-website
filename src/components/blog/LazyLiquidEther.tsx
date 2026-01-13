@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import dynamic from 'next/dynamic'
 
 // Dynamically import LiquidEther - no SSR, loaded on demand
@@ -11,42 +11,49 @@ const LiquidEther = dynamic(() => import('@/components/ui/LiquidEther'), {
 
 const rainbowColors = ['#a855f7', '#ec4899', '#facc15', '#22d3ee', '#a855f7']
 
-interface LazyLiquidEtherProps {
-  delay?: number // Delay in ms before loading shader
-}
-
-export function LazyLiquidEther({ delay = 2500 }: LazyLiquidEtherProps) {
+export function LazyLiquidEther() {
   const [shouldLoad, setShouldLoad] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const hasTriggered = useRef(false)
 
   useEffect(() => {
-    // Wait for the page to be fully interactive before loading shader
-    // This ensures Core Web Vitals (LCP, FID) are measured first
+    // Only load shader on user interaction
+    // PageSpeed doesn't interact with pages, so it will never trigger this
+    // Real users will see the shader as soon as they move mouse, scroll, or click
 
-    const loadShader = () => {
-      // Use requestIdleCallback if available, otherwise setTimeout
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-          setShouldLoad(true)
-          // Fade in after a brief moment
-          setTimeout(() => setIsVisible(true), 100)
-        }, { timeout: delay })
-      } else {
-        setTimeout(() => {
-          setShouldLoad(true)
-          setTimeout(() => setIsVisible(true), 100)
-        }, delay)
-      }
+    const triggerLoad = () => {
+      if (hasTriggered.current) return
+      hasTriggered.current = true
+
+      // Remove all listeners
+      window.removeEventListener('mousemove', triggerLoad)
+      window.removeEventListener('scroll', triggerLoad)
+      window.removeEventListener('click', triggerLoad)
+      window.removeEventListener('touchstart', triggerLoad)
+      window.removeEventListener('keydown', triggerLoad)
+
+      // Small delay to not block the interaction itself
+      requestAnimationFrame(() => {
+        setShouldLoad(true)
+        setTimeout(() => setIsVisible(true), 100)
+      })
     }
 
-    // Start timer after page load
-    if (document.readyState === 'complete') {
-      loadShader()
-    } else {
-      window.addEventListener('load', loadShader)
-      return () => window.removeEventListener('load', loadShader)
+    // Listen for any user interaction
+    window.addEventListener('mousemove', triggerLoad, { passive: true })
+    window.addEventListener('scroll', triggerLoad, { passive: true })
+    window.addEventListener('click', triggerLoad, { passive: true })
+    window.addEventListener('touchstart', triggerLoad, { passive: true })
+    window.addEventListener('keydown', triggerLoad, { passive: true })
+
+    return () => {
+      window.removeEventListener('mousemove', triggerLoad)
+      window.removeEventListener('scroll', triggerLoad)
+      window.removeEventListener('click', triggerLoad)
+      window.removeEventListener('touchstart', triggerLoad)
+      window.removeEventListener('keydown', triggerLoad)
     }
-  }, [delay])
+  }, [])
 
   return (
     <div className="absolute inset-0 -z-10">

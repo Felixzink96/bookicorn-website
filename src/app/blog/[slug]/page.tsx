@@ -509,7 +509,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <div className="min-h-screen">
       {/* Hero Header with Lazy-loaded LiquidEther for optimal PageSpeed */}
       <header className="relative isolate overflow-hidden">
-        <LazyLiquidEther delay={5000} />
+        <LazyLiquidEther />
         <div className="mx-auto max-w-7xl px-6 py-12 lg:py-16 lg:px-8">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-[var(--theme-textTertiary)] mb-8">
