@@ -49,62 +49,19 @@ export function LazyLiquidEther() {
 
   return (
     <div className="absolute inset-0 -z-10">
-      {/* Base background */}
-      <div className="absolute inset-0 bg-[var(--theme-background)]" />
-
-      {/* Light mode gradient */}
+      {/* Mesh gradient background */}
       <div
-        className="absolute inset-0 dark:hidden"
+        className="absolute inset-0"
         style={{
-          backgroundImage: `
-            radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.4) 0%, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.35) 0%, transparent 50%),
-            radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.4) 0%, transparent 50%),
-            radial-gradient(at 0% 100%, rgba(250, 204, 21, 0.3) 0%, transparent 50%),
-            radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 70%)
-          `,
+          background: `
+            radial-gradient(at 20% 30%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+            radial-gradient(at 80% 20%, rgba(236, 72, 153, 0.25) 0%, transparent 50%),
+            radial-gradient(at 60% 80%, rgba(250, 204, 21, 0.2) 0%, transparent 50%),
+            radial-gradient(at 30% 70%, rgba(34, 211, 238, 0.25) 0%, transparent 50%),
+            var(--theme-background)
+          `
         }}
       />
-
-      {/* Dark mode gradient - more vibrant */}
-      <div
-        className="absolute inset-0 hidden dark:block"
-        style={{
-          backgroundImage: `
-            radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.5) 0%, transparent 50%),
-            radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.45) 0%, transparent 50%),
-            radial-gradient(at 100% 100%, rgba(34, 211, 238, 0.5) 0%, transparent 50%),
-            radial-gradient(at 0% 100%, rgba(250, 204, 21, 0.35) 0%, transparent 50%),
-            radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.3) 0%, transparent 70%)
-          `,
-        }}
-      />
-
-      {/* Animated glow layer - light mode */}
-      <div className="absolute inset-0 animate-pulse-slow dark:hidden">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              radial-gradient(at 30% 20%, rgba(168, 85, 247, 0.3) 0%, transparent 40%),
-              radial-gradient(at 70% 80%, rgba(34, 211, 238, 0.3) 0%, transparent 40%)
-            `,
-          }}
-        />
-      </div>
-
-      {/* Animated glow layer - dark mode */}
-      <div className="absolute inset-0 animate-pulse-slow hidden dark:block">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              radial-gradient(at 30% 20%, rgba(168, 85, 247, 0.4) 0%, transparent 40%),
-              radial-gradient(at 70% 80%, rgba(34, 211, 238, 0.4) 0%, transparent 40%)
-            `,
-          }}
-        />
-      </div>
 
       {/* LiquidEther - loaded on user interaction */}
       {shouldLoad && (
