@@ -1,0 +1,264 @@
+---
+title: "Termine erstellen"
+description: "Einzeltermine und Terminserien für deine Kurse anlegen"
+---
+
+# Termine erstellen
+
+Termine sind die buchbaren Einheiten deiner Kurse. Hier lernst du, wie du Einzeltermine und Serien erstellst.
+
+## Einzeltermin erstellen
+
+### Über die Kursliste
+
+1. Gehe zu **Kurse**
+2. Klicke auf einen Kurs
+3. Wähle den Tab **Termine**
+4. Klicke **Termin hinzufügen**
+
+### Im Kalender
+
+1. Gehe zu **Kalender**
+2. Klicke auf einen Zeitslot
+3. Wähle den Kurs aus
+4. Termin wird erstellt
+
+---
+
+## Termin-Formular
+
+### Pflichtfelder
+
+| Feld | Beschreibung |
+|------|--------------|
+| **Datum** | Tag des Termins |
+| **Startzeit** | Beginn des Kurses |
+| **Endzeit** | Ende des Kurses (oder automatisch aus Kursdauer) |
+
+### Optionale Felder
+
+| Feld | Beschreibung |
+|------|--------------|
+| **Trainer** | Überschreibt Kurs-Trainer (für Vertretung) |
+| **Raum** | Überschreibt Kurs-Raum |
+| **Kapazität** | Überschreibt Kurs-Kapazität |
+| **Hinweise** | Spezielle Infos für diesen Termin |
+
+---
+
+## Terminserie erstellen
+
+Für wiederkehrende Kurse ist eine Serie effizienter.
+
+### Serie anlegen
+
+1. Öffne den Kurs
+2. Klicke **Serie erstellen** (statt "Termin hinzufügen")
+3. Konfiguriere die Wiederholung
+
+### Wiederholungsoptionen
+
+**Täglich**
+- Jeden Tag
+- Alle X Tage
+
+**Wöchentlich**
+- Jeden Montag
+- Jeden Montag und Mittwoch
+- Alle 2 Wochen am Dienstag
+
+**Monatlich**
+- Am 1. jedes Monats
+- Am ersten Montag jedes Monats
+- Am letzten Freitag jedes Monats
+
+---
+
+## Serie konfigurieren
+
+### Beispiel: Yoga jeden Montag und Mittwoch
+
+```
+Wiederholung: Wöchentlich
+Wochentage:   [x] Montag  [ ] Dienstag  [x] Mittwoch  [ ] Donnerstag  [ ] Freitag
+Uhrzeit:      18:00 - 19:00
+Zeitraum:     01.01.2025 - 31.03.2025
+```
+
+**Ergebnis**: 26 Termine werden erstellt
+
+### Beispiel: Pilates jeden Samstag
+
+```
+Wiederholung: Wöchentlich
+Wochentage:   [ ] Mo [ ] Di [ ] Mi [ ] Do [ ] Fr [x] Sa [ ] So
+Uhrzeit:      10:00 - 11:30
+Zeitraum:     01.01.2025 - 30.06.2025
+```
+
+**Ergebnis**: 26 Termine werden erstellt
+
+---
+
+## Serienvorschau
+
+Vor dem Erstellen siehst du:
+
+- Liste aller generierten Termine
+- Konflikte mit anderen Kursen
+- Feiertage (werden markiert)
+- Gesamtanzahl der Termine
+
+### Termine ausschließen
+
+In der Vorschau kannst du:
+
+- Einzelne Termine abwählen (z.B. Feiertage)
+- Termine mit Konflikten prüfen
+- Die Serie anpassen
+
+---
+
+## Termin bearbeiten
+
+### Einzelnen Termin ändern
+
+1. Klicke auf den Termin
+2. Wähle **Bearbeiten**
+3. Ändere Datum, Zeit, Trainer, etc.
+4. **Nur diesen Termin** speichern
+
+### Alle zukünftigen Termine
+
+Bei Serien kannst du:
+
+1. Termin bearbeiten
+2. **Alle zukünftigen Termine ändern** wählen
+3. Änderung wird auf alle kommenden Termine angewendet
+
+---
+
+## Termin absagen
+
+### Einzelnen Termin absagen
+
+1. Öffne den Termin
+2. Klicke **Termin absagen**
+3. Wähle Grund (optional)
+4. Bestätige
+
+**Was passiert:**
+- Alle Buchungen werden storniert
+- Kunden werden per E-Mail informiert
+- Credits werden zurückerstattet
+- Termin wird als "Abgesagt" markiert
+
+### Termine einer Serie absagen
+
+Du kannst:
+
+- **Diesen Termin**: Nur der ausgewählte Termin
+- **Alle zukünftigen**: Ab diesem Termin alle
+- **Gesamte Serie**: Alle Termine der Serie
+
+---
+
+## Termin verschieben
+
+1. Öffne den Termin
+2. Klicke **Verschieben**
+3. Wähle neues Datum/Zeit
+4. Optionen:
+   - **Buchungen behalten**: Kunden bleiben gebucht
+   - **Buchungen stornieren**: Kunden müssen neu buchen
+
+**E-Mail-Benachrichtigung**: Gebuchte Kunden werden automatisch informiert.
+
+---
+
+## Terminansichten
+
+### Im Kalender
+
+- **Tagesansicht**: Alle Termine eines Tages
+- **Wochenansicht**: Überblick über die Woche
+- **Monatsansicht**: Gesamtübersicht
+
+### In der Kursliste
+
+- Tab **Termine** zeigt alle Termine des Kurses
+- Filterbar nach Zeitraum
+- Buchungsstand auf einen Blick
+
+---
+
+## Terminstatus
+
+| Status | Bedeutung |
+|--------|-----------|
+| **Geplant** | Termin in der Zukunft, buchbar |
+| **Voll** | Alle Plätze belegt |
+| **Läuft** | Termin findet gerade statt |
+| **Beendet** | Termin ist vorbei |
+| **Abgesagt** | Termin wurde abgesagt |
+
+---
+
+## Trainer-Vertretung
+
+Wenn ein Trainer ausfällt:
+
+1. Öffne den Termin
+2. Klicke **Bearbeiten**
+3. Wähle anderen **Trainer**
+4. Speichern
+
+**Optional**: Kunden über Trainerwechsel informieren (Checkbox).
+
+---
+
+## Raumwechsel
+
+Wenn ein Raum nicht verfügbar ist:
+
+1. Öffne den Termin
+2. Klicke **Bearbeiten**
+3. Wähle anderen **Raum**
+4. Prüfe Kapazität (wird angepasst)
+5. Speichern
+
+---
+
+## Best Practices
+
+### Vorausplanen
+
+- Erstelle Serien für 3-6 Monate im Voraus
+- Kunden können früh buchen
+- Du behältst die Übersicht
+
+### Feiertage beachten
+
+- Prüfe Feiertage in der Serienvorschau
+- Entscheide: Absagen oder durchführen?
+- Kommuniziere klar
+
+### Pufferzeiten
+
+- Plane 15-30 Min zwischen Kursen
+- Zeit für Aufräumen und Vorbereitung
+- Trainer können sich erholen
+
+### Konsistente Zeiten
+
+- Gleiche Kurse zur gleichen Zeit
+- Kunden gewöhnen sich daran
+- Einfachere Planung
+
+---
+
+## Nächste Schritte
+
+- [Kategorien verwalten →](/docs/kurse/kategorien)
+- [Warteliste verstehen →](/docs/kurse/warteliste)
+- [Stornierungsregeln →](/docs/kurse/stornierung)

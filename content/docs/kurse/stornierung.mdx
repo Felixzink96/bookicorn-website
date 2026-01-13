@@ -1,0 +1,269 @@
+---
+title: "Stornierung"
+description: "Stornierungsregeln und -fristen konfigurieren"
+---
+
+# Stornierung
+
+Stornierungsregeln bestimmen, wann und wie Buchungen storniert werden können. Hier erfährst du, wie du sie konfigurierst.
+
+## Grundprinzip
+
+### Warum Stornierungsregeln?
+
+- **Planungssicherheit**: Du weißt, wie viele Teilnehmer kommen
+- **Fairness**: Andere Kunden können nachrücken
+- **Wirtschaftlichkeit**: Verhindert Last-Minute-Absagen
+
+### Standard-Ablauf
+
+1. Kunde storniert Buchung
+2. System prüft Stornofrist
+3. Innerhalb der Frist: Credits werden erstattet
+4. Außerhalb der Frist: Keine Erstattung
+5. Bei Warteliste: Nächster rückt nach
+
+---
+
+## Stornofrist konfigurieren
+
+### Global (für alle Kurse)
+
+1. Gehe zu **Einstellungen → Buchungen**
+2. Finde **Standard-Stornofrist**
+3. Wähle Zeitraum (z.B. "24 Stunden vor Kursbeginn")
+4. Speichern
+
+### Pro Kurs
+
+1. Öffne den Kurs
+2. Gehe zu **Optionen**
+3. Finde **Stornofrist**
+4. Setze kurs-spezifische Frist
+5. Speichern
+
+**Hinweis**: Kurs-Einstellung überschreibt globale Einstellung.
+
+---
+
+## Stornofrist-Optionen
+
+| Option | Beschreibung |
+|--------|--------------|
+| **Keine Frist** | Stornierung jederzeit möglich |
+| **1 Stunde** | Bis 1h vor Kursbeginn |
+| **2 Stunden** | Bis 2h vor Kursbeginn |
+| **4 Stunden** | Bis 4h vor Kursbeginn |
+| **12 Stunden** | Bis 12h vor Kursbeginn |
+| **24 Stunden** | Bis 24h vor Kursbeginn |
+| **48 Stunden** | Bis 48h vor Kursbeginn |
+| **1 Woche** | Bis 7 Tage vor Kursbeginn |
+
+---
+
+## Credit-Erstattung
+
+### Innerhalb der Stornofrist
+
+- Credits werden vollständig zurückerstattet
+- Credits gehen zurück in die Wallet des Kunden
+- FIFO-Reihenfolge wird angepasst
+
+### Außerhalb der Stornofrist
+
+Du hast zwei Optionen:
+
+**Option 1: Keine Erstattung**
+- Kunde verliert die Credits
+- Strenge Regelung
+- Maximale Planungssicherheit
+
+**Option 2: Teilweise Erstattung**
+- Nur ein Teil wird zurückerstattet
+- Beispiel: 50% der Credits
+- Fairer Kompromiss
+
+---
+
+## Stornierung durch Admin
+
+Als Admin kannst du immer stornieren:
+
+1. Gehe zu **Buchungen**
+2. Finde die Buchung
+3. Klicke auf **Stornieren**
+4. Wähle:
+   - **Mit Credit-Erstattung**
+   - **Ohne Credit-Erstattung**
+5. Optional: Grund angeben
+6. Bestätigen
+
+**Admin-Stornierungen ignorieren die Stornofrist.**
+
+---
+
+## Stornierung durch Kunde
+
+### Im Mitglieder-Dashboard
+
+1. Kunde geht zu **Meine Buchungen**
+2. Findet die Buchung
+3. Klickt **Stornieren**
+4. Sieht Hinweis zu Stornofrist
+5. Bestätigt
+
+### Was der Kunde sieht
+
+**Innerhalb der Frist:**
+> "Du kannst diese Buchung bis [Datum/Zeit] kostenlos stornieren. Deine Credits werden zurückerstattet."
+
+**Außerhalb der Frist:**
+> "Die Stornofrist ist abgelaufen. Bei Stornierung werden deine Credits nicht erstattet."
+
+---
+
+## Stornierungsbestätigung
+
+### E-Mail an Kunden
+
+Nach jeder Stornierung erhält der Kunde:
+- Bestätigung der Stornierung
+- Info zur Credit-Erstattung (ja/nein)
+- Übersicht der aktuellen Credits
+- Link zum Stundenplan
+
+### E-Mail an Admin (optional)
+
+Du kannst Benachrichtigungen aktivieren für:
+- Jede Stornierung
+- Nur kurzfristige Stornierungen
+- Nur bei bestimmten Kursen
+
+---
+
+## Spezialfälle
+
+### Kurs wurde abgesagt
+
+Wenn du einen Kurs absagst:
+- Alle Buchungen werden automatisch storniert
+- Credits werden **immer** erstattet
+- Kunden werden benachrichtigt
+
+### Krankheit/Notfall
+
+Für Sonderfälle kannst du:
+1. Buchung als Admin stornieren
+2. Option "Mit Erstattung" wählen
+3. Auch außerhalb der Frist
+
+### No-Show (Nicht-Erscheinen)
+
+Kunde erscheint nicht:
+- Buchung bleibt bestehen
+- Credits werden nicht erstattet
+- Optional: Markierung als "No-Show"
+
+---
+
+## Stornierungsstatistiken
+
+### Dashboard-Ansicht
+
+Unter **Statistiken** siehst du:
+- Stornierungsquote pro Kurs
+- Durchschnittliche Stornierungszeit
+- Top-Stornierer (Kunden)
+
+### Auswertung nutzen
+
+Hohe Stornoquote kann bedeuten:
+- Stornofrist zu kurz?
+- Kurs nicht attraktiv genug?
+- Zeitfenster ungünstig?
+
+---
+
+## Empfehlungen
+
+### Für die meisten Studios
+
+```
+Stornofrist: 24 Stunden
+Erstattung innerhalb Frist: 100%
+Erstattung außerhalb Frist: 0%
+```
+
+**Warum?**
+- 24h gibt dir genug Planungssicherheit
+- Kunden haben ausreichend Zeit
+- Klare, einfache Regel
+
+### Für Kurse mit hoher Nachfrage
+
+```
+Stornofrist: 48 Stunden
+Erstattung: Nur innerhalb Frist
+```
+
+**Warum?**
+- Mehr Zeit für Wartelisten-Nachrücken
+- Andere Kunden können planen
+
+### Für Einsteiger-/Schnupperkurse
+
+```
+Stornofrist: 2 Stunden
+Erstattung: Immer 100%
+```
+
+**Warum?**
+- Niedrige Hürde für Neukunden
+- Ermutigt zum Ausprobieren
+
+---
+
+## Kommunikation
+
+### Bei Buchung
+
+Zeige dem Kunden klar:
+> "Kostenlose Stornierung bis [Datum] um [Uhrzeit]"
+
+### In den AGB
+
+Dokumentiere deine Stornierungsregeln klar in deinen AGB.
+
+### FAQ für Kunden
+
+Erstelle eine FAQ-Seite mit häufigen Fragen:
+- Bis wann kann ich stornieren?
+- Bekomme ich meine Credits zurück?
+- Was passiert bei Krankheit?
+
+---
+
+## Technische Details
+
+### Credits und FIFO
+
+Bei Erstattung:
+- Credits werden als "neuer Kauf" behandelt
+- Ablaufdatum bleibt erhalten
+- FIFO-Position wird aktualisiert
+
+### Warteliste-Trigger
+
+Nach Stornierung:
+1. Platz wird frei
+2. System prüft Warteliste
+3. Erste Person wird automatisch gebucht
+4. Benachrichtigung gesendet
+
+---
+
+## Nächste Schritte
+
+- [Buchungen verwalten →](/docs/buchungen)
+- [Credit-System verstehen →](/docs/credits)
+- [Zurück zur Kursübersicht →](/docs/kurse)

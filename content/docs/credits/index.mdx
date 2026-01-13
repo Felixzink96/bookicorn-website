@@ -1,0 +1,243 @@
+---
+title: "Credit-System"
+description: "Das flexible Credit-System von Bookicorn verstehen und nutzen"
+---
+
+# Credit-System
+
+Das Credit-System ist das Herzstück der Bezahlung in Bookicorn. Deine Kunden kaufen Credits und buchen damit Kurse.
+
+## Warum Credits?
+
+### Vorteile für dich
+
+- **Planbare Einnahmen**: Kunden zahlen im Voraus
+- **Kundenbindung**: Credits motivieren zur regelmäßigen Nutzung
+- **Flexibilität**: Verschiedene Pakete für verschiedene Bedürfnisse
+- **Einfache Verwaltung**: Automatische Abrechnung
+
+### Vorteile für Kunden
+
+- **Flexibel buchen**: Kurse nach Belieben wählen
+- **Preisvorteile**: Pakete sind günstiger als Einzelbuchungen
+- **Übersichtlich**: Alle Credits in der Wallet
+- **Kein Abo-Zwang**: Credits statt Mitgliedschaft
+
+---
+
+## Grundkonzepte
+
+### Credits
+
+Credits sind die virtuelle Währung in Bookicorn:
+
+- Kunden kaufen Credits (via Stripe)
+- Kurse kosten Credits
+- Bei Buchung werden Credits abgezogen
+- Bei Stornierung werden Credits erstattet
+
+### Pakete
+
+Credit-Pakete sind vordefinierte Bundles:
+
+| Paket | Credits | Preis | Euro/Credit |
+|-------|---------|-------|-------------|
+| Starter | 10 | 99€ | 9,90€ |
+| Regular | 25 | 225€ | 9,00€ |
+| Premium | 50 | 400€ | 8,00€ |
+
+### Wallet
+
+Die Wallet ist das Credit-Konto des Kunden:
+
+- Zeigt verfügbare Credits
+- Zeigt Ablaufdaten
+- Zeigt Transaktionshistorie
+
+---
+
+## FIFO-Prinzip
+
+Credits werden nach dem **First-In-First-Out** Prinzip verbraucht.
+
+### Wie funktioniert FIFO?
+
+Die ältesten Credits werden zuerst verwendet:
+
+```
+Kauf 1 (01.01.): 10 Credits, gültig bis 01.04.
+Kauf 2 (15.01.): 20 Credits, gültig bis 15.04.
+Kauf 3 (01.02.): 10 Credits, gültig bis 01.05.
+
+Buchung am 20.01. für 8 Credits:
+→ 8 Credits von Kauf 1 werden verwendet
+→ 2 Credits von Kauf 1 übrig
+→ Kauf 2 und 3 unberührt
+```
+
+### Warum FIFO?
+
+- **Faire Nutzung**: Ältere Credits zuerst
+- **Verfallschutz**: Verhindert unnötigen Verfall
+- **Transparenz**: Klare Logik für Kunden
+
+[Mehr zu FIFO →](/docs/credits/fifo-erklaert)
+
+---
+
+## Aktivierungsmodi
+
+Credits können unterschiedlich aktiviert werden:
+
+| Modus | Credits aktiv ab |
+|-------|-----------------|
+| **Sofort** | Nach Kauf sofort nutzbar |
+| **Erste Nutzung** | Ab erster Buchung |
+| **Festes Datum** | Ab bestimmtem Datum |
+
+### Beispiele
+
+**Sofort**: Standard für die meisten Pakete
+
+**Erste Nutzung**: "10er-Karte" - gültig 3 Monate ab erster Nutzung
+
+**Festes Datum**: "Januar-Paket" - gültig ab 01.01.
+
+[Mehr zu Aktivierungsmodi →](/docs/credits/aktivierungsmodi)
+
+---
+
+## Gültigkeit
+
+Credits haben ein Ablaufdatum:
+
+### Gültigkeitszeiträume
+
+- **30 Tage**: Für Schnupperpakete
+- **3 Monate**: Standard für kleine Pakete
+- **6 Monate**: Standard für mittlere Pakete
+- **12 Monate**: Für große Pakete
+- **Unbegrenzt**: Für spezielle Pakete
+
+### Was passiert bei Ablauf?
+
+- Credits verfallen automatisch
+- Kunde wird vorher erinnert (E-Mail)
+- Verfallene Credits können nicht erstattet werden
+
+[Mehr zu Gültigkeit →](/docs/credits/gueltigkeit)
+
+---
+
+## Credit-Pakete
+
+Du definierst, welche Pakete Kunden kaufen können:
+
+### Paket-Eigenschaften
+
+- **Name**: z.B. "10er-Karte"
+- **Credit-Anzahl**: z.B. 10 Credits
+- **Preis**: z.B. 99€
+- **Gültigkeit**: z.B. 3 Monate
+- **Aktivierungsmodus**: Sofort, Erste Nutzung, Datum
+
+### Best Practices
+
+- 3-5 Pakete anbieten
+- Mengenrabatt für größere Pakete
+- Einstiegspaket für Neukunden
+- Premium-Paket mit längerer Gültigkeit
+
+[Pakete erstellen →](/docs/credits/pakete-erstellen)
+
+---
+
+## Trainer-gebundene Credits
+
+Optionale Funktion für spezielle Szenarien:
+
+### Was sind Trainer-Credits?
+
+- Credits, die nur bei bestimmten Trainern gültig sind
+- Beispiel: "Personal Training bei Max" - nur für Kurse mit Max nutzbar
+
+### Wann sinnvoll?
+
+- Personal Training
+- Spezialisten-Stunden
+- Exklusive Workshops
+
+[Mehr zu Trainer-Credits →](/docs/credits/trainer-credits)
+
+---
+
+## Credit-Verwaltung
+
+### Credits manuell hinzufügen
+
+Als Admin kannst du:
+1. Kunde öffnen
+2. **Credits hinzufügen**
+3. Paket wählen oder manuell eingeben
+4. Optional: Notiz hinzufügen
+
+### Credits korrigieren
+
+Bei Fehlern:
+1. Kunde öffnen
+2. **Credits anpassen**
+3. Anzahl ändern
+4. Grund dokumentieren
+
+### Credit-Historie
+
+Für jeden Kunden siehst du:
+- Alle Käufe
+- Alle Buchungen (Abzüge)
+- Alle Stornierungen (Gutschriften)
+- Manuelle Anpassungen
+
+---
+
+## Zahlungsintegration
+
+### Stripe
+
+Credit-Käufe laufen über Stripe:
+- Kreditkarte
+- SEPA-Lastschrift
+- Apple Pay / Google Pay
+
+### Rechnungen
+
+Automatische Rechnungserstellung:
+- PDF-Download
+- E-Mail-Versand
+- Rechnungsnummer automatisch
+
+---
+
+## Reporting
+
+### Credit-Statistiken
+
+Im Dashboard siehst du:
+- Verkaufte Credits pro Monat
+- Durchschnittlicher Paketpreis
+- Credit-Umsatz
+- Verfallene Credits
+
+### Beliebte Pakete
+
+- Welche Pakete werden am häufigsten gekauft?
+- Welche haben die beste Marge?
+- Wo gibt es Optimierungspotential?
+
+---
+
+## Nächste Schritte
+
+- [FIFO-Prinzip verstehen →](/docs/credits/fifo-erklaert)
+- [Credit-Pakete erstellen →](/docs/credits/pakete-erstellen)
+- [Aktivierungsmodi →](/docs/credits/aktivierungsmodi)
+- [Gültigkeit konfigurieren →](/docs/credits/gueltigkeit)

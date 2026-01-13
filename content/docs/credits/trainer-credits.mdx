@@ -1,0 +1,323 @@
+---
+title: "Trainer-Credits"
+description: "Credits, die nur bei bestimmten Trainern gültig sind"
+---
+
+# Trainer-Credits
+
+Trainer-gebundene Credits sind spezielle Credits, die nur für Kurse eines bestimmten Trainers verwendet werden können.
+
+## Was sind Trainer-Credits?
+
+### Normale Credits vs. Trainer-Credits
+
+| Normale Credits | Trainer-Credits |
+|-----------------|-----------------|
+| Für alle Kurse gültig | Nur für bestimmten Trainer |
+| Flexibel einsetzbar | An Trainer gebunden |
+| Standard für die meisten | Für Spezialfälle |
+
+### Beispiel
+
+```
+Normale Credits: Können für jeden Kurs gebucht werden
+Trainer-Credits: "Personal Training bei Max" - nur für Kurse mit Max nutzbar
+```
+
+---
+
+## Wann Trainer-Credits nutzen?
+
+### Personal Training
+
+Kunde kauft ein Personal-Training-Paket:
+- 5 Einheiten Personal Training bei Trainer Max
+- Credits können nur für Maxs Kurse verwendet werden
+- Verhindert "Missbrauch" für andere Kurse
+
+### Spezialisten
+
+Für bestimmte Experten:
+- Physiotherapie-Stunden bei Trainer A
+- Rückentraining bei Trainer B
+- Premium-Yoga bei Trainer C
+
+### Workshops
+
+Spezielle Workshop-Credits:
+- "3er-Karte Meditation bei Guru X"
+- Nur für Meditations-Sessions mit diesem Trainer
+
+---
+
+## Trainer-Paket erstellen
+
+### Schritt für Schritt
+
+1. Gehe zu **Einstellungen → Credit-Pakete**
+2. Klicke **Neues Paket**
+3. Fülle die Grunddaten aus:
+   - Name: "Personal Training Max (5x)"
+   - Credits: 5
+   - Preis: 250 €
+4. Aktiviere **Trainer-gebunden**
+5. Wähle den **Trainer** aus
+6. Speichern
+
+### Formular-Felder
+
+| Feld | Beschreibung |
+|------|--------------|
+| **Trainer-gebunden** | Aktiviert die Trainer-Bindung |
+| **Trainer** | Auswahl des Trainers |
+| **Alle Kurse des Trainers** | Oder nur bestimmte Kurse |
+
+---
+
+## Trainer-Credits kaufen
+
+### Für Kunden
+
+Im Credit-Shop sehen Kunden:
+```
+┌─────────────────────────────────────────────────┐
+│ Personal Training Max (5x)                      │
+│ 5 Credits • 250 €                               │
+│ Nur für Kurse mit Max verwendbar                │
+│                                    [Kaufen]     │
+└─────────────────────────────────────────────────┘
+```
+
+### Hinweis anzeigen
+
+Bei Trainer-Paketen wird automatisch angezeigt:
+> "Diese Credits können nur für Kurse mit [Trainer-Name] verwendet werden."
+
+---
+
+## Trainer-Credits verwalten
+
+### In der Wallet
+
+Kunden sehen Trainer-Credits separat:
+
+```
+Meine Credits
+─────────────────────────────────────────────────
+Reguläre Credits
+  15 Credits │ läuft ab am 15.06.
+
+Trainer-gebundene Credits
+  5 Credits  │ Personal Training Max
+             │ läuft ab am 15.08.
+─────────────────────────────────────────────────
+```
+
+### Bei der Buchung
+
+Wenn Kunde einen Kurs bucht:
+
+**Mit passendem Trainer:**
+```
+Kurs: Personal Training mit Max
+Kosten: 1 Credit
+
+Verwendete Credits:
+[x] 1 Credit (Personal Training Max)
+[ ] Reguläre Credits
+
+[Buchen]
+```
+
+**Ohne passenden Trainer:**
+```
+Kurs: Yoga mit Anna
+Kosten: 10 Credits
+
+Verwendete Credits:
+[ ] Trainer-Credits (nicht für diesen Kurs)
+[x] 10 Credits (Regulär)
+
+[Buchen]
+```
+
+---
+
+## FIFO bei Trainer-Credits
+
+### Separate FIFO-Queues
+
+Trainer-Credits haben ihre eigene FIFO-Reihenfolge:
+
+```
+Reguläre Credits (FIFO):
+1. 5 Credits (läuft ab 01.04.)
+2. 10 Credits (läuft ab 15.04.)
+
+Trainer-Credits Max (FIFO):
+1. 2 Credits (läuft ab 01.05.)
+2. 3 Credits (läuft ab 15.05.)
+```
+
+### Priorität
+
+Bei Buchung eines Kurses mit Max:
+1. Zuerst Trainer-Credits (FIFO)
+2. Wenn aufgebraucht: Reguläre Credits
+
+---
+
+## Kurs ohne passende Credits
+
+### Szenario
+
+Kunde hat nur Trainer-Credits für Max, will aber bei Anna buchen.
+
+### Verhalten
+
+- Trainer-Credits können **nicht** verwendet werden
+- System prüft reguläre Credits
+- Falls keine: Buchung nicht möglich
+
+### Hinweis an Kunden
+
+> "Deine Credits für Personal Training (Max) können für diesen Kurs nicht verwendet werden. Bitte kaufe reguläre Credits."
+
+---
+
+## Admin: Credits manuell hinzufügen
+
+### Trainer-Credits vergeben
+
+1. Gehe zu **Kunden**
+2. Öffne den Kunden
+3. Klicke **Credits hinzufügen**
+4. Wähle **Trainer-gebundenes Paket** oder:
+   - Credits: 5
+   - Aktiviere **Trainer-gebunden**
+   - Wähle Trainer
+5. Speichern
+
+### Anwendungsfälle
+
+- Kompensation für ausgefallenes Training
+- Geschenk für Stammkunden
+- Korrektur bei Fehlern
+
+---
+
+## Mehrere Trainer-Pakete
+
+### Kunde hat verschiedene Trainer-Credits
+
+```
+Wallet:
+─────────────────────────────────────────────────
+Regulär:        20 Credits
+Personal Max:    3 Credits
+Personal Anna:   5 Credits
+Workshop Guru:   2 Credits
+─────────────────────────────────────────────────
+```
+
+### Bei Buchung
+
+System wählt automatisch:
+- Kurs mit Max → Erst "Personal Max" Credits
+- Kurs mit Anna → Erst "Personal Anna" Credits
+- Kurs mit anderen → Reguläre Credits
+
+---
+
+## Stornierung
+
+### Trainer-Credits zurückbekommen
+
+Bei Stornierung eines Kurses mit Trainer-Credits:
+- Trainer-Credits werden zurückgebucht
+- Bleiben Trainer-gebunden
+- Original-Ablaufdatum bleibt
+
+### Beispiel
+
+```
+Buchung: Personal Training Max (1 Credit)
+Stornierung innerhalb Frist
+→ 1 Trainer-Credit wird zurückgebucht
+→ Immer noch "Personal Training Max"
+```
+
+---
+
+## Reporting
+
+### Trainer-Credit-Statistiken
+
+Im Admin-Dashboard siehst du:
+- Verkaufte Trainer-Pakete pro Trainer
+- Genutzte vs. verfallene Trainer-Credits
+- Umsatz pro Trainer
+
+### Für Trainer
+
+Trainer mit Dashboard-Zugang sehen:
+- Gekaufte Credits für ihre Kurse
+- Anstehende Buchungen
+- Einnahmen aus Trainer-Paketen
+
+---
+
+## Best Practices
+
+### Klare Benennung
+
+```
+✅ "Personal Training Max (5x)"
+✅ "Rückenfit mit Anna - 10er-Karte"
+❌ "PT-Paket" (unklar welcher Trainer)
+```
+
+### Preisgestaltung
+
+Trainer-Pakete sind oft teurer:
+- Personal Training = Premium-Preis
+- Spezialisierung = Mehrwert
+- 1-zu-1 Betreuung rechtfertigt höhere Preise
+
+### Gültigkeit anpassen
+
+Trainer-Credits oft mit längerer Gültigkeit:
+- Personal Training passt nicht jede Woche
+- 6-12 Monate für kleine Pakete
+- Flexibilität für Kunden
+
+---
+
+## FAQ
+
+### Kann ein Kunde Trainer-Credits für andere Trainer nutzen?
+
+Nein, Trainer-Credits sind fest gebunden. Sie können nur für Kurse des zugewiesenen Trainers verwendet werden.
+
+### Was wenn der Trainer das Studio verlässt?
+
+Du kannst:
+1. Credits auf anderen Trainer übertragen (manuell)
+2. Credits in reguläre Credits umwandeln (manuell)
+3. Gutschrift/Erstattung anbieten
+
+### Können Trainer ihre eigenen Pakete verkaufen?
+
+Ja, wenn du ihnen die entsprechenden Berechtigungen gibst. Sie sehen dann nur ihre eigenen Trainer-Pakete.
+
+### Gibt es ein Limit für Trainer-gebundene Pakete?
+
+Nein, du kannst beliebig viele Trainer-Pakete erstellen - für jeden Trainer individuelle.
+
+---
+
+## Nächste Schritte
+
+- [Trainer verwalten →](/docs/trainer)
+- [Verdienste konfigurieren →](/docs/trainer/verdienste)
+- [Zurück zur Credit-Übersicht →](/docs/credits)

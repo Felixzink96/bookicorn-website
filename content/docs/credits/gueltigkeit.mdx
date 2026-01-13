@@ -1,0 +1,324 @@
+---
+title: "Gültigkeit"
+description: "Ablaufdaten, Verlängerung und Verfallsregeln für Credits"
+---
+
+# Gültigkeit
+
+Die Gültigkeit bestimmt, wie lange Credits nutzbar sind. Hier erfährst du alles über Ablaufdaten und deren Verwaltung.
+
+## Gültigkeitszeiträume
+
+### Verfügbare Optionen
+
+| Zeitraum | Typische Verwendung |
+|----------|---------------------|
+| **14 Tage** | Schnupper-Pakete |
+| **30 Tage** | Kleine Pakete, Aktionen |
+| **3 Monate** | Standard-Pakete (klein) |
+| **6 Monate** | Standard-Pakete (mittel) |
+| **12 Monate** | Premium-Pakete |
+| **Unbegrenzt** | Spezialfälle |
+
+### Empfehlung nach Paketgröße
+
+```
+5 Credits:   1-3 Monate
+10 Credits:  3 Monate
+25 Credits:  6 Monate
+50 Credits:  12 Monate
+100 Credits: 12 Monate oder unbegrenzt
+```
+
+---
+
+## Ablaufdatum berechnen
+
+### Bei "Sofort" Aktivierung
+
+```
+Kaufdatum: 15.01.2025
+Gültigkeit: 3 Monate
+→ Ablaufdatum: 15.04.2025
+```
+
+### Bei "Erste Nutzung" Aktivierung
+
+```
+Kaufdatum: 15.01.2025
+Erste Buchung: 01.03.2025
+Gültigkeit: 3 Monate
+→ Ablaufdatum: 01.06.2025
+```
+
+### Bei "Festes Datum" Aktivierung
+
+```
+Kaufdatum: 15.12.2024
+Aktivierungsdatum: 01.01.2025
+Gültigkeit: 3 Monate
+→ Ablaufdatum: 01.04.2025
+```
+
+---
+
+## Ablaufzeitpunkt
+
+### Ende des Tages vs. Exakte Uhrzeit
+
+Du kannst konfigurieren, wann genau Credits am Ablauftag verfallen:
+
+**Ende des Tages (Standard)**
+```
+Ablaufdatum: 15.04.2025
+→ Credits gültig bis: 15.04.2025, 23:59:59 Uhr
+```
+
+**Exakte Uhrzeit**
+```
+Kaufzeitpunkt: 15.01.2025, 14:30 Uhr
+Gültigkeit: 3 Monate
+→ Credits gültig bis: 15.04.2025, 14:30 Uhr
+```
+
+### Konfiguration
+
+1. Gehe zu **Einstellungen → Buchungen**
+2. Finde **Credit-Ablauf-Modus**
+3. Wähle:
+   - Ende des Tages
+   - Exakte Uhrzeit
+4. Speichern
+
+---
+
+## Ablauf-Erinnerungen
+
+### Automatische E-Mails
+
+Kunden werden vor Ablauf erinnert:
+
+| Zeitpunkt | E-Mail |
+|-----------|--------|
+| **7 Tage vorher** | Erste Erinnerung |
+| **1 Tag vorher** | Letzte Erinnerung |
+
+### E-Mail-Inhalt
+
+```
+Betreff: Deine Credits laufen bald ab
+
+Hallo [Name],
+
+du hast noch [X] Credits, die am [Datum] ablaufen.
+
+Nutze sie jetzt für:
+- [Kursempfehlung 1]
+- [Kursempfehlung 2]
+
+[Button: Jetzt buchen]
+
+Oder verlängere deine Credits mit einem neuen Paket:
+[Button: Credits kaufen]
+```
+
+### Erinnerungen konfigurieren
+
+1. Gehe zu **Einstellungen → E-Mail-Templates**
+2. Finde **Credit-Ablauf-Erinnerung**
+3. Bearbeite bei Bedarf
+4. Aktiviere/Deaktiviere Erinnerungen
+
+---
+
+## Was passiert bei Ablauf?
+
+### Automatischer Prozess
+
+1. Ablaufdatum ist erreicht
+2. Credits werden als "Abgelaufen" markiert
+3. Credits können nicht mehr verwendet werden
+4. Verbleibende Credits sind verloren
+
+### Für den Kunden
+
+```
+Wallet vor Ablauf:
+┌─────────────────────────────────────────────────┐
+│ 5 Credits │ läuft ab am 15.04.2025             │
+└─────────────────────────────────────────────────┘
+
+Wallet nach Ablauf:
+┌─────────────────────────────────────────────────┐
+│ 0 Credits │ (letztes Paket am 15.04. abgelaufen)│
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Credits verlängern
+
+### Option 1: Neues Paket kaufen
+
+Der einfachste Weg:
+- Kunde kauft neues Paket
+- Neue Credits mit neuem Ablaufdatum
+- Alte Credits werden weiter nach FIFO verbraucht
+
+### Option 2: Manuell verlängern (Admin)
+
+Als Admin kannst du Credits verlängern:
+
+1. Gehe zu **Kunden**
+2. Öffne den Kunden
+3. Finde die Credits
+4. Klicke **Verlängern**
+5. Neues Ablaufdatum wählen
+6. Speichern
+
+**Hinweis:** Dokumentiere den Grund (z.B. "Kulanz wegen Krankheit").
+
+### Option 3: Automatische Verlängerung (nicht empfohlen)
+
+Es gibt keine automatische Verlängerung in Bookicorn. Gründe:
+- Credits sollen genutzt werden
+- Buchhalterisch problematisch
+- Kunden-Fairness
+
+---
+
+## Teilweise abgelaufene Pakete
+
+### Szenario
+
+```
+Paket gekauft: 10 Credits
+Genutzt: 7 Credits
+Ablauf: 15.04.2025
+→ 3 Credits verfallen
+```
+
+### Für den Kunden kommunizieren
+
+Erinnerungs-E-Mail zeigt:
+> "Du hast noch 3 Credits, die am 15.04. ablaufen. Buche jetzt einen Kurs!"
+
+---
+
+## Unbegrenzte Gültigkeit
+
+### Wann sinnvoll?
+
+- Premium-Pakete mit hohem Wert
+- Geschenke an VIP-Kunden
+- Kompensation bei Problemen
+
+### Konfiguration
+
+1. Paket erstellen/bearbeiten
+2. Bei **Gültigkeit** wähle "Unbegrenzt"
+3. Speichern
+
+### FIFO-Verhalten
+
+Unbegrenzte Credits werden **zuletzt** verbraucht:
+- Credits mit Ablaufdatum haben Priorität
+- Verhindert, dass reguläre Credits verfallen
+
+---
+
+## Gültigkeit bei Stornierung
+
+### Wichtige Regel
+
+Bei Stornierung:
+- Credits werden zurückgebucht
+- **Original-Ablaufdatum bleibt erhalten**
+- Kein "Reset" der Gültigkeit
+
+### Beispiel
+
+```
+Kauf: 15.01. (10 Credits, gültig bis 15.04.)
+Buchung: 01.02. (8 Credits verwendet)
+Stornierung: 05.02.
+
+Ergebnis:
+- 8 Credits werden zurückgebucht
+- Ablaufdatum bleibt 15.04.
+- Nicht: neues Ablaufdatum ab Stornierung
+```
+
+---
+
+## Reporting
+
+### Ablauf-Report
+
+Unter **Statistiken** findest du:
+- Credits, die bald ablaufen (nächste 7/30 Tage)
+- Bereits abgelaufene Credits
+- Verfallquote (% der ungenutzten Credits)
+
+### Nutzung für Marketing
+
+Hohe Verfallquote könnte bedeuten:
+- Pakete zu groß?
+- Gültigkeit zu kurz?
+- Kunden vergessen zu buchen?
+
+**Aktion:** Erinnerungs-E-Mails verbessern oder Pakete anpassen.
+
+---
+
+## Best Practices
+
+### Gültigkeit an Nutzung anpassen
+
+| Kundentyp | Empfohlene Gültigkeit |
+|-----------|----------------------|
+| 1x/Woche Training | 3 Monate für 10 Credits |
+| 2x/Woche Training | 3 Monate für 25 Credits |
+| Gelegentlich | 6 Monate für 10 Credits |
+
+### Nicht zu lang
+
+- Zu lange Gültigkeit = weniger Dringlichkeit
+- Kunden buchen weniger regelmäßig
+- Umsatz verzögert sich
+
+### Nicht zu kurz
+
+- Zu kurze Gültigkeit = Frustration
+- Kunden fühlen sich gedrängt
+- Negative Bewertungen
+
+### Sweet Spot
+
+```
+Paketgröße / erwartete Nutzungsfrequenz + 1-2 Monate Puffer
+```
+
+---
+
+## FAQ zur Gültigkeit
+
+### Kann ich abgelaufene Credits reaktivieren?
+
+Technisch ja, aber nur als Admin durch manuelles Hinzufügen neuer Credits. Die alten, abgelaufenen Credits bleiben "abgelaufen".
+
+### Werden Kunden automatisch erinnert?
+
+Ja, standardmäßig 7 Tage und 1 Tag vor Ablauf. Du kannst dies in den E-Mail-Einstellungen anpassen.
+
+### Was ist mit Credits aus Stornierungen?
+
+Sie behalten ihr Original-Ablaufdatum. Wenn dieses bereits vorbei ist, verfallen sie sofort.
+
+---
+
+## Nächste Schritte
+
+- [Trainer-Credits →](/docs/credits/trainer-credits)
+- [FIFO verstehen →](/docs/credits/fifo-erklaert)
+- [Zurück zur Credit-Übersicht →](/docs/credits)

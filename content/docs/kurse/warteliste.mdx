@@ -1,0 +1,257 @@
+---
+title: "Warteliste"
+description: "Wie die Warteliste funktioniert und wie du sie nutzt"
+---
+
+# Warteliste
+
+Die Warteliste ermöglicht es Kunden, sich für ausgebuchte Kurse anzumelden und automatisch nachzurücken.
+
+## Wie funktioniert die Warteliste?
+
+### Ablauf
+
+1. Kurs ist voll (alle Plätze belegt)
+2. Kunde möchte trotzdem buchen
+3. Kunde kommt auf die Warteliste
+4. Bei Stornierung rückt der Erste automatisch nach
+5. Kunde wird per E-Mail benachrichtigt
+6. Credits werden erst bei Nachrücken abgezogen
+
+### Automatisches Nachrücken
+
+Das System prüft automatisch:
+- Hat der Kunde noch genug Credits?
+- Hat der Kunde keine anderen Buchungen zur gleichen Zeit?
+- Wenn ja: Automatische Buchung
+
+---
+
+## Warteliste aktivieren
+
+### Global für alle Kurse
+
+1. Gehe zu **Einstellungen → Buchungen**
+2. Aktiviere **Warteliste global aktivieren**
+3. Speichern
+
+### Pro Kurs
+
+1. Öffne einen Kurs
+2. Gehe zu **Optionen**
+3. Aktiviere **Warteliste für diesen Kurs**
+4. Speichern
+
+**Hinweis**: Kurs-Einstellung überschreibt globale Einstellung.
+
+---
+
+## Wartelisteneinstellungen
+
+### Maximale Wartelistenplätze
+
+- Begrenze die Warteliste (z.B. max. 5 Personen)
+- Verhindert unrealistische Warteschlangen
+- Standard: Unbegrenzt
+
+### Automatisches Nachrücken
+
+- **Aktiviert**: Kunden werden automatisch gebucht
+- **Deaktiviert**: Kunden werden nur benachrichtigt
+
+### Benachrichtigungszeit
+
+- Wie viel Zeit hat der Kunde zum Reagieren?
+- Beispiel: "2 Stunden" - danach geht der Platz an den Nächsten
+- Nur relevant bei deaktiviertem Auto-Nachrücken
+
+---
+
+## Warteliste verwalten
+
+### Warteliste anzeigen
+
+1. Öffne einen Kurs-Termin
+2. Wähle Tab **Warteliste**
+3. Du siehst alle wartenden Kunden
+
+### Informationen pro Eintrag
+
+| Feld | Beschreibung |
+|------|--------------|
+| **Position** | Platz auf der Warteliste |
+| **Kunde** | Name und E-Mail |
+| **Angemeldet am** | Datum/Zeit der Anmeldung |
+| **Credits verfügbar** | Hat genug Credits? |
+
+---
+
+## Manuelle Aktionen
+
+### Kunden manuell buchen
+
+Du kannst jemanden von der Warteliste direkt buchen:
+
+1. Öffne die Warteliste
+2. Klicke auf einen Kunden
+3. Wähle **Direkt buchen**
+4. Bestätige (überschreibt Kapazität)
+
+### Kunden von Warteliste entfernen
+
+1. Öffne die Warteliste
+2. Klicke auf einen Kunden
+3. Wähle **Von Warteliste entfernen**
+4. Optional: Grund angeben
+
+### Reihenfolge ändern
+
+Die Reihenfolge basiert auf dem Anmeldezeitpunkt. Du kannst:
+
+1. Einen Kunden auswählen
+2. **Nach oben** oder **Nach unten** verschieben
+3. Änderung speichern
+
+---
+
+## Nachrücken im Detail
+
+### Wenn ein Platz frei wird
+
+Das System prüft automatisch:
+
+1. **Wer ist der Erste auf der Warteliste?**
+2. **Hat diese Person genug Credits?**
+   - Ja → Weiter zu Schritt 3
+   - Nein → Nächste Person prüfen
+3. **Hat diese Person einen Zeitkonflikt?**
+   - Nein → Buchen
+   - Ja → Nächste Person prüfen
+4. **Buchung erstellen und benachrichtigen**
+
+### Credits-Prüfung
+
+Beim Nachrücken wird geprüft:
+- Sind ausreichend Credits vorhanden?
+- Sind die Credits noch gültig?
+- Falls nicht: Nächste Person
+
+---
+
+## E-Mail-Benachrichtigungen
+
+### Auf Warteliste gesetzt
+
+Kunde erhält Bestätigung:
+- Kursname und Termin
+- Position auf der Warteliste
+- Hinweis zum automatischen Nachrücken
+
+### Nachgerückt und gebucht
+
+Kunde erhält:
+- Buchungsbestätigung
+- Kursdetails
+- Credit-Abzug Bestätigung
+
+### Platz nicht mehr verfügbar
+
+Falls Kunde nicht gebucht werden konnte:
+- Info über verpassten Platz
+- Grund (keine Credits, Zeitkonflikt)
+- Hinweis auf nächste Termine
+
+---
+
+## Kundensicht
+
+### Auf Warteliste setzen
+
+Wenn ein Kurs voll ist:
+
+1. Kunde klickt auf **Buchen**
+2. Hinweis: "Kurs ist voll"
+3. Option: **Auf Warteliste setzen**
+4. Bestätigung der Wartelistenposition
+
+### Warteliste verlassen
+
+Kunden können sich selbst entfernen:
+
+1. **Meine Buchungen** öffnen
+2. Wartelisteneinträge werden separat angezeigt
+3. **Von Warteliste entfernen** klicken
+4. Bestätigen
+
+---
+
+## Spezialfälle
+
+### Mehrere Stornierungen gleichzeitig
+
+Wenn mehrere Plätze frei werden:
+- System arbeitet Warteliste der Reihe nach ab
+- Mehrere Kunden können gleichzeitig nachrücken
+- Jeder erhält individuelle Benachrichtigung
+
+### Kurz vor Kursbeginn
+
+- Warteliste bleibt bis zum Buchungsstopp aktiv
+- Nach Buchungsstopp: Kein Nachrücken mehr
+- Verbleibende Warteliste wird nach Kursende gelöscht
+
+### Trainer-gebundene Credits
+
+Bei Trainer-gebundenen Credits:
+- System prüft, ob Credits zum Termin-Trainer passen
+- Falls nicht: Nächste Person wird geprüft
+
+---
+
+## Best Practices
+
+### Realistische Kapazitäten
+
+- Setze realistische Limits
+- Nicht zu viele Wartelistenplätze
+- 3-5 Plätze sind meist sinnvoll
+
+### Kommunikation
+
+- Erkläre Kunden die Warteliste
+- Setze Erwartungen richtig
+- Warteliste ≠ Garantie für Platz
+
+### Monitoring
+
+- Prüfe regelmäßig lange Wartelisten
+- Überlege zusätzliche Termine
+- Beliebte Kurse = mehr Angebot?
+
+---
+
+## FAQ zur Warteliste
+
+### Werden Credits sofort abgezogen?
+
+**Nein**. Credits werden erst abgezogen, wenn der Kunde tatsächlich gebucht wird (also nachrückt).
+
+### Was passiert bei nicht ausreichenden Credits?
+
+Der Kunde wird übersprungen und die nächste Person auf der Warteliste wird geprüft.
+
+### Kann ich die Warteliste für einen Termin deaktivieren?
+
+Ja, in den Termin-Einstellungen kannst du die Warteliste für einzelne Termine ausschalten.
+
+### Wie viele Personen können auf der Warteliste stehen?
+
+Standardmäßig unbegrenzt. Du kannst ein Maximum in den Einstellungen festlegen.
+
+---
+
+## Nächste Schritte
+
+- [Stornierungsregeln →](/docs/kurse/stornierung)
+- [Buchungen verwalten →](/docs/buchungen)
+- [Zurück zur Kursübersicht →](/docs/kurse)

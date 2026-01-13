@@ -1,0 +1,190 @@
+---
+title: "Kursverwaltung"
+description: "Erstelle und verwalte Kurse, Termine und Kategorien in Bookicorn"
+---
+
+# Kursverwaltung
+
+Die Kursverwaltung ist das Herzstück von Bookicorn. Hier erstellst du Kurse, planst Termine und organisierst alles in Kategorien.
+
+## Übersicht
+
+### Was ist ein Kurs?
+
+Ein Kurs ist eine buchbare Einheit mit:
+
+- **Titel und Beschreibung**: Was Kunden sehen
+- **Trainer**: Wer den Kurs leitet
+- **Standort/Raum**: Wo der Kurs stattfindet
+- **Kapazität**: Wie viele Teilnehmer maximal
+- **Preis**: Credits oder Euro
+- **Termine**: Wann der Kurs stattfindet
+
+### Kurs vs. Termin
+
+| Kurs | Termin |
+|------|--------|
+| Die "Vorlage" | Die konkrete Durchführung |
+| Yoga für Anfänger | Montag, 15.01. um 18:00 |
+| Enthält alle Grunddaten | Erbt Daten vom Kurs |
+| Einmal anlegen | Mehrfach pro Kurs |
+
+---
+
+## Kursarten
+
+Bookicorn unterstützt verschiedene Kursarten:
+
+### Präsenzkurse
+
+- Finden vor Ort statt
+- Benötigen Standort und Raum
+- Kapazität durch Raumgröße begrenzt
+
+### Online-Kurse
+
+- Finden virtuell statt
+- Zoom, Teams oder Custom-Link
+- Meeting-Link wird automatisch geteilt
+
+### Hybrid-Kurse
+
+- Kombination aus Präsenz + Online
+- Separate Kapazitäten möglich
+- Teilnehmer wählen bei Buchung
+
+---
+
+## Kursliste
+
+Die Kursliste zeigt alle deine Kurse:
+
+### Ansichten
+
+- **Kachelansicht**: Große Karten mit Kursbild
+- **Listenansicht**: Kompakte Tabelle
+
+### Filteroptionen
+
+- Nach Kategorie filtern
+- Nach Trainer filtern
+- Nach Status (Aktiv/Inaktiv)
+- Suche nach Kurstitel
+
+### Schnellaktionen
+
+Für jeden Kurs kannst du:
+
+- **Bearbeiten**: Kursdaten ändern
+- **Termine**: Neue Termine anlegen
+- **Duplizieren**: Kurs als Vorlage nutzen
+- **Deaktivieren**: Kurs pausieren
+
+---
+
+## Kurs-Details
+
+Klicke auf einen Kurs für die Detailansicht:
+
+### Übersicht-Tab
+
+- Kursbeschreibung
+- Trainer-Info
+- Preise (Credits/Euro)
+- Standort & Raum
+
+### Termine-Tab
+
+- Alle kommenden Termine
+- Vergangene Termine
+- Buchungsstand je Termin
+- Termin bearbeiten/absagen
+
+### Statistiken-Tab
+
+- Buchungsquote
+- Durchschnittliche Teilnehmerzahl
+- Beliebte Zeiten
+- Einnahmen
+
+---
+
+## Preismodelle
+
+Du kannst Kurse unterschiedlich bepreisen:
+
+### Nur Credits
+
+- Kunden zahlen mit Credits
+- Beliebtestes Modell für Studios
+- Fördert den Kauf von Credit-Paketen
+
+### Nur Euro
+
+- Direktzahlung pro Kurs
+- Gut für Workshops oder Specials
+- Zahlung via Stripe
+
+### Credits ODER Euro
+
+- Kunde entscheidet
+- Maximale Flexibilität
+- Beide Preise müssen gepflegt sein
+
+### Kostenlos
+
+- Keine Kosten für den Kurs
+- Gut für Schnupperstunden
+- Trotzdem buchungspflichtig
+
+---
+
+## Buchungsoptionen
+
+### Auto-Bestätigung
+
+- **Aktiviert (empfohlen)**: Buchungen werden sofort bestätigt
+- **Deaktiviert**: Admin muss manuell bestätigen
+
+### Warteliste
+
+- **Aktiviert**: Bei vollem Kurs können sich Kunden auf Warteliste setzen
+- **Deaktiviert**: Keine Warteliste
+
+### Stornofrist
+
+- Wie lange vor Kursbeginn storniert werden kann
+- Beispiel: "24 Stunden" = bis 24h vor Beginn
+- Credits werden nur innerhalb der Frist erstattet
+
+---
+
+## Best Practices
+
+### Kurse strukturieren
+
+1. **Klare Titel**: "Yoga für Anfänger" statt "Yoga 1"
+2. **Gute Beschreibungen**: Was erwartet die Teilnehmer?
+3. **Kategorien nutzen**: Für bessere Übersicht
+4. **Kursbilder hinzufügen**: Visuell ansprechender
+
+### Termine planen
+
+1. **Serien nutzen**: Für wiederkehrende Kurse
+2. **Puffer einplanen**: Zeit zwischen Kursen
+3. **Trainer prüfen**: Keine Überschneidungen
+
+### Preise setzen
+
+1. **Credit-Preise konsistent halten**: 10 Credits = 1 Stunde
+2. **Euro-Preise attraktiv**: Nicht zu hoch für Einzelbuchungen
+3. **Specials kennzeichnen**: Für Workshops höhere Preise OK
+
+---
+
+## Nächste Schritte
+
+- [Neuen Kurs erstellen →](/docs/kurse/kurs-erstellen)
+- [Termine anlegen →](/docs/kurse/termine-erstellen)
+- [Kategorien verwalten →](/docs/kurse/kategorien)
+- [Warteliste verstehen →](/docs/kurse/warteliste)

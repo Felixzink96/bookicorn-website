@@ -1,0 +1,200 @@
+---
+title: "Erste Buchung testen"
+description: "Teste den kompletten Buchungsprozess aus Kundensicht"
+---
+
+# Erste Buchung testen
+
+Bevor du live gehst, solltest du den Buchungsprozess testen. So stellst du sicher, dass alles funktioniert.
+
+## Voraussetzungen
+
+Bevor du eine Buchung testen kannst, brauchst du:
+
+- [x] Mindestens einen aktiven Kurs mit Terminen
+- [x] Ein Credit-Paket (falls du mit Credits arbeitest)
+- [x] Einen Test-Kundenaccount
+
+---
+
+## Test-Account erstellen
+
+### Option 1: Selbst registrieren
+
+1. Öffne dein Studio in einem Inkognito-Fenster
+2. Klicke auf **Registrieren**
+3. Verwende eine Test-E-Mail-Adresse
+4. Bestätige die E-Mail
+
+### Option 2: Kunde manuell anlegen
+
+1. Gehe zu **Kunden**
+2. Klicke **Neuer Kunde**
+3. Fülle Name und E-Mail aus
+4. Der Kunde erhält eine Willkommens-E-Mail mit Login-Daten
+
+---
+
+## Credits kaufen (testen)
+
+Falls du mit Credits arbeitest:
+
+### Als Kunde
+
+1. Logge dich als Test-Kunde ein
+2. Gehe zu **Credits** / **Wallet**
+3. Wähle ein Paket
+4. Im Testmodus kannst du mit Stripe-Testkarten zahlen
+
+**Stripe-Testkarte**: `4242 4242 4242 4242` (beliebiges Datum, beliebige CVC)
+
+### Als Admin (manuell)
+
+1. Gehe zu **Kunden**
+2. Öffne den Test-Kunden
+3. Klicke **Credits hinzufügen**
+4. Wähle ein Paket oder gib einen Betrag ein
+5. Speichern
+
+---
+
+## Buchung durchführen
+
+### Als Kunde
+
+1. Logge dich im Mitglieder-Dashboard ein
+2. Gehe zu **Stundenplan** / **Schedule**
+3. Finde deinen Kurs
+4. Klicke **Buchen**
+5. Bestätige die Buchung
+
+### Buchungsmodal
+
+Im Buchungsfenster siehst du:
+
+- Kursdetails (Name, Zeit, Trainer)
+- Verfügbare Plätze
+- Kosten (Credits oder Euro)
+- Deine verfügbaren Credits
+- **Buchen**-Button
+
+### Nach der Buchung
+
+Bei erfolgreicher Buchung:
+
+- Bestätigungs-Toast erscheint
+- Buchung erscheint unter "Meine Buchungen"
+- Bestätigungs-E-Mail wird gesendet
+- Credits werden abgezogen
+
+---
+
+## Buchung im Admin prüfen
+
+Wechsle zurück zum Admin-Bereich:
+
+1. Gehe zu **Buchungen**
+2. Die neue Buchung sollte erscheinen
+3. Status: "Bestätigt" (bei Auto-Bestätigung)
+
+### Buchungsdetails
+
+Klicke auf eine Buchung für Details:
+
+- Kunde (Name, E-Mail)
+- Kurs und Termin
+- Zahlungsart (Credits oder Euro)
+- Buchungs-ID (KB-YYYYMMDD-XXXXX)
+- Status
+
+---
+
+## Stornierung testen
+
+### Als Kunde
+
+1. Gehe zu **Meine Buchungen**
+2. Finde die Buchung
+3. Klicke **Stornieren**
+4. Bestätige die Stornierung
+
+### Ergebnis
+
+- Buchung wird storniert
+- Credits werden zurückerstattet
+- Stornierungs-E-Mail wird gesendet
+- Bei Warteliste: Nächste Person rückt nach
+
+---
+
+## Warteliste testen (optional)
+
+Falls aktiviert:
+
+1. Buche den Kurs bis er voll ist
+2. Versuche als weiterer Kunde zu buchen
+3. Die Option **Auf Warteliste** erscheint
+4. Storniere eine Buchung
+5. Die Person auf der Warteliste wird automatisch gebucht
+
+---
+
+## Check-In testen (optional)
+
+Falls Check-In aktiviert ist:
+
+1. Gehe zum Kurs-Termin im Admin
+2. Generiere einen QR-Code
+3. Scanne den Code als Kunde
+4. Der Check-In wird registriert
+
+---
+
+## Checkliste
+
+Teste alle wichtigen Flows:
+
+- [ ] Kunde kann sich registrieren
+- [ ] Kunde kann Credits kaufen
+- [ ] Kunde kann Kurs buchen
+- [ ] Bestätigungs-E-Mail kommt an
+- [ ] Buchung erscheint im Admin
+- [ ] Kunde kann stornieren
+- [ ] Credits werden korrekt abgezogen/erstattet
+- [ ] Warteliste funktioniert (falls aktiviert)
+
+---
+
+## Probleme?
+
+### Buchung nicht möglich
+
+- Prüfe, ob der Kurs aktive Termine hat
+- Prüfe, ob der Kunde genug Credits hat
+- Prüfe die Buchungsfenster-Einstellungen
+
+### E-Mails kommen nicht an
+
+- Prüfe den Spam-Ordner
+- Prüfe die E-Mail-Templates unter Einstellungen
+- Kontaktiere den Support
+
+### Credits werden nicht abgezogen
+
+- Prüfe, ob der Kurs Credit-Kosten hat
+- Prüfe, ob die Credits des Kunden aktiv und gültig sind
+
+---
+
+## Bereit für den Live-Betrieb
+
+Wenn alle Tests erfolgreich waren, bist du bereit:
+
+1. Entferne Test-Buchungen und Test-Kunden
+2. Lade echte Kunden ein
+3. Starte den Betrieb
+
+**Nächste Schritte**:
+- [Kursverwaltung vertiefen →](/docs/kurse)
+- [Credit-System verstehen →](/docs/credits)
+- [Trainer hinzufügen →](/docs/trainer)

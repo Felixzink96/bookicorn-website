@@ -1,0 +1,269 @@
+---
+title: "Aktivierungsmodi"
+description: "Sofort, Erste Nutzung, Festes Datum - wann werden Credits aktiv?"
+---
+
+# Aktivierungsmodi
+
+Der Aktivierungsmodus bestimmt, ab wann gekaufte Credits nutzbar sind. Es gibt drei Modi.
+
+## Übersicht
+
+| Modus | Credits aktiv ab | Gültigkeit startet |
+|-------|-----------------|-------------------|
+| **Sofort** | Nach Kauf | Ab Kaufdatum |
+| **Erste Nutzung** | Erste Buchung | Ab erster Buchung |
+| **Festes Datum** | Bestimmtes Datum | Ab diesem Datum |
+
+---
+
+## Modus 1: Sofort
+
+### Wie funktioniert es?
+
+- Kunde kauft Paket
+- Credits sind **sofort** verfügbar
+- Gültigkeit beginnt ab Kaufzeitpunkt
+
+### Beispiel
+
+```
+Paket: 10 Credits, 3 Monate gültig, Aktivierung: Sofort
+
+Kauf: 15.01.2025 um 14:30
+→ Credits sofort nutzbar
+→ Gültig bis: 15.04.2025
+```
+
+### Wann verwenden?
+
+- **Standard für die meisten Pakete**
+- Kunden, die sofort buchen wollen
+- Reguläre Credit-Pakete
+
+### Vorteile
+
+- Einfach zu verstehen
+- Keine Wartezeit
+- Klare Kommunikation
+
+### Nachteile
+
+- Keine Flexibilität beim Startdatum
+- Gültigkeit "läuft schon"
+
+---
+
+## Modus 2: Erste Nutzung
+
+### Wie funktioniert es?
+
+- Kunde kauft Paket
+- Credits sind **noch nicht aktiv** (Status: "Wartend")
+- Bei **erster Buchung** werden Credits aktiviert
+- Gültigkeit beginnt ab dieser ersten Buchung
+
+### Beispiel
+
+```
+Paket: 10 Credits, 3 Monate gültig, Aktivierung: Erste Nutzung
+
+Kauf: 15.01.2025
+→ Credits sichtbar, aber Status "Wartend"
+
+Erste Buchung: 01.03.2025
+→ Credits werden aktiviert
+→ Gültig bis: 01.06.2025 (3 Monate ab Aktivierung)
+```
+
+### Wann verwenden?
+
+- **Geschenkgutscheine**: Käufer und Nutzer sind unterschiedlich
+- **"10er-Karten"**: Gültig ab erster Nutzung
+- **Unentschlossene Kunden**: Wollen erst mal kaufen, später nutzen
+
+### Vorteile
+
+- Flexibel für den Kunden
+- Perfekt für Geschenke
+- Gültigkeit startet erst bei Nutzung
+
+### Nachteile
+
+- Etwas komplexer zu verstehen
+- Ungenutzte Pakete bleiben "offen"
+
+### In der Wallet
+
+Kunde sieht:
+```
+┌─────────────────────────────────────────────────┐
+│ 10 Credits │ Status: Wartend auf Aktivierung   │
+│            │ Gültig: 3 Monate ab erster Nutzung │
+└─────────────────────────────────────────────────┘
+```
+
+Nach Aktivierung:
+```
+┌─────────────────────────────────────────────────┐
+│ 10 Credits │ Gültig bis 01.06.2025             │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Modus 3: Festes Datum
+
+### Wie funktioniert es?
+
+- Beim Paket wird ein **festes Startdatum** definiert
+- Credits werden an diesem Datum automatisch aktiviert
+- Gültigkeit beginnt ab diesem Datum
+
+### Beispiel
+
+```
+Paket: "Januar-Special", 15 Credits, 2 Monate gültig
+Aktivierung: Festes Datum (01.01.2025)
+
+Kauf: 15.12.2024
+→ Credits sichtbar, aber Status "Ab 01.01.2025"
+
+Am 01.01.2025:
+→ Credits werden automatisch aktiviert
+→ Gültig bis: 01.03.2025
+```
+
+### Wann verwenden?
+
+- **Saisonpakete**: "Sommer-Special ab 01.06."
+- **Neujahrs-Aktionen**: "Starte ins neue Jahr!"
+- **Vorverkäufe**: Pakete für zukünftige Zeiträume
+
+### Vorteile
+
+- Perfekt für Marketing-Kampagnen
+- Kunden können im Voraus kaufen
+- Klares Startdatum
+
+### Nachteile
+
+- Kunde kann vor Datum nicht nutzen
+- Nur für spezielle Anlässe sinnvoll
+
+### In der Wallet
+
+Vor Aktivierung:
+```
+┌─────────────────────────────────────────────────┐
+│ 15 Credits │ Status: Wird aktiviert am 01.01.  │
+│            │ Gültig: 01.01. - 01.03.2025       │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Vergleich der Modi
+
+### Entscheidungshilfe
+
+| Situation | Empfohlener Modus |
+|-----------|-------------------|
+| Reguläres Paket | Sofort |
+| Geschenkgutschein | Erste Nutzung |
+| "10er-Karte" | Erste Nutzung |
+| Sommer-Special | Festes Datum |
+| Neukunden-Angebot | Sofort |
+| Vorverkauf für Event | Festes Datum |
+
+### Typische Paket-Konfigurationen
+
+**Standard-Pakete:**
+```
+10er-Karte: Sofort, 3 Monate
+25er-Karte: Sofort, 6 Monate
+50er-Karte: Sofort, 12 Monate
+```
+
+**Flexible Pakete:**
+```
+Flex 10: Erste Nutzung, 3 Monate ab Aktivierung
+Geschenkgutschein: Erste Nutzung, 6 Monate ab Aktivierung
+```
+
+**Kampagnen-Pakete:**
+```
+Sommer-Special: Festes Datum 01.06., 3 Monate
+Neujahrs-Paket: Festes Datum 01.01., 2 Monate
+```
+
+---
+
+## Konfiguration im Paket
+
+### Beim Erstellen
+
+1. Neues Paket anlegen
+2. Bei **Aktivierungsmodus** wählen:
+   - Sofort
+   - Erste Nutzung
+   - Festes Datum
+3. Bei "Festes Datum": Datum eingeben
+4. Speichern
+
+### Nachträglich ändern
+
+**Achtung:** Änderungen gelten nur für **neue Käufe**!
+
+Bereits gekaufte Pakete behalten ihren ursprünglichen Aktivierungsmodus.
+
+---
+
+## E-Mail-Kommunikation
+
+### Bei "Sofort"
+
+Kaufbestätigung enthält:
+> "Deine 10 Credits sind ab sofort verfügbar und bis zum 15.04.2025 gültig."
+
+### Bei "Erste Nutzung"
+
+Kaufbestätigung enthält:
+> "Deine 10 Credits werden bei deiner ersten Buchung aktiviert. Ab dann sind sie 3 Monate gültig."
+
+Bei Aktivierung zusätzlich:
+> "Deine Credits wurden aktiviert! Sie sind bis zum 01.06.2025 gültig."
+
+### Bei "Festes Datum"
+
+Kaufbestätigung enthält:
+> "Deine 15 Credits werden am 01.01.2025 aktiviert und sind bis 01.03.2025 gültig."
+
+Bei Aktivierung:
+> "Deine Januar-Special Credits sind jetzt aktiv! Viel Spaß beim Training."
+
+---
+
+## Häufige Fragen
+
+### Kann ein Kunde mit "Erste Nutzung" Credits verfallen lassen, ohne sie zu nutzen?
+
+Ja, theoretisch. Es gibt kein "Verfallsdatum" für nicht-aktivierte Credits. Du könntest ein maximales "Aktivierungsfenster" setzen (z.B. "Muss innerhalb von 12 Monaten aktiviert werden"), aber das ist optional.
+
+### Was passiert bei "Erste Nutzung" wenn die erste Buchung storniert wird?
+
+Die Credits bleiben aktiviert. Das Aktivierungsdatum war die erste Buchung, nicht die "erste durchgeführte" Buchung.
+
+### Kann ich den Modus nachträglich für einen Kunden ändern?
+
+Nicht direkt. Du müsstest:
+1. Alte Credits stornieren/anpassen
+2. Neue Credits mit anderem Modus hinzufügen
+
+---
+
+## Nächste Schritte
+
+- [Gültigkeit konfigurieren →](/docs/credits/gueltigkeit)
+- [Trainer-Credits →](/docs/credits/trainer-credits)
+- [Zurück zur Credit-Übersicht →](/docs/credits)

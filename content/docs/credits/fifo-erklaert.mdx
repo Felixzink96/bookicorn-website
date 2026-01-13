@@ -1,0 +1,257 @@
+---
+title: "FIFO erklärt"
+description: "Wie das First-In-First-Out Prinzip bei Credits funktioniert"
+---
+
+# FIFO erklärt
+
+FIFO steht für **First-In-First-Out** - die ältesten Credits werden zuerst verbraucht. Dieses Prinzip ist fundamental für das Credit-System.
+
+## Das Grundprinzip
+
+### Analogie: Milch im Kühlschrank
+
+Stell dir deinen Kühlschrank vor:
+- Du kaufst am Montag Milch (haltbar bis Freitag)
+- Am Mittwoch kaufst du neue Milch (haltbar bis nächsten Mittwoch)
+- Welche trinkst du zuerst? Die vom Montag!
+
+**So funktioniert FIFO bei Credits.**
+
+### Bei Credits
+
+```
+Zeitstrahl:
+─────────────────────────────────────────────────→
+
+01.01. Kauf: 10 Credits (gültig bis 01.04.)  [█████]
+15.01. Kauf: 20 Credits (gültig bis 15.04.)  [██████████]
+
+Buchung am 20.01. (8 Credits):
+→ Abzug von den ältesten Credits (Kauf vom 01.01.)
+→ 2 Credits von 01.01. bleiben übrig
+→ 20 Credits von 15.01. unberührt
+```
+
+---
+
+## Warum FIFO?
+
+### Vorteile
+
+1. **Minimiert Verfall**: Credits, die bald ablaufen, werden zuerst genutzt
+2. **Faire Behandlung**: Ältere Käufe werden zuerst abgerechnet
+3. **Transparenz**: Klare, nachvollziehbare Logik
+4. **Automatisch**: Kein manuelles Eingreifen nötig
+
+### Alternative wäre...
+
+**LIFO (Last-In-First-Out)**: Neueste Credits zuerst
+- Problem: Alte Credits verfallen ungenutzt
+- Unfair für Kunden
+
+**Manuell**: Kunde wählt selbst
+- Problem: Kompliziert, fehleranfällig
+- Verwirrt Kunden
+
+---
+
+## FIFO in der Praxis
+
+### Beispiel 1: Einfacher Fall
+
+```
+Konto-Stand:
+┌─────────────────────────────────────────────────┐
+│ Kauf 01.01. │ 10 Credits │ gültig bis 01.04.   │
+└─────────────────────────────────────────────────┘
+
+Buchung: Yoga-Kurs für 10 Credits
+
+Ergebnis:
+┌─────────────────────────────────────────────────┐
+│ Kauf 01.01. │ 0 Credits  │ verbraucht          │
+└─────────────────────────────────────────────────┘
+```
+
+### Beispiel 2: Mehrere Pakete
+
+```
+Konto-Stand:
+┌─────────────────────────────────────────────────┐
+│ Kauf 01.01. │ 5 Credits  │ gültig bis 01.04.   │
+│ Kauf 15.01. │ 20 Credits │ gültig bis 15.04.   │
+│ Kauf 01.02. │ 10 Credits │ gültig bis 01.05.   │
+└─────────────────────────────────────────────────┘
+
+Buchung: Workshop für 12 Credits
+
+FIFO-Logik:
+1. 5 Credits von Kauf 01.01. (jetzt 0 übrig)
+2. 7 Credits von Kauf 15.01. (jetzt 13 übrig)
+3. Kauf 01.02. unberührt
+
+Ergebnis:
+┌─────────────────────────────────────────────────┐
+│ Kauf 01.01. │ 0 Credits  │ verbraucht          │
+│ Kauf 15.01. │ 13 Credits │ gültig bis 15.04.   │
+│ Kauf 01.02. │ 10 Credits │ gültig bis 01.05.   │
+└─────────────────────────────────────────────────┘
+```
+
+### Beispiel 3: Mit Stornierung
+
+```
+Ausgangslage nach Buchung:
+┌─────────────────────────────────────────────────┐
+│ Kauf 15.01. │ 13 Credits │ gültig bis 15.04.   │
+│ Kauf 01.02. │ 10 Credits │ gültig bis 01.05.   │
+└─────────────────────────────────────────────────┘
+
+Kunde storniert die 12-Credit-Buchung
+
+Erstattung:
+- 12 Credits werden "zurückgegeben"
+- Neuer Eintrag mit Original-Ablaufdaten
+
+Ergebnis:
+┌─────────────────────────────────────────────────┐
+│ Rückbuch.   │ 5 Credits  │ gültig bis 01.04.   │
+│ Rückbuch.   │ 7 Credits  │ gültig bis 15.04.   │
+│ Kauf 15.01. │ 13 Credits │ gültig bis 15.04.   │
+│ Kauf 01.02. │ 10 Credits │ gültig bis 01.05.   │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## FIFO bei Stornierungen
+
+### Wie funktioniert die Erstattung?
+
+Bei Stornierung:
+1. Credits werden zurückgebucht
+2. **Original-Ablaufdatum bleibt erhalten**
+3. Credits werden nach Ablaufdatum einsortiert
+4. Bei nächster Buchung wieder FIFO
+
+### Wichtig
+
+- Stornierte Credits verfallen **nicht** später
+- Das ursprüngliche Ablaufdatum gilt
+- Verhindert "Ablauf-Reset" durch Storno+Neubuchung
+
+---
+
+## FIFO-Anzeige für Kunden
+
+### In der Wallet
+
+Kunden sehen ihre Credits gruppiert:
+
+```
+Meine Credits
+─────────────────────────────────────
+5 Credits     │ läuft ab am 01.04.
+20 Credits    │ läuft ab am 15.04.
+10 Credits    │ läuft ab am 01.05.
+─────────────────────────────────────
+Gesamt: 35 Credits
+```
+
+### Bei der Buchung
+
+```
+Buchung: Pilates für 8 Credits
+
+Es werden verwendet:
+- 5 Credits (ablaufend 01.04.)
+- 3 Credits (ablaufend 15.04.)
+
+Verbleibend nach Buchung: 27 Credits
+```
+
+---
+
+## Spezialfälle
+
+### Gleiche Ablaufdaten
+
+Wenn mehrere Pakete am gleichen Tag ablaufen:
+- Älterer Kauf wird zuerst verwendet
+- Basiert auf Kauf-Zeitstempel
+
+### Unbegrenzte Credits
+
+Credits ohne Ablaufdatum:
+- Werden **zuletzt** verwendet
+- Ablaufende Credits haben Priorität
+
+### Trainer-gebundene Credits
+
+- Werden nur für passende Kurse verwendet
+- FIFO gilt innerhalb der Trainer-Credits
+- Normale Credits bleiben unberührt
+
+---
+
+## FAQ zu FIFO
+
+### Kann ich FIFO deaktivieren?
+
+Nein, FIFO ist fest im System verankert. Es ist die fairste und transparenteste Methode.
+
+### Kann ich bestimmte Credits "reservieren"?
+
+Nein, Credits werden immer nach FIFO verbraucht. Eine manuelle Auswahl ist nicht möglich.
+
+### Was wenn nur ein Teil eines Pakets reicht?
+
+Credits werden paketübergreifend kombiniert. Wenn Paket A nur 3 Credits hat und du 5 brauchst, werden 3 von A und 2 vom nächsten Paket genommen.
+
+### Werden verfallene Credits bei Stornierung erstattet?
+
+Nein. Wenn die Credits zum Stornierungszeitpunkt bereits verfallen wären, gibt es keine Erstattung.
+
+---
+
+## Technische Details
+
+### Datenmodell
+
+Jeder Credit-Eintrag hat:
+- `amount`: Anzahl Credits
+- `remaining`: Verbleibende Credits
+- `purchased_at`: Kaufzeitpunkt
+- `expires_at`: Ablaufdatum
+- `user_id`: Zugehöriger Kunde
+
+### FIFO-Query
+
+```sql
+SELECT * FROM credits
+WHERE user_id = $userId
+  AND remaining > 0
+  AND (expires_at IS NULL OR expires_at > NOW())
+ORDER BY expires_at ASC NULLS LAST, purchased_at ASC
+```
+
+---
+
+## Zusammenfassung
+
+| Aspekt | FIFO-Verhalten |
+|--------|----------------|
+| **Verbrauch** | Älteste Credits zuerst |
+| **Sortierung** | Nach Ablaufdatum, dann Kaufdatum |
+| **Stornierung** | Original-Ablaufdatum bleibt |
+| **Unbegrenzte Credits** | Werden zuletzt verwendet |
+| **Deaktivierung** | Nicht möglich (by design) |
+
+---
+
+## Nächste Schritte
+
+- [Credit-Pakete erstellen →](/docs/credits/pakete-erstellen)
+- [Aktivierungsmodi verstehen →](/docs/credits/aktivierungsmodi)
+- [Gültigkeit konfigurieren →](/docs/credits/gueltigkeit)
