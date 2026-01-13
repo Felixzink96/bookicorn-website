@@ -133,6 +133,18 @@ p {
 
 html {
   scroll-behavior: smooth;
+  /* Support for iOS safe areas */
+  background-color: var(--theme-background);
+}
+
+/* iOS Safe Area Support */
+@supports (padding: env(safe-area-inset-top)) {
+  html {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }
 
 ::selection {

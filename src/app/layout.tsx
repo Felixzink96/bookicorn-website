@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/layout/Header'
@@ -6,6 +6,16 @@ import Footer from '@/components/layout/Footer'
 import { ThemeProvider } from '@/lib/theme-context'
 
 const inter = Inter({ subsets: ['latin'] })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+  ],
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bookicorn.com'),
