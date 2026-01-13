@@ -29,7 +29,8 @@ export const postBySlugQuery = groq`
     seoTitle,
     seoDescription,
     "author": author->{name, image, role, bio},
-    "category": category->{title, slug, color}
+    "category": category->{_id, title, slug, color},
+    "categoryId": category._ref
   }
 `
 

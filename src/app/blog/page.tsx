@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ArrowRight, Clock, Sparkles } from 'lucide-react'
+import { ArrowRight, Clock, Calendar, User, BookOpen, Filter, X, ChevronDown, Search } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import LiquidEther from '@/components/ui/LiquidEther'
 import { LoadingState } from '@/components/patterns/LoadingState'
@@ -46,30 +46,52 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1
+      staggerChildren: 0.06
     }
   }
-}
+} as const
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 100,
       damping: 15
     }
   }
 }
 
+// Read time filter options
+const readTimeOptions = [
+  { label: 'Alle', value: null },
+  { label: 'Kurz (< 5 min)', value: 'short', max: 5 },
+  { label: 'Mittel (5-10 min)', value: 'medium', min: 5, max: 10 },
+  { label: 'Lang (> 10 min)', value: 'long', min: 10 },
+]
+
+// Sort options
+const sortOptions = [
+  { label: 'Neueste zuerst', value: 'newest' },
+  { label: 'Älteste zuerst', value: 'oldest' },
+  { label: 'Kürzeste zuerst', value: 'shortest' },
+  { label: 'Längste zuerst', value: 'longest' },
+]
+
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
-  const [categories, setCategories] = useState<string[]>(['Alle'])
-  const [selectedCategory, setSelectedCategory] = useState('Alle')
+  const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  // Filter states
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedReadTime, setSelectedReadTime] = useState<string | null>(null)
+  const [sortBy, setSortBy] = useState('newest')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
     async function fetchData() {
@@ -90,8 +112,7 @@ export default function BlogPage() {
         }
 
         if (categoriesData && categoriesData.length > 0) {
-          const categoryTitles = ['Alle', ...categoriesData.map((c: Category) => c.title)]
-          setCategories(categoryTitles)
+          setCategories(categoriesData)
         }
       } catch (err) {
         console.error('Error fetching from Sanity:', err)
@@ -103,18 +124,68 @@ export default function BlogPage() {
     fetchData()
   }, [])
 
-  const filteredPosts =
-    selectedCategory === 'Alle'
-      ? posts
-      : posts.filter((post) => post.category?.title === selectedCategory)
+  // Filter and sort posts
+  const filteredPosts = useMemo(() => {
+    let result = [...posts]
 
-  const featuredPost = filteredPosts[0]
-  const otherPosts = filteredPosts.slice(1)
+    // Search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      result = result.filter(post =>
+        post.title.toLowerCase().includes(query) ||
+        post.excerpt?.toLowerCase().includes(query)
+      )
+    }
+
+    // Category filter
+    if (selectedCategory) {
+      result = result.filter(post => post.category?.title === selectedCategory)
+    }
+
+    // Read time filter
+    if (selectedReadTime) {
+      const option = readTimeOptions.find(o => o.value === selectedReadTime)
+      if (option) {
+        result = result.filter(post => {
+          const time = post.readTime || 0
+          if (option.max && !option.min) return time < option.max
+          if (option.min && !option.max) return time >= option.min
+          if (option.min && option.max) return time >= option.min && time < option.max
+          return true
+        })
+      }
+    }
+
+    // Sort
+    result.sort((a, b) => {
+      switch (sortBy) {
+        case 'oldest':
+          return new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime()
+        case 'shortest':
+          return (a.readTime || 0) - (b.readTime || 0)
+        case 'longest':
+          return (b.readTime || 0) - (a.readTime || 0)
+        case 'newest':
+        default:
+          return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      }
+    })
+
+    return result
+  }, [posts, selectedCategory, selectedReadTime, sortBy, searchQuery])
+
+  const activeFiltersCount = [selectedCategory, selectedReadTime, searchQuery].filter(Boolean).length
+
+  const clearFilters = () => {
+    setSelectedCategory(null)
+    setSelectedReadTime(null)
+    setSearchQuery('')
+  }
 
   return (
     <div className="bg-[var(--theme-background)] min-h-screen">
       {/* Hero with LiquidEther */}
-      <div className="relative isolate overflow-hidden min-h-[45vh] flex items-center">
+      <div className="relative isolate overflow-hidden min-h-[35vh] flex items-center">
         <div className="absolute inset-0 -z-10">
           <LiquidEther
             colors={rainbowColors}
@@ -126,65 +197,209 @@ export default function BlogPage() {
             autoIntensity={2.2}
           />
         </div>
-        <div className="mx-auto max-w-7xl px-6 py-20 sm:py-28 lg:px-8 w-full">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 w-full">
           <motion.div
             className="mx-auto max-w-2xl text-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--theme-surface)]/80 backdrop-blur-sm border border-[var(--theme-border)] mb-6"
-            >
-              <Sparkles className="w-4 h-4 text-primary-500" />
-              <span className="text-sm font-medium text-[var(--theme-text)]">Insights & Updates</span>
-            </motion.div>
-            <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl">
+            <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-5xl">
               Blog
             </h1>
-            <p className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]">
-              Entdecke Tipps, Strategien und Neuigkeiten rund um Studio-Management.
+            <p className="mt-4 text-lg leading-8 text-[var(--theme-textSecondary)]">
+              Tipps, Strategien und Neuigkeiten rund um Studio-Management.
             </p>
           </motion.div>
         </div>
       </div>
 
-      {/* Categories */}
+      {/* Filter Bar */}
       {!loading && posts.length > 0 && (
-        <motion.div
-          className="mx-auto max-w-7xl px-6 pt-12 lg:px-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <div className="flex flex-wrap gap-2 justify-center">
-            {categories.map((category, index) => (
-              <motion.button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 * index }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                  category === selectedCategory
-                    ? 'bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 text-white shadow-lg shadow-purple-500/25'
-                    : 'bg-[var(--theme-surface)] text-[var(--theme-textSecondary)] hover:bg-[var(--theme-surfaceHover)] border border-[var(--theme-border)]'
-                }`}
-              >
-                {category}
-              </motion.button>
-            ))}
+        <div className="sticky top-16 z-30 bg-[var(--theme-background)]/95 backdrop-blur-md border-b border-[var(--theme-border)]">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="py-4">
+              {/* Main filter row */}
+              <div className="flex flex-wrap items-center gap-3">
+                {/* Search */}
+                <div className="relative flex-1 min-w-[200px] max-w-md">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--theme-textTertiary)]" />
+                  <input
+                    type="text"
+                    placeholder="Artikel suchen..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] text-[var(--theme-text)] text-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
+                  />
+                </div>
+
+                {/* Category Pills */}
+                <div className="hidden md:flex items-center gap-2">
+                  <button
+                    onClick={() => setSelectedCategory(null)}
+                    className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                      selectedCategory === null
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-[var(--theme-surface)] text-[var(--theme-textSecondary)] hover:bg-[var(--theme-surfaceHover)] border border-[var(--theme-border)]'
+                    }`}
+                  >
+                    Alle
+                  </button>
+                  {categories.slice(0, 4).map((category) => (
+                    <button
+                      key={category._id}
+                      onClick={() => setSelectedCategory(selectedCategory === category.title ? null : category.title)}
+                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                        selectedCategory === category.title
+                          ? 'text-white'
+                          : 'bg-[var(--theme-surface)] text-[var(--theme-textSecondary)] hover:bg-[var(--theme-surfaceHover)] border border-[var(--theme-border)]'
+                      }`}
+                      style={
+                        selectedCategory === category.title
+                          ? { backgroundColor: category.color || 'var(--color-primary-600)' }
+                          : undefined
+                      }
+                    >
+                      {category.title}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Filter Toggle (Mobile + Extra filters) */}
+                <button
+                  onClick={() => setShowFilters(!showFilters)}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    showFilters || activeFiltersCount > 0
+                      ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600'
+                      : 'bg-[var(--theme-surface)] text-[var(--theme-textSecondary)] hover:bg-[var(--theme-surfaceHover)] border border-[var(--theme-border)]'
+                  }`}
+                >
+                  <Filter className="w-4 h-4" />
+                  <span className="hidden sm:inline">Filter</span>
+                  {activeFiltersCount > 0 && (
+                    <span className="w-5 h-5 rounded-full bg-primary-600 text-white text-xs flex items-center justify-center">
+                      {activeFiltersCount}
+                    </span>
+                  )}
+                </button>
+
+                {/* Sort Dropdown */}
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="appearance-none pl-3 pr-8 py-1.5 rounded-lg border border-[var(--theme-border)] bg-[var(--theme-surface)] text-[var(--theme-text)] text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 cursor-pointer"
+                  >
+                    {sortOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--theme-textTertiary)] pointer-events-none" />
+                </div>
+
+                {/* Clear Filters */}
+                {activeFiltersCount > 0 && (
+                  <button
+                    onClick={clearFilters}
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surfaceHover)] transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+                    <span className="hidden sm:inline">Zurücksetzen</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Expanded Filters */}
+              {showFilters && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="mt-4 pt-4 border-t border-[var(--theme-border)]"
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* Mobile Category Filter */}
+                    <div className="md:hidden">
+                      <label className="block text-xs font-medium text-[var(--theme-textTertiary)] uppercase tracking-wider mb-2">
+                        Kategorie
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          onClick={() => setSelectedCategory(null)}
+                          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                            selectedCategory === null
+                              ? 'bg-primary-600 text-white'
+                              : 'bg-[var(--theme-surface)] text-[var(--theme-textSecondary)] border border-[var(--theme-border)]'
+                          }`}
+                        >
+                          Alle
+                        </button>
+                        {categories.map((category) => (
+                          <button
+                            key={category._id}
+                            onClick={() => setSelectedCategory(selectedCategory === category.title ? null : category.title)}
+                            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                              selectedCategory === category.title
+                                ? 'text-white'
+                                : 'bg-[var(--theme-surface)] text-[var(--theme-textSecondary)] border border-[var(--theme-border)]'
+                            }`}
+                            style={
+                              selectedCategory === category.title
+                                ? { backgroundColor: category.color || 'var(--color-primary-600)' }
+                                : undefined
+                            }
+                          >
+                            {category.title}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Read Time Filter */}
+                    <div>
+                      <label className="block text-xs font-medium text-[var(--theme-textTertiary)] uppercase tracking-wider mb-2">
+                        Lesezeit
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {readTimeOptions.map((option) => (
+                          <button
+                            key={option.label}
+                            onClick={() => setSelectedReadTime(selectedReadTime === option.value ? null : option.value)}
+                            className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                              selectedReadTime === option.value
+                                ? 'bg-primary-600 text-white'
+                                : 'bg-[var(--theme-surface)] text-[var(--theme-textSecondary)] border border-[var(--theme-border)]'
+                            }`}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
           </div>
-        </motion.div>
+        </div>
+      )}
+
+      {/* Results Info */}
+      {!loading && posts.length > 0 && (
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-6">
+          <p className="text-sm text-[var(--theme-textTertiary)]">
+            {filteredPosts.length} {filteredPosts.length === 1 ? 'Artikel' : 'Artikel'} gefunden
+            {activeFiltersCount > 0 && (
+              <span> mit aktiven Filtern</span>
+            )}
+          </p>
+        </div>
       )}
 
       {/* Content */}
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
         {loading ? (
           <LoadingState text="Beiträge werden geladen..." delay={0} />
         ) : error ? (
@@ -197,252 +412,165 @@ export default function BlogPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[var(--theme-surface)] mb-6">
-              <Sparkles className="w-10 h-10 text-[var(--theme-textTertiary)]" />
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 dark:bg-primary-900/30 mb-6">
+              <BookOpen className="w-8 h-8 text-primary-600" />
             </div>
-            <p className="text-xl text-[var(--theme-textSecondary)]">
-              Noch keine Beiträge vorhanden.
+            <p className="text-xl font-medium text-[var(--theme-text)]">
+              Noch keine Beiträge vorhanden
             </p>
-            <p className="mt-2 text-[var(--theme-textTertiary)]">
+            <p className="mt-2 text-[var(--theme-textSecondary)]">
               Schau bald wieder vorbei!
             </p>
           </motion.div>
+        ) : filteredPosts.length === 0 ? (
+          <motion.div
+            className="text-center py-20"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--theme-surface)] mb-6">
+              <Search className="w-8 h-8 text-[var(--theme-textTertiary)]" />
+            </div>
+            <p className="text-xl font-medium text-[var(--theme-text)]">
+              Keine Artikel gefunden
+            </p>
+            <p className="mt-2 text-[var(--theme-textSecondary)]">
+              Versuche es mit anderen Filtern oder Suchbegriffen.
+            </p>
+            <button
+              onClick={clearFilters}
+              className="mt-4 text-primary-600 hover:text-primary-700 font-medium"
+            >
+              Filter zurücksetzen
+            </button>
+          </motion.div>
         ) : (
-          <>
-            {/* Featured Post */}
-            {featuredPost && (
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-16"
-              >
-                <Link href={`/blog/${featuredPost.slug.current}`}>
-                  <article className="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-[var(--theme-surface)] to-[var(--theme-background)] border border-[var(--theme-border)] hover:border-purple-500/50 transition-all duration-500">
-                    <div className="grid md:grid-cols-2 gap-0">
-                      {/* Image Side */}
-                      <div className="relative h-64 md:h-96 overflow-hidden">
-                        {featuredPost.coverImage?.asset ? (
-                          <Image
-                            src={urlFor(featuredPost.coverImage).width(800).height(600).url()}
-                            alt={featuredPost.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-400/20" />
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-[var(--theme-surface)] md:block hidden" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[var(--theme-surface)] via-transparent to-transparent md:hidden" />
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {filteredPosts.map((post, index) => (
+              <motion.article key={post._id} variants={cardVariants}>
+                <Link href={`/blog/${post.slug.current}`} className="group block h-full">
+                  <div className="h-full rounded-2xl bg-[var(--theme-surface)] border border-[var(--theme-border)] overflow-hidden transition-all hover:border-[var(--theme-borderHover)] hover:shadow-lg flex flex-col">
+                    {/* Image */}
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      {post.coverImage?.asset ? (
+                        <Image
+                          src={urlFor(post.coverImage).width(400).height(250).url()}
+                          alt={post.title}
+                          fill
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-[var(--theme-surfaceHover)]" />
+                      )}
 
-                        {/* Featured Badge */}
-                        <div className="absolute top-4 left-4">
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-semibold shadow-lg">
-                            <Sparkles className="w-3 h-3" />
-                            Featured
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Content Side */}
-                      <div className="p-8 md:p-12 flex flex-col justify-center">
-                        {featuredPost.category && (
+                      {/* Category Badge */}
+                      {post.category && (
+                        <div className="absolute top-3 left-3">
                           <span
-                            className="inline-block w-fit rounded-full px-3 py-1 text-xs font-medium mb-4"
+                            className="inline-block rounded-full px-2.5 py-1 text-xs font-medium backdrop-blur-sm"
                             style={{
-                              backgroundColor: featuredPost.category.color
-                                ? `${featuredPost.category.color}20`
-                                : 'var(--theme-surfaceHover)',
-                              color: featuredPost.category.color || 'var(--theme-text)',
+                              backgroundColor: post.category.color
+                                ? `${post.category.color}dd`
+                                : 'rgba(0,0,0,0.6)',
+                              color: '#fff',
                             }}
                           >
-                            {featuredPost.category.title}
-                          </span>
-                        )}
-
-                        <h2 className="text-2xl md:text-3xl font-bold text-[var(--theme-text)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:via-pink-500 group-hover:to-cyan-400 transition-all duration-300">
-                          {featuredPost.title}
-                        </h2>
-
-                        <p className="mt-4 text-[var(--theme-textSecondary)] line-clamp-3">
-                          {featuredPost.excerpt}
-                        </p>
-
-                        <div className="mt-6 flex items-center gap-4 text-sm text-[var(--theme-textTertiary)]">
-                          <time dateTime={featuredPost.publishedAt}>
-                            {new Date(featuredPost.publishedAt).toLocaleDateString('de-DE', {
-                              year: 'numeric',
-                              month: 'short',
-                              day: 'numeric',
-                            })}
-                          </time>
-                          {featuredPost.readTime && (
-                            <>
-                              <span>•</span>
-                              <span className="flex items-center gap-1">
-                                <Clock className="w-4 h-4" />
-                                {featuredPost.readTime} min
-                              </span>
-                            </>
-                          )}
-                        </div>
-
-                        <div className="mt-8">
-                          <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary-500 group-hover:gap-3 transition-all duration-300">
-                            Artikel lesen
-                            <ArrowRight className="w-4 h-4" />
+                            {post.category.title}
                           </span>
                         </div>
-                      </div>
+                      )}
+
+                      {/* Read Time Badge */}
+                      {post.readTime && (
+                        <div className="absolute top-3 right-3">
+                          <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-black/50 backdrop-blur-sm text-white">
+                            <Clock className="w-3 h-3" />
+                            {post.readTime} min
+                          </span>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Decorative gradient border on hover */}
-                    <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                      style={{
-                        background: 'linear-gradient(90deg, rgba(168,85,247,0.1), rgba(236,72,153,0.1), rgba(34,211,238,0.1))',
-                      }}
-                    />
-                  </article>
-                </Link>
-              </motion.div>
-            )}
+                    {/* Content */}
+                    <div className="p-5 flex-1 flex flex-col">
+                      <h3 className="font-semibold text-[var(--theme-text)] line-clamp-2 group-hover:text-primary-600 transition-colors">
+                        {post.title}
+                      </h3>
 
-            {/* Other Posts Grid */}
-            {otherPosts.length > 0 && (
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
-              >
-                {otherPosts.map((post, index) => (
-                  <motion.article
-                    key={post._id}
-                    variants={cardVariants}
-                    whileHover={{ y: -8 }}
-                    className="group relative"
-                  >
-                    <Link href={`/blog/${post.slug.current}`}>
-                      <div className="relative overflow-hidden rounded-2xl bg-[var(--theme-surface)] border border-[var(--theme-border)] hover:border-purple-500/30 transition-all duration-500 h-full flex flex-col">
-                        {/* Gradient overlay on hover */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none" />
+                      <p className="mt-2 text-sm text-[var(--theme-textSecondary)] line-clamp-2 flex-1">
+                        {post.excerpt}
+                      </p>
 
-                        {/* Image */}
-                        <div className="relative h-48 overflow-hidden">
-                          {post.coverImage?.asset ? (
-                            <Image
-                              src={urlFor(post.coverImage).width(400).height(250).url()}
-                              alt={post.title}
-                              fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-110"
-                            />
-                          ) : (
-                            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/30 via-pink-500/20 to-cyan-400/30" />
-                          )}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[var(--theme-surface)] via-transparent to-transparent" />
-
-                          {/* Category Badge */}
-                          {post.category && (
-                            <div className="absolute top-4 left-4">
-                              <span
-                                className="inline-block rounded-full px-3 py-1 text-xs font-medium backdrop-blur-sm"
-                                style={{
-                                  backgroundColor: post.category.color
-                                    ? `${post.category.color}90`
-                                    : 'rgba(0,0,0,0.5)',
-                                  color: '#fff',
-                                }}
-                              >
-                                {post.category.title}
-                              </span>
+                      <div className="mt-4 pt-4 border-t border-[var(--theme-border)] flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-xs text-[var(--theme-textTertiary)]">
+                          {post.author && (
+                            <div className="flex items-center gap-1.5">
+                              {post.author.image?.asset ? (
+                                <Image
+                                  src={urlFor(post.author.image).width(20).height(20).url()}
+                                  alt={post.author.name}
+                                  width={20}
+                                  height={20}
+                                  className="rounded-full"
+                                />
+                              ) : (
+                                <div className="w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                                  <User className="w-2.5 h-2.5 text-primary-600" />
+                                </div>
+                              )}
+                              <span className="truncate max-w-[80px]">{post.author.name}</span>
                             </div>
                           )}
-                        </div>
-
-                        {/* Content */}
-                        <div className="p-6 flex-1 flex flex-col relative z-10">
-                          <div className="flex items-center gap-3 text-xs text-[var(--theme-textTertiary)] mb-3">
-                            <time dateTime={post.publishedAt}>
+                          {post.publishedAt && (
+                            <span>
                               {new Date(post.publishedAt).toLocaleDateString('de-DE', {
-                                month: 'short',
                                 day: 'numeric',
+                                month: 'short',
                               })}
-                            </time>
-                            {post.readTime && (
-                              <>
-                                <span>•</span>
-                                <span className="flex items-center gap-1">
-                                  <Clock className="w-3 h-3" />
-                                  {post.readTime} min
-                                </span>
-                              </>
-                            )}
-                          </div>
-
-                          <h3 className="text-lg font-semibold text-[var(--theme-text)] group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-500 group-hover:to-pink-500 transition-all duration-300 line-clamp-2">
-                            {post.title}
-                          </h3>
-
-                          <p className="mt-3 text-sm text-[var(--theme-textSecondary)] line-clamp-2 flex-1">
-                            {post.excerpt}
-                          </p>
-
-                          <div className="mt-4 pt-4 border-t border-[var(--theme-border)]">
-                            <span className="inline-flex items-center gap-2 text-sm font-medium text-[var(--theme-textSecondary)] group-hover:text-primary-500 transition-colors">
-                              Weiterlesen
-                              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </span>
-                          </div>
+                          )}
                         </div>
+                        <ArrowRight className="w-4 h-4 text-[var(--theme-textTertiary)] group-hover:text-primary-600 group-hover:translate-x-1 transition-all" />
                       </div>
-                    </Link>
-                  </motion.article>
-                ))}
-              </motion.div>
-            )}
-
-            {filteredPosts.length === 0 && posts.length > 0 && (
-              <div className="text-center py-12">
-                <p className="text-[var(--theme-textSecondary)]">
-                  Keine Beiträge in dieser Kategorie gefunden.
-                </p>
-              </div>
-            )}
-          </>
+                    </div>
+                  </div>
+                </Link>
+              </motion.article>
+            ))}
+          </motion.div>
         )}
       </div>
 
-      {/* Newsletter CTA */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-400/10" />
-        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-8">
-          <motion.div
-            className="mx-auto max-w-2xl text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-[var(--theme-text)]">
-              Bleib auf dem Laufenden
+      {/* CTA Section */}
+      <div className="bg-[var(--theme-surface)] border-t border-[var(--theme-border)]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-2xl font-bold tracking-tight text-[var(--theme-text)]">
+              Keine Neuigkeiten verpassen
             </h2>
-            <p className="mt-4 text-lg text-[var(--theme-textSecondary)]">
+            <p className="mt-4 text-[var(--theme-textSecondary)]">
               Erhalte die neuesten Artikel und Updates direkt in dein Postfach.
             </p>
-            <form className="mt-8 flex max-w-md mx-auto gap-x-4">
+            <form className="mt-8 flex max-w-md mx-auto gap-3">
               <input
                 type="email"
                 required
                 placeholder="deine@email.de"
-                className="min-w-0 flex-auto rounded-xl border border-[var(--theme-border)] bg-[var(--theme-surface)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+                className="flex-1 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all"
               />
-              <Button type="submit" variant="primary" size="md">
+              <Button type="submit" variant="primary">
                 Abonnieren
               </Button>
             </form>
             <p className="mt-4 text-xs text-[var(--theme-textTertiary)]">
               Kein Spam. Jederzeit abmelden.
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
