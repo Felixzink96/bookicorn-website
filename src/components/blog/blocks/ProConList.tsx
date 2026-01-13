@@ -14,29 +14,10 @@ interface ProConListProps {
 
 export function ProConList({ value }: ProConListProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-50px' })
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
   const pros = value.pros || []
   const cons = value.cons || []
   const layout = value.layout || 'side-by-side'
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const proItemVariants = {
-    hidden: { opacity: 0, x: -30 },
-    visible: { opacity: 1, x: 0 },
-  }
-
-  const conItemVariants = {
-    hidden: { opacity: 0, x: 30 },
-    visible: { opacity: 1, x: 0 },
-  }
 
   if (layout === 'stacked') {
     return (
@@ -44,9 +25,9 @@ export function ProConList({ value }: ProConListProps) {
         {/* Pros */}
         <motion.div
           className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          initial={{ opacity: 0, x: -40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <div className="bg-emerald-500 px-5 py-3">
             <h4 className="font-semibold text-white flex items-center gap-2">
@@ -56,17 +37,15 @@ export function ProConList({ value }: ProConListProps) {
           </div>
           <ul className="p-5 space-y-3">
             {pros.map((pro, i) => (
-              <motion.li
+              <li
                 key={i}
                 className="flex items-start gap-3 text-[var(--theme-text)]"
-                variants={proItemVariants}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
                 <span className="flex-shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
                   <Check className="w-3 h-3 text-emerald-500" />
                 </span>
                 <span className="text-sm">{pro}</span>
-              </motion.li>
+              </li>
             ))}
           </ul>
         </motion.div>
@@ -74,9 +53,9 @@ export function ProConList({ value }: ProConListProps) {
         {/* Cons */}
         <motion.div
           className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden"
-          variants={containerVariants}
-          initial="hidden"
-          animate={isInView ? 'visible' : 'hidden'}
+          initial={{ opacity: 0, x: 40 }}
+          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}
         >
           <div className="bg-red-500 px-5 py-3">
             <h4 className="font-semibold text-white flex items-center gap-2">
@@ -86,17 +65,15 @@ export function ProConList({ value }: ProConListProps) {
           </div>
           <ul className="p-5 space-y-3">
             {cons.map((con, i) => (
-              <motion.li
+              <li
                 key={i}
                 className="flex items-start gap-3 text-[var(--theme-text)]"
-                variants={conItemVariants}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
                 <span className="flex-shrink-0 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center mt-0.5">
                   <X className="w-3 h-3 text-red-500" />
                 </span>
                 <span className="text-sm">{con}</span>
-              </motion.li>
+              </li>
             ))}
           </ul>
         </motion.div>
@@ -107,12 +84,12 @@ export function ProConList({ value }: ProConListProps) {
   // Side-by-side layout
   return (
     <div ref={ref} className="my-8 grid md:grid-cols-2 gap-4">
-      {/* Pros */}
+      {/* Pros - slides in from left */}
       <motion.div
         className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        initial={{ opacity: 0, x: -40 }}
+        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="bg-emerald-500 px-5 py-3">
           <h4 className="font-semibold text-white flex items-center gap-2">
@@ -122,27 +99,25 @@ export function ProConList({ value }: ProConListProps) {
         </div>
         <ul className="p-5 space-y-3">
           {pros.map((pro, i) => (
-            <motion.li
+            <li
               key={i}
               className="flex items-start gap-3 text-[var(--theme-text)]"
-              variants={proItemVariants}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             >
               <span className="flex-shrink-0 w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
                 <Check className="w-3 h-3 text-emerald-500" />
               </span>
               <span className="text-sm">{pro}</span>
-            </motion.li>
+            </li>
           ))}
         </ul>
       </motion.div>
 
-      {/* Cons */}
+      {/* Cons - slides in from right */}
       <motion.div
         className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden"
-        variants={containerVariants}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
+        initial={{ opacity: 0, x: 40 }}
+        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
       >
         <div className="bg-red-500 px-5 py-3">
           <h4 className="font-semibold text-white flex items-center gap-2">
@@ -152,17 +127,15 @@ export function ProConList({ value }: ProConListProps) {
         </div>
         <ul className="p-5 space-y-3">
           {cons.map((con, i) => (
-            <motion.li
+            <li
               key={i}
               className="flex items-start gap-3 text-[var(--theme-text)]"
-              variants={conItemVariants}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
             >
               <span className="flex-shrink-0 w-5 h-5 rounded-full bg-red-500/20 flex items-center justify-center mt-0.5">
                 <X className="w-3 h-3 text-red-500" />
               </span>
               <span className="text-sm">{con}</span>
-            </motion.li>
+            </li>
           ))}
         </ul>
       </motion.div>
