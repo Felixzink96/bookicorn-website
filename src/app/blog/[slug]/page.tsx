@@ -465,12 +465,12 @@ function CTABanner() {
             Teste Bookicorn kostenlos und entdecke, wie einfach Studio-Management sein kann.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Button variant="primary" size="lg" asChild>
-              <Link href="https://app.bookicorn.com/register">Kostenlos starten</Link>
-            </Button>
-            <Button variant="secondary" size="lg" asChild>
-              <Link href="/features">Mehr erfahren</Link>
-            </Button>
+            <Link href="https://app.bookicorn.com/register">
+              <Button variant="primary" size="lg">Kostenlos starten</Button>
+            </Link>
+            <Link href="/features">
+              <Button variant="secondary" size="lg">Mehr erfahren</Button>
+            </Link>
           </div>
         </div>
         <div className="hidden lg:block relative h-full min-h-[300px] bg-gradient-to-br from-primary-500/10 to-violet-500/10">
