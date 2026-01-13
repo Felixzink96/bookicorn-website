@@ -283,8 +283,7 @@ function MobileTOC({
         onClick={() => !isOpen && setIsOpen(true)}
         className={`pointer-events-auto fixed bottom-6 ${isOpen ? 'left-4 right-4' : 'left-1/2 -translate-x-1/2'}`}
         style={{
-          width: isOpen ? 'auto' : 'auto',
-          maxWidth: isOpen ? 'none' : '280px',
+          width: isOpen ? 'auto' : '260px',
           backgroundColor: 'rgba(23, 23, 23, 0.95)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
