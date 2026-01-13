@@ -271,7 +271,8 @@ function MobileTOC({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-auto"
+            className="absolute inset-0 backdrop-blur-sm pointer-events-auto"
+            style={{ backgroundColor: 'var(--theme-overlay)' }}
             onClick={() => setIsOpen(false)}
           />
         )}
@@ -284,14 +285,14 @@ function MobileTOC({
         className={`pointer-events-auto fixed bottom-6 ${isOpen ? 'left-4 right-4' : 'left-1/2 -translate-x-1/2'}`}
         style={{
           width: isOpen ? 'auto' : '300px',
-          backgroundColor: 'rgba(23, 23, 23, 0.95)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
+          backgroundColor: isOpen ? 'var(--theme-surface)' : 'var(--theme-surfaceTranslucent)',
+          backdropFilter: isOpen ? 'none' : 'blur(16px)',
+          WebkitBackdropFilter: isOpen ? 'none' : 'blur(16px)',
           borderRadius: isOpen ? 24 : 50,
           boxShadow: isOpen
-            ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-            : '0 10px 40px -10px rgba(0, 0, 0, 0.3)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
+            ? '0 25px 50px -12px var(--theme-shadowStrong)'
+            : '0 10px 40px -10px var(--theme-shadow)',
+          border: '1px solid var(--theme-border)',
           cursor: isOpen ? 'default' : 'pointer',
           overflow: 'hidden',
         }}
@@ -320,9 +321,8 @@ function MobileTOC({
                   cy="16"
                   r="12"
                   fill="none"
-                  stroke="currentColor"
                   strokeWidth="2.5"
-                  className="text-white/10"
+                  style={{ stroke: 'var(--theme-border)' }}
                 />
                 <circle
                   cx="16"
@@ -361,7 +361,7 @@ function MobileTOC({
             transition={{ duration: 0.15 }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-white/5">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--theme-border)]">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-full bg-primary-500/20 flex items-center justify-center">
                   <List className="w-4 h-4 text-primary-500" />
@@ -375,7 +375,7 @@ function MobileTOC({
                   e.stopPropagation()
                   setIsOpen(false)
                 }}
-                className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
+                className="w-8 h-8 rounded-full bg-[var(--theme-surfaceHover)] hover:bg-[var(--theme-border)] flex items-center justify-center transition-colors"
               >
                 <X className="w-4 h-4 text-[var(--theme-textSecondary)]" />
               </button>
@@ -404,12 +404,12 @@ function MobileTOC({
                         } ${
                           isActive
                             ? 'text-primary-500 bg-primary-500/10'
-                            : 'text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] hover:bg-white/5'
+                            : 'text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] hover:bg-[var(--theme-surfaceHover)]'
                         }`}
                       >
                         {heading.level === 'h2' && (
                           <span className={`w-2 h-2 rounded-full flex-shrink-0 ${
-                            isActive ? 'bg-primary-500' : 'bg-white/20'
+                            isActive ? 'bg-primary-500' : 'bg-[var(--theme-textTertiary)]'
                           }`} />
                         )}
                         <span className={isActive ? 'font-medium' : ''}>{heading.text}</span>
@@ -421,12 +421,12 @@ function MobileTOC({
             </nav>
 
             {/* Progress Footer */}
-            <div className="px-4 py-3 border-t border-white/5 bg-black/10">
+            <div className="px-4 py-3 border-t border-[var(--theme-border)] bg-[var(--theme-surface)]">
               <div className="flex items-center justify-between text-xs text-[var(--theme-textTertiary)] mb-2">
                 <span>{activeIndex + 1} von {headings.length} Abschnitten</span>
                 <span>{Math.round(progress)}%</span>
               </div>
-              <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-1.5 bg-[var(--theme-border)] rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-primary-500 to-primary-400 rounded-full transition-all duration-500"
                   style={{ width: `${progress}%` }}

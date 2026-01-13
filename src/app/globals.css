@@ -40,11 +40,15 @@
   --theme-background: #ffffff;
   --theme-surface: #f9fafb;
   --theme-surfaceHover: #f3f4f6;
+  --theme-surfaceTranslucent: rgba(255, 255, 255, 0.8);
   --theme-text: rgb(41, 41, 41);
   --theme-textSecondary: #6b7280;
   --theme-textTertiary: #9ca3af;
   --theme-border: #e5e7eb;
   --theme-borderHover: #d1d5db;
+  --theme-shadow: rgba(0, 0, 0, 0.1);
+  --theme-shadowStrong: rgba(0, 0, 0, 0.2);
+  --theme-overlay: rgba(0, 0, 0, 0.5);
 }
 
 /* Dark Mode - EXAKT wie Buchungsplattform (Neutral Gray) */
@@ -52,11 +56,15 @@
   --theme-background: #09090b;
   --theme-surface: #121215;
   --theme-surfaceHover: #1a1a1f;
+  --theme-surfaceTranslucent: rgba(18, 18, 21, 0.85);
   --theme-text: #f5f5f5;
   --theme-textSecondary: #a1a1a1;
   --theme-textTertiary: #737373;
   --theme-border: #2a2a2a;
   --theme-borderHover: #3a3a3a;
+  --theme-shadow: rgba(0, 0, 0, 0.3);
+  --theme-shadowStrong: rgba(0, 0, 0, 0.5);
+  --theme-overlay: rgba(0, 0, 0, 0.7);
 }
 
 body {
