@@ -15,14 +15,12 @@ import { postBySlugQuery, relatedPostsQuery } from '../../../../sanity/lib/queri
 import { urlFor } from '../../../../sanity/lib/image'
 import { PortableText } from '@portabletext/react'
 import Button from '@/components/ui/Button'
-// import LiquidEther from '@/components/ui/LiquidEther' // Temporarily disabled for PageSpeed test
+import { LazyLiquidEther } from '@/components/blog/LazyLiquidEther'
 import { customBlockComponents } from '@/components/blog/BlockRenderers'
 import { TableOfContents } from '@/components/blog/TableOfContents'
 import { SocialShare } from '@/components/blog/SocialShare'
 import { MobileTOC } from '@/components/blog/MobileTOC'
 import { BackToTop } from '@/components/blog/BackToTop'
-
-// const rainbowColors = ['#a855f7', '#ec4899', '#facc15', '#22d3ee', '#a855f7'] // For LiquidEther
 
 // Types
 interface BlogPost {
@@ -509,9 +507,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="min-h-screen">
-      {/* Hero Header - LiquidEther temporarily replaced with gradient for PageSpeed test */}
+      {/* Hero Header with Lazy-loaded LiquidEther for optimal PageSpeed */}
       <header className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary-50 via-purple-50/50 to-pink-50/30 dark:from-gray-900 dark:via-purple-900/20 dark:to-gray-900" />
+        <LazyLiquidEther delay={2500} />
         <div className="mx-auto max-w-7xl px-6 py-12 lg:py-16 lg:px-8">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-[var(--theme-textTertiary)] mb-8">
