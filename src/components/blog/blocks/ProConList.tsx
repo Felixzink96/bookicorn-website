@@ -1,7 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Check, X } from 'lucide-react'
 
 interface ProConListProps {
@@ -13,20 +12,19 @@ interface ProConListProps {
 }
 
 export function ProConList({ value }: ProConListProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-100px' })
   const pros = value.pros || []
   const cons = value.cons || []
   const layout = value.layout || 'side-by-side'
 
   if (layout === 'stacked') {
     return (
-      <div ref={ref} className="my-8 space-y-4">
+      <div className="my-8 space-y-4">
         {/* Pros */}
         <motion.div
           className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden"
           initial={{ opacity: 0, x: -40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
           <div className="bg-emerald-500 px-5 py-3">
@@ -54,7 +52,8 @@ export function ProConList({ value }: ProConListProps) {
         <motion.div
           className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden"
           initial={{ opacity: 0, x: 40 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}
         >
           <div className="bg-red-500 px-5 py-3">
@@ -83,12 +82,13 @@ export function ProConList({ value }: ProConListProps) {
 
   // Side-by-side layout
   return (
-    <div ref={ref} className="my-8 grid md:grid-cols-2 gap-4">
+    <div className="my-8 grid md:grid-cols-2 gap-4">
       {/* Pros - slides in from left */}
       <motion.div
         className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden"
         initial={{ opacity: 0, x: -40 }}
-        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <div className="bg-emerald-500 px-5 py-3">
@@ -116,7 +116,8 @@ export function ProConList({ value }: ProConListProps) {
       <motion.div
         className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden"
         initial={{ opacity: 0, x: 40 }}
-        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
       >
         <div className="bg-red-500 px-5 py-3">

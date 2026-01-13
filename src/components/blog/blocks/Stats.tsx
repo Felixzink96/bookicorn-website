@@ -16,7 +16,7 @@ interface StatsProps {
 }
 
 function CountUp({ value, inView }: { value: string; inView: boolean }) {
-  const [displayValue, setDisplayValue] = useState('0')
+  const [displayValue, setDisplayValue] = useState(value)
   const hasAnimated = useRef(false)
 
   useEffect(() => {
@@ -37,6 +37,9 @@ function CountUp({ value, inView }: { value: string; inView: boolean }) {
       setDisplayValue(value)
       return
     }
+
+    // Start from 0
+    setDisplayValue('0' + suffix)
 
     const duration = 1500
     const steps = 40
@@ -71,6 +74,7 @@ function CountUp({ value, inView }: { value: string; inView: boolean }) {
 
 export function Stats({ value }: StatsProps) {
   const ref = useRef(null)
+  // useInView is needed for CountUp, but we use once: true
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const items = value.items || []
   const variant = value.variant || 'cards'

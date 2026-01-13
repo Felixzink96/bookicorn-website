@@ -1,8 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
-import { Circle } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 interface TimelineProps {
   value: {
@@ -16,12 +14,10 @@ interface TimelineProps {
 }
 
 export function Timeline({ value }: TimelineProps) {
-  const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-50px' })
   const items = value.items || []
 
   return (
-    <div ref={ref} className="my-10 relative">
+    <div className="my-10 relative">
       {/* Vertical line */}
       <div className="absolute left-[11px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-primary-500 via-purple-500 to-pink-500 rounded-full" />
 
@@ -31,11 +27,11 @@ export function Timeline({ value }: TimelineProps) {
             key={item._key}
             className="relative pl-10"
             initial={{ opacity: 0, x: -20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-50px' }}
             transition={{
-              type: 'spring',
-              stiffness: 300,
-              damping: 25,
+              duration: 0.4,
+              ease: [0.25, 0.46, 0.45, 0.94],
               delay: index * 0.1,
             }}
           >
