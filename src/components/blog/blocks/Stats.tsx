@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useInView } from 'framer-motion'
 
 interface StatsProps {
   value: {
@@ -49,11 +49,9 @@ function CountUp({ value, inView }: { value: string; inView: boolean }) {
     const timer = setInterval(() => {
       currentStep++
       const progress = currentStep / steps
-      // Easing function for smooth deceleration
       const eased = 1 - Math.pow(1 - progress, 3)
       const current = numericValue * eased
 
-      // Format based on original value
       if (Number.isInteger(numericValue)) {
         setDisplayValue(Math.round(current) + suffix)
       } else {
@@ -74,7 +72,6 @@ function CountUp({ value, inView }: { value: string; inView: boolean }) {
 
 export function Stats({ value }: StatsProps) {
   const ref = useRef(null)
-  // useInView is needed for CountUp, but we use once: true
   const isInView = useInView(ref, { once: true, margin: '-100px' })
   const items = value.items || []
   const variant = value.variant || 'cards'
@@ -105,11 +102,9 @@ export function Stats({ value }: StatsProps) {
     return (
       <div ref={ref} className={`my-10 ${gridClass}`}>
         {items.map((item) => (
-          <motion.div
+          <div
             key={item._key}
-            className="text-center"
-            whileHover={{ y: -2 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+            className="text-center transition-transform hover:-translate-y-1"
           >
             <div className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-primary-500 via-purple-500 to-pink-500 bg-clip-text text-transparent tabular-nums">
               <CountUp value={item.value} inView={isInView} />
@@ -117,7 +112,7 @@ export function Stats({ value }: StatsProps) {
             <div className="mt-2 text-sm font-medium text-[var(--theme-textSecondary)]">
               {item.label}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
     )
@@ -127,11 +122,9 @@ export function Stats({ value }: StatsProps) {
   return (
     <div ref={ref} className={`my-10 ${gridClass}`}>
       {items.map((item) => (
-        <motion.div
+        <div
           key={item._key}
-          className="relative p-6 rounded-2xl bg-[var(--theme-surface)] border border-[var(--theme-border)] text-center overflow-hidden group"
-          whileHover={{ y: -4, scale: 1.02 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+          className="relative p-6 rounded-2xl bg-[var(--theme-surface)] border border-[var(--theme-border)] text-center overflow-hidden group transition-all hover:-translate-y-1 hover:shadow-lg"
         >
           {/* Subtle gradient overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -144,7 +137,7 @@ export function Stats({ value }: StatsProps) {
               {item.label}
             </div>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   )

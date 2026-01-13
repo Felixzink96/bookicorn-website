@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import { Check, X } from 'lucide-react'
 
 interface ProConListProps {
@@ -20,13 +19,7 @@ export function ProConList({ value }: ProConListProps) {
     return (
       <div className="my-8 space-y-4">
         {/* Pros */}
-        <motion.div
-          className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden"
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
+        <div className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden">
           <div className="bg-emerald-500 px-5 py-3">
             <h4 className="font-semibold text-white flex items-center gap-2">
               <Check className="w-5 h-5" />
@@ -46,16 +39,10 @@ export function ProConList({ value }: ProConListProps) {
               </li>
             ))}
           </ul>
-        </motion.div>
+        </div>
 
         {/* Cons */}
-        <motion.div
-          className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden"
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.15 }}
-        >
+        <div className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden">
           <div className="bg-red-500 px-5 py-3">
             <h4 className="font-semibold text-white flex items-center gap-2">
               <X className="w-5 h-5" />
@@ -75,7 +62,7 @@ export function ProConList({ value }: ProConListProps) {
               </li>
             ))}
           </ul>
-        </motion.div>
+        </div>
       </div>
     )
   }
@@ -83,14 +70,8 @@ export function ProConList({ value }: ProConListProps) {
   // Side-by-side layout
   return (
     <div className="my-8 grid md:grid-cols-2 gap-4">
-      {/* Pros - slides in from left */}
-      <motion.div
-        className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden"
-        initial={{ opacity: 0, x: -40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-      >
+      {/* Pros */}
+      <div className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 overflow-hidden">
         <div className="bg-emerald-500 px-5 py-3">
           <h4 className="font-semibold text-white flex items-center gap-2">
             <Check className="w-5 h-5" />
@@ -110,16 +91,10 @@ export function ProConList({ value }: ProConListProps) {
             </li>
           ))}
         </ul>
-      </motion.div>
+      </div>
 
-      {/* Cons - slides in from right */}
-      <motion.div
-        className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden"
-        initial={{ opacity: 0, x: 40 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.1 }}
-      >
+      {/* Cons */}
+      <div className="rounded-2xl bg-red-500/5 border border-red-500/20 overflow-hidden">
         <div className="bg-red-500 px-5 py-3">
           <h4 className="font-semibold text-white flex items-center gap-2">
             <X className="w-5 h-5" />
@@ -139,7 +114,7 @@ export function ProConList({ value }: ProConListProps) {
             </li>
           ))}
         </ul>
-      </motion.div>
+      </div>
     </div>
   )
 }
