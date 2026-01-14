@@ -80,6 +80,9 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <link rel="preconnect" href="https://m2fpcq3b.apicdn.sanity.io" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://m2fpcq3b.apicdn.sanity.io" />
+        {/* Calendly Widget */}
+        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+        <script src="https://assets.calendly.com/assets/external/widget.js" async />
         {/* Prevent FOUC for dark mode */}
         <script
           dangerouslySetInnerHTML={{

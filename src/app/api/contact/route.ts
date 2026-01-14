@@ -76,21 +76,60 @@ export async function POST(request: NextRequest) {
       to: email,
       subject: `Wir haben deine Nachricht erhalten`,
       html: `
-        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #22c55e;">Vielen Dank für deine Nachricht!</h2>
-          <p>Hallo ${firstName},</p>
-          <p>wir haben deine Anfrage erhalten und melden uns schnellstmöglich bei dir.</p>
-          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-          <p style="color: #666; font-size: 14px;">
-            <strong>Deine Nachricht:</strong><br>
-            <em>${message.substring(0, 200)}${message.length > 200 ? '...' : ''}</em>
-          </p>
-          <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
-          <p style="color: #999; font-size: 12px;">
-            Bookicorn - Die moderne Kursplattform<br>
-            <a href="https://bookicorn.net" style="color: #22c55e;">bookicorn.net</a>
-          </p>
-        </div>
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px;">
+            <!-- Header mit Gradient -->
+            <div style="background: linear-gradient(135deg, #EE4035 0%, #2D61F0 50%, #A6D30F 100%); border-radius: 16px 16px 0 0; padding: 40px 30px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Bookicorn</h1>
+              <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 14px;">Die moderne Kursplattform</p>
+            </div>
+
+            <!-- Content -->
+            <div style="background: white; padding: 40px 30px; border-radius: 0 0 16px 16px;">
+              <h2 style="color: #18181b; margin: 0 0 20px 0; font-size: 24px;">Hey ${firstName}!</h2>
+
+              <p style="color: #3f3f46; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+                Vielen Dank für deine Nachricht! Wir haben sie erhalten und melden uns so schnell wie möglich bei dir.
+              </p>
+
+              <p style="color: #3f3f46; font-size: 16px; line-height: 1.6; margin: 0 0 30px 0;">
+                In der Regel antworten wir innerhalb von 24 Stunden.
+              </p>
+
+              <!-- Nachricht Box -->
+              <div style="background: #f4f4f5; border-radius: 12px; padding: 20px; margin-bottom: 30px;">
+                <p style="color: #71717a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 10px 0;">Deine Nachricht</p>
+                <p style="color: #3f3f46; font-size: 14px; line-height: 1.6; margin: 0; font-style: italic;">
+                  "${message.substring(0, 200)}${message.length > 200 ? '...' : ''}"
+                </p>
+              </div>
+
+              <!-- CTA -->
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="https://bookicorn.net" style="display: inline-block; background: linear-gradient(135deg, #EE4035 0%, #2D61F0 50%, #A6D30F 100%); color: white; text-decoration: none; padding: 14px 32px; border-radius: 50px; font-weight: 600; font-size: 14px;">
+                  Mehr über Bookicorn erfahren
+                </a>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div style="text-align: center; padding: 30px 20px;">
+              <p style="color: #a1a1aa; font-size: 12px; margin: 0 0 10px 0;">
+                © ${new Date().getFullYear()} Bookicorn. Alle Rechte vorbehalten.
+              </p>
+              <p style="color: #a1a1aa; font-size: 12px; margin: 0;">
+                <a href="https://bookicorn.net" style="color: #2D61F0; text-decoration: none;">bookicorn.net</a>
+              </p>
+            </div>
+          </div>
+        </body>
+        </html>
       `,
     })
 

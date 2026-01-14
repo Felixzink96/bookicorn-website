@@ -469,14 +469,14 @@ export default function ContactPage() {
             </motion.div>
           )}
 
-          {/* Calendly Embed */}
+          {/* Calendly */}
           {selectedType === 'meeting' && !success && (
             <motion.div
               key="meeting"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              className="max-w-4xl mx-auto"
+              className="max-w-2xl mx-auto"
             >
               <div className="mb-8">
                 <Button
@@ -489,34 +489,55 @@ export default function ContactPage() {
                 </Button>
               </div>
 
-              <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] overflow-hidden">
-                <div className="flex items-center gap-4 p-8 border-b border-[var(--theme-border)]">
-                  <div
-                    className="inline-flex items-center justify-center w-12 h-12 rounded-xl"
-                    style={{ backgroundColor: '#A6D30F' }}
-                  >
-                    <Video className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-bold text-[var(--theme-text)]">
-                      Video-Call buchen
-                    </h2>
-                    <p className="text-sm text-[var(--theme-textSecondary)]">
-                      30 Minuten persönliches Gespräch
-                    </p>
-                  </div>
+              <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 md:p-10 text-center">
+                <div
+                  className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6"
+                  style={{ backgroundColor: '#A6D30F' }}
+                >
+                  <Video className="w-8 h-8 text-white" />
                 </div>
 
-                {/* Calendly Embed */}
-                <div className="relative bg-white" style={{ minHeight: '700px' }}>
-                  <iframe
-                    src="https://calendly.com/bookicorn/demo?hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=A6D30F"
-                    width="100%"
-                    height="700"
-                    frameBorder="0"
-                    title="Termin buchen"
-                    className="w-full"
-                  />
+                <h2 className="text-2xl font-bold text-[var(--theme-text)] mb-3">
+                  Video-Call buchen
+                </h2>
+                <p className="text-[var(--theme-textSecondary)] mb-8 max-w-md mx-auto">
+                  Buche einen kostenlosen 15-minütigen Video-Call und wir zeigen dir, wie Bookicorn dein Studio auf das nächste Level bringt.
+                </p>
+
+                <div className="flex flex-col gap-4 items-center">
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => {
+                      // @ts-ignore
+                      if (window.Calendly) {
+                        // @ts-ignore
+                        window.Calendly.initPopupWidget({
+                          url: 'https://calendly.com/unicorn-factory-daniel/meetup?hide_event_type_details=1&hide_gdpr_banner=1'
+                        })
+                      }
+                    }}
+                  >
+                    Termin auswählen
+                  </Button>
+                  <p className="text-sm text-[var(--theme-textTertiary)]">
+                    Kostenlos & unverbindlich
+                  </p>
+                </div>
+
+                <div className="mt-10 pt-8 border-t border-[var(--theme-border)] grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <p className="text-2xl font-bold text-[var(--theme-text)]">15</p>
+                    <p className="text-sm text-[var(--theme-textSecondary)]">Minuten</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-[var(--theme-text)]">1:1</p>
+                    <p className="text-sm text-[var(--theme-textSecondary)]">Gespräch</p>
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold" style={{ color: '#A6D30F' }}>Free</p>
+                    <p className="text-sm text-[var(--theme-textSecondary)]">Kostenlos</p>
+                  </div>
                 </div>
               </div>
             </motion.div>
