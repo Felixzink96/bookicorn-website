@@ -94,12 +94,9 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--theme-text);
 }
 
-p {
-  color: var(--theme-text);
-}
-
-.dark p {
-  color: var(--theme-text);
+/* Body text lighter than headings */
+p, li, td, th, blockquote, span:not([class]) {
+  color: var(--theme-textSecondary);
 }
 
 /* Custom scrollbar */

@@ -650,7 +650,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <div className="lg:grid lg:grid-cols-[1fr_280px] lg:gap-12">
           {/* Article Content */}
           <article className="min-w-0">
-            <div className="prose prose-lg max-w-none prose-p:text-[var(--theme-textSecondary)] prose-li:text-[var(--theme-textSecondary)]">
+            <div className="prose prose-lg max-w-none">
               {post.content && (
                 <PortableText
                   value={post.content}
