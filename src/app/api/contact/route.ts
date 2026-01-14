@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       secure: process.env.SMTP_SECURE === 'true',
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        pass: process.env.EMAIL_PASSWORD,
       },
     })
 
@@ -39,8 +39,8 @@ export async function POST(request: NextRequest) {
 
     // Email an uns
     await transporter.sendMail({
-      from: `"Bookicorn Website" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO || process.env.EMAIL_USER,
+      from: `"Bookicorn Website" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_TO || 'felix.zink@unicorn-factory.net',
       replyTo: email,
       subject: `[Kontakt] ${subjectText} - ${firstName} ${lastName}`,
       html: `
@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
 
     // Bestätigungs-Email an Absender
     await transporter.sendMail({
-      from: `"Bookicorn" <${process.env.EMAIL_USER}>`,
+      from: `"Bookicorn" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
       to: email,
       subject: `Wir haben deine Nachricht erhalten`,
       html: `
