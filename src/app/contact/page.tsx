@@ -291,9 +291,9 @@ export default function ContactPage() {
                 <Button
                   variant="secondary"
                   size="sm"
+                  icon={ArrowLeft}
                   onClick={() => setSelectedType(null)}
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
                   Zurück zur Auswahl
                 </Button>
               </div>
@@ -382,9 +382,9 @@ export default function ContactPage() {
                 <Button
                   variant="secondary"
                   size="sm"
+                  icon={ArrowLeft}
                   onClick={() => setSelectedType(null)}
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
                   Zurück zur Auswahl
                 </Button>
               </div>
@@ -488,9 +488,9 @@ export default function ContactPage() {
                 <Button
                   variant="secondary"
                   size="sm"
+                  icon={ArrowLeft}
                   onClick={() => setSelectedType(null)}
                 >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
                   Zurück zur Auswahl
                 </Button>
               </div>
