@@ -1,25 +1,79 @@
 'use client'
 
 import { useState } from 'react'
-import { Mail, Phone, MapPin, MessageSquare, Loader2, CheckCircle } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  Mail,
+  Phone,
+  Calendar,
+  ArrowRight,
+  ArrowLeft,
+  Loader2,
+  CheckCircle,
+  Sparkles,
+  MessageSquare,
+  Clock,
+  Video,
+} from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
 import SplitText from '@/components/ui/SplitText'
 
+type ContactType = 'message' | 'callback' | 'meeting' | null
+
+const contactOptions = [
+  {
+    id: 'message' as const,
+    icon: MessageSquare,
+    title: 'Nachricht schreiben',
+    description: 'Schreib uns und wir melden uns innerhalb von 24h',
+    gradient: 'from-blue-500 to-cyan-400',
+    bgGlow: 'bg-blue-500/20',
+  },
+  {
+    id: 'callback' as const,
+    icon: Phone,
+    title: 'Ruckruf vereinbaren',
+    description: 'Wir rufen dich zu deiner Wunschzeit an',
+    gradient: 'from-purple-500 to-pink-400',
+    bgGlow: 'bg-purple-500/20',
+  },
+  {
+    id: 'meeting' as const,
+    icon: Video,
+    title: 'Demo-Termin buchen',
+    description: 'Personliche Demo per Video-Call',
+    gradient: 'from-primary-500 to-lime-400',
+    bgGlow: 'bg-primary-500/20',
+  },
+]
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    studioName: '',
-    subject: '',
-    message: '',
-  })
+  const [selectedType, setSelectedType] = useState<ContactType>(null)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Message form
+  const [messageForm, setMessageForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    studioName: '',
+    message: '',
+  })
+
+  // Callback form
+  const [callbackForm, setCallbackForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    preferredTime: '',
+    notes: '',
+  })
+
+  const handleMessageSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError('')
@@ -28,46 +82,85 @@ export default function ContactPage() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...messageForm,
+          subject: 'general',
+          type: 'message',
+        }),
       })
 
-      const data = await res.json()
-
       if (!res.ok) {
+        const data = await res.json()
         throw new Error(data.error || 'Fehler beim Senden')
       }
 
       setSuccess(true)
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        studioName: '',
-        subject: '',
-        message: '',
-      })
     } catch (err: any) {
-      setError(err.message || 'Fehler beim Senden')
+      setError(err.message)
     } finally {
       setLoading(false)
     }
   }
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+  const handleCallbackSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: callbackForm.firstName,
+          lastName: callbackForm.lastName,
+          email: callbackForm.email,
+          subject: 'callback',
+          message: `Ruckruf gewunscht!\n\nTelefon: ${callbackForm.phone}\nBevorzugte Zeit: ${callbackForm.preferredTime}\n\nNotizen: ${callbackForm.notes || 'Keine'}`,
+          type: 'callback',
+        }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Fehler beim Senden')
+      }
+
+      setSuccess(true)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const resetForm = () => {
+    setSelectedType(null)
+    setSuccess(false)
+    setError('')
+    setMessageForm({ firstName: '', lastName: '', email: '', studioName: '', message: '' })
+    setCallbackForm({ firstName: '', lastName: '', email: '', phone: '', preferredTime: '', notes: '' })
   }
 
   return (
-    <div className="bg-[var(--theme-background)]">
-      {/* Hero with LiquidEther */}
-      <div className="relative isolate overflow-hidden min-h-[50vh] flex items-center">
+    <div className="bg-[var(--theme-background)] min-h-screen">
+      {/* Hero */}
+      <div className="relative isolate overflow-hidden min-h-[45vh] flex items-center">
         <LazyLiquidEther />
-        <div className="mx-auto max-w-7xl px-6 pt-40 pb-24 sm:pt-48 sm:pb-32 lg:px-8 w-full">
-          <div className="mx-auto max-w-2xl text-center">
+        <div className="mx-auto max-w-7xl px-6 pt-40 pb-16 sm:pt-48 sm:pb-24 lg:px-8 w-full">
+          <div className="mx-auto max-w-3xl text-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
+            >
+              <Sparkles className="w-4 h-4 text-primary-400" />
+              <span className="text-sm font-medium text-[var(--theme-text)]">
+                Wir antworten in unter 24 Stunden
+              </span>
+            </motion.div>
             <SplitText
-              text="Kontakt"
+              text="Lass uns sprechen"
               tag="h1"
               className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl"
               delay={30}
@@ -75,240 +168,474 @@ export default function ContactPage() {
               from={{ opacity: 0, y: 40 }}
               to={{ opacity: 1, y: 0 }}
             />
-            <p className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]">
-              Wir freuen uns von dir zu hören. Egal ob Fragen, Feedback oder
-              Partnerschaftsanfragen.
-            </p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]"
+            >
+              Wahle wie du uns erreichen mochtest
+            </motion.p>
           </div>
         </div>
       </div>
 
-      {/* Contact Options */}
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-3">
-          <div className="rounded-2xl bg-[var(--theme-surface)] p-8 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
-              <Mail className="h-6 w-6 text-primary-600" />
-            </div>
-            <h3 className="mt-6 text-base font-semibold text-[var(--theme-text)]">Email</h3>
-            <p className="mt-2 text-sm text-[var(--theme-textSecondary)]">
-              Fur allgemeine Anfragen
+      {/* Main Content */}
+      <div className="mx-auto max-w-5xl px-6 pb-24 lg:px-8 -mt-8">
+        <AnimatePresence mode="wait">
+          {!selectedType && !success && (
+            <motion.div
+              key="options"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="grid gap-6 md:grid-cols-3"
+            >
+              {contactOptions.map((option, i) => (
+                <motion.button
+                  key={option.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  onClick={() => setSelectedType(option.id)}
+                  className="group relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 text-left transition-all duration-500 hover:border-transparent hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2"
+                >
+                  {/* Glow effect */}
+                  <div
+                    className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${option.bgGlow} blur-3xl`}
+                  />
+
+                  {/* Gradient border on hover */}
+                  <div
+                    className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${option.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                    style={{ padding: '1px' }}
+                  >
+                    <div className="absolute inset-[1px] rounded-3xl bg-[var(--theme-surface)]" />
+                  </div>
+
+                  <div className="relative z-10">
+                    {/* Icon */}
+                    <div
+                      className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${option.gradient} mb-6 group-hover:scale-110 transition-transform duration-500`}
+                    >
+                      <option.icon className="w-7 h-7 text-white" />
+                    </div>
+
+                    {/* Content */}
+                    <h3 className="text-xl font-bold text-[var(--theme-text)] mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[var(--theme-text)] group-hover:to-primary-500 transition-all duration-300">
+                      {option.title}
+                    </h3>
+                    <p className="text-[var(--theme-textSecondary)] text-sm leading-relaxed">
+                      {option.description}
+                    </p>
+
+                    {/* Arrow */}
+                    <div className="mt-6 flex items-center gap-2 text-primary-500 font-medium text-sm opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
+                      <span>Auswahlen</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Success State */}
+          {success && (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="max-w-lg mx-auto"
+            >
+              <div className="relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-12 text-center">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-lime-400/10" />
+                <div className="relative z-10">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }}
+                    className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary-500 to-lime-400 mb-6"
+                  >
+                    <CheckCircle className="w-10 h-10 text-white" />
+                  </motion.div>
+                  <h3 className="text-2xl font-bold text-[var(--theme-text)] mb-3">
+                    Perfekt!
+                  </h3>
+                  <p className="text-[var(--theme-textSecondary)] mb-8">
+                    {selectedType === 'callback'
+                      ? 'Wir rufen dich so schnell wie moglich zuruck!'
+                      : 'Wir melden uns innerhalb von 24 Stunden bei dir.'}
+                  </p>
+                  <Button variant="secondary" onClick={resetForm}>
+                    Weitere Anfrage stellen
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Message Form */}
+          {selectedType === 'message' && !success && (
+            <motion.div
+              key="message-form"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="max-w-2xl mx-auto"
+            >
+              <button
+                onClick={() => setSelectedType(null)}
+                className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Zuruck zur Auswahl</span>
+              </button>
+
+              <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 md:p-10">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400">
+                    <MessageSquare className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-[var(--theme-text)]">
+                      Nachricht schreiben
+                    </h2>
+                    <p className="text-sm text-[var(--theme-textSecondary)]">
+                      Erzahl uns von deinem Projekt
+                    </p>
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
+                    {error}
+                  </div>
+                )}
+
+                <form onSubmit={handleMessageSubmit} className="space-y-5">
+                  <div className="grid gap-5 md:grid-cols-2">
+                    <InputField
+                      label="Vorname"
+                      value={messageForm.firstName}
+                      onChange={(v) => setMessageForm({ ...messageForm, firstName: v })}
+                      required
+                    />
+                    <InputField
+                      label="Nachname"
+                      value={messageForm.lastName}
+                      onChange={(v) => setMessageForm({ ...messageForm, lastName: v })}
+                      required
+                    />
+                  </div>
+                  <InputField
+                    label="Email"
+                    type="email"
+                    value={messageForm.email}
+                    onChange={(v) => setMessageForm({ ...messageForm, email: v })}
+                    required
+                  />
+                  <InputField
+                    label="Studio Name"
+                    value={messageForm.studioName}
+                    onChange={(v) => setMessageForm({ ...messageForm, studioName: v })}
+                    optional
+                  />
+                  <TextAreaField
+                    label="Deine Nachricht"
+                    value={messageForm.message}
+                    onChange={(v) => setMessageForm({ ...messageForm, message: v })}
+                    placeholder="Erzahl uns, wie wir dir helfen konnen..."
+                    required
+                  />
+                  <Button type="submit" variant="primary" fullWidth disabled={loading}>
+                    {loading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      'Nachricht senden'
+                    )}
+                  </Button>
+                </form>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Callback Form */}
+          {selectedType === 'callback' && !success && (
+            <motion.div
+              key="callback-form"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="max-w-2xl mx-auto"
+            >
+              <button
+                onClick={() => setSelectedType(null)}
+                className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Zuruck zur Auswahl</span>
+              </button>
+
+              <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 md:p-10">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-400">
+                    <Phone className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-[var(--theme-text)]">
+                      Ruckruf vereinbaren
+                    </h2>
+                    <p className="text-sm text-[var(--theme-textSecondary)]">
+                      Wir rufen dich personlich an
+                    </p>
+                  </div>
+                </div>
+
+                {error && (
+                  <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm">
+                    {error}
+                  </div>
+                )}
+
+                <form onSubmit={handleCallbackSubmit} className="space-y-5">
+                  <div className="grid gap-5 md:grid-cols-2">
+                    <InputField
+                      label="Vorname"
+                      value={callbackForm.firstName}
+                      onChange={(v) => setCallbackForm({ ...callbackForm, firstName: v })}
+                      required
+                    />
+                    <InputField
+                      label="Nachname"
+                      value={callbackForm.lastName}
+                      onChange={(v) => setCallbackForm({ ...callbackForm, lastName: v })}
+                      required
+                    />
+                  </div>
+                  <InputField
+                    label="Email"
+                    type="email"
+                    value={callbackForm.email}
+                    onChange={(v) => setCallbackForm({ ...callbackForm, email: v })}
+                    required
+                  />
+                  <InputField
+                    label="Telefonnummer"
+                    type="tel"
+                    value={callbackForm.phone}
+                    onChange={(v) => setCallbackForm({ ...callbackForm, phone: v })}
+                    placeholder="+49 123 456789"
+                    required
+                  />
+                  <SelectField
+                    label="Bevorzugte Zeit"
+                    value={callbackForm.preferredTime}
+                    onChange={(v) => setCallbackForm({ ...callbackForm, preferredTime: v })}
+                    options={[
+                      { value: '', label: 'Bitte wahlen' },
+                      { value: 'morning', label: 'Vormittags (9-12 Uhr)' },
+                      { value: 'afternoon', label: 'Nachmittags (12-17 Uhr)' },
+                      { value: 'evening', label: 'Abends (17-19 Uhr)' },
+                      { value: 'anytime', label: 'Jederzeit' },
+                    ]}
+                    required
+                  />
+                  <TextAreaField
+                    label="Worum geht es?"
+                    value={callbackForm.notes}
+                    onChange={(v) => setCallbackForm({ ...callbackForm, notes: v })}
+                    placeholder="Optional: Kurze Info zum Thema des Gesprachs..."
+                    rows={3}
+                  />
+                  <Button type="submit" variant="primary" fullWidth disabled={loading}>
+                    {loading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      'Ruckruf anfordern'
+                    )}
+                  </Button>
+                </form>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Calendly Embed */}
+          {selectedType === 'meeting' && !success && (
+            <motion.div
+              key="meeting"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="max-w-4xl mx-auto"
+            >
+              <button
+                onClick={() => setSelectedType(null)}
+                className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Zuruck zur Auswahl</span>
+              </button>
+
+              <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] overflow-hidden">
+                <div className="flex items-center gap-4 p-8 border-b border-[var(--theme-border)]">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-lime-400">
+                    <Video className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-[var(--theme-text)]">
+                      Demo-Termin buchen
+                    </h2>
+                    <p className="text-sm text-[var(--theme-textSecondary)]">
+                      30 Minuten personliche Produktdemo
+                    </p>
+                  </div>
+                </div>
+
+                {/* Calendly Embed */}
+                <div className="relative bg-white" style={{ minHeight: '700px' }}>
+                  <iframe
+                    src="https://calendly.com/bookicorn/demo?hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=22c55e"
+                    width="100%"
+                    height="700"
+                    frameBorder="0"
+                    title="Termin buchen"
+                    className="w-full"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Quick Contact Info */}
+        {!selectedType && !success && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mt-16 text-center"
+          >
+            <p className="text-[var(--theme-textSecondary)] mb-4">
+              Oder schreib uns direkt an
             </p>
             <a
               href="mailto:kontakt@bookicorn.net"
-              className="mt-4 inline-block text-sm font-semibold text-primary-600 hover:text-primary-700"
+              className="inline-flex items-center gap-2 text-primary-500 hover:text-primary-600 font-medium transition-colors"
             >
+              <Mail className="w-5 h-5" />
               kontakt@bookicorn.net
             </a>
-          </div>
-
-          <div className="rounded-2xl bg-[var(--theme-surface)] p-8 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
-              <MessageSquare className="h-6 w-6 text-primary-600" />
-            </div>
-            <h3 className="mt-6 text-base font-semibold text-[var(--theme-text)]">
-              Live Chat
-            </h3>
-            <p className="mt-2 text-sm text-[var(--theme-textSecondary)]">
-              Mo-Fr, 9-18 Uhr
-            </p>
-            <button className="mt-4 inline-block text-sm font-semibold text-primary-600 hover:text-primary-700">
-              Chat starten
-            </button>
-          </div>
-
-          <div className="rounded-2xl bg-[var(--theme-surface)] p-8 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 dark:bg-primary-900/30">
-              <Phone className="h-6 w-6 text-primary-600" />
-            </div>
-            <h3 className="mt-6 text-base font-semibold text-[var(--theme-text)]">
-              Telefon
-            </h3>
-            <p className="mt-2 text-sm text-[var(--theme-textSecondary)]">
-              Fur Enterprise-Kunden
-            </p>
-            <span className="mt-4 inline-block text-sm font-semibold text-[var(--theme-textSecondary)]">
-              Auf Anfrage
-            </span>
-          </div>
-        </div>
+          </motion.div>
+        )}
       </div>
+    </div>
+  )
+}
 
-      {/* Contact Form */}
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="text-2xl font-bold tracking-tight text-[var(--theme-text)] text-center">
-            Schreib uns eine Nachricht
-          </h2>
+// Reusable Input Field Component
+function InputField({
+  label,
+  type = 'text',
+  value,
+  onChange,
+  placeholder,
+  required,
+  optional,
+}: {
+  label: string
+  type?: string
+  value: string
+  onChange: (value: string) => void
+  placeholder?: string
+  required?: boolean
+  optional?: boolean
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-[var(--theme-text)] mb-2">
+        {label}
+        {optional && (
+          <span className="text-[var(--theme-textTertiary)] font-normal ml-1">(optional)</span>
+        )}
+      </label>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] placeholder:text-[var(--theme-textTertiary)] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+      />
+    </div>
+  )
+}
 
-          {success ? (
-            <div className="mt-8 rounded-2xl bg-primary-50 dark:bg-primary-900/20 p-8 text-center">
-              <CheckCircle className="mx-auto h-12 w-12 text-primary-600" />
-              <h3 className="mt-4 text-xl font-semibold text-[var(--theme-text)]">
-                Nachricht gesendet!
-              </h3>
-              <p className="mt-2 text-[var(--theme-textSecondary)]">
-                Vielen Dank fur deine Nachricht. Wir melden uns schnellstmoglich bei dir.
-              </p>
-              <button
-                onClick={() => setSuccess(false)}
-                className="mt-6 text-sm font-semibold text-primary-600 hover:text-primary-700"
-              >
-                Weitere Nachricht senden
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-              {error && (
-                <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-4 text-red-600 dark:text-red-400 text-sm">
-                  {error}
-                </div>
-              )}
+// Reusable TextArea Field Component
+function TextAreaField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  required,
+  rows = 5,
+}: {
+  label: string
+  value: string
+  onChange: (value: string) => void
+  placeholder?: string
+  required?: boolean
+  rows?: number
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-[var(--theme-text)] mb-2">
+        {label}
+      </label>
+      <textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        required={required}
+        rows={rows}
+        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] placeholder:text-[var(--theme-textTertiary)] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all resize-none"
+      />
+    </div>
+  )
+}
 
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="firstName"
-                    className="block text-sm font-medium text-[var(--theme-text)]"
-                  >
-                    Vorname *
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="lastName"
-                    className="block text-sm font-medium text-[var(--theme-text)]"
-                  >
-                    Nachname *
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-[var(--theme-text)]"
-                >
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="studioName"
-                  className="block text-sm font-medium text-[var(--theme-text)]"
-                >
-                  Studio Name (optional)
-                </label>
-                <input
-                  type="text"
-                  id="studioName"
-                  name="studioName"
-                  value={formData.studioName}
-                  onChange={handleChange}
-                  className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-[var(--theme-text)]"
-                >
-                  Betreff *
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                >
-                  <option value="">Bitte wahlen</option>
-                  <option value="general">Allgemeine Anfrage</option>
-                  <option value="demo">Demo anfordern</option>
-                  <option value="enterprise">Enterprise Anfrage</option>
-                  <option value="partnership">Partnerschaft</option>
-                  <option value="support">Technischer Support</option>
-                  <option value="feedback">Feedback</option>
-                </select>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-[var(--theme-text)]"
-                >
-                  Nachricht *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                  placeholder="Wie konnen wir dir helfen?"
-                />
-              </div>
-
-              <div>
-                <Button type="submit" variant="primary" fullWidth disabled={loading}>
-                  {loading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Wird gesendet...
-                    </>
-                  ) : (
-                    'Nachricht senden'
-                  )}
-                </Button>
-              </div>
-            </form>
-          )}
-        </div>
-      </div>
-
-      {/* Location */}
-      <div className="bg-[var(--theme-surface)] py-16">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <div className="flex items-center justify-center gap-2 text-[var(--theme-textSecondary)]">
-              <MapPin className="h-5 w-5" />
-              <span>Made with love in Germany</span>
-            </div>
-          </div>
-        </div>
-      </div>
+// Reusable Select Field Component
+function SelectField({
+  label,
+  value,
+  onChange,
+  options,
+  required,
+}: {
+  label: string
+  value: string
+  onChange: (value: string) => void
+  options: { value: string; label: string }[]
+  required?: boolean
+}) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-[var(--theme-text)] mb-2">
+        {label}
+      </label>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required={required}
+        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+      >
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
     </div>
   )
 }
