@@ -38,8 +38,21 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
         transition={{ duration: 0.5, type: 'spring' }}
         className="relative group"
       >
-        {/* Rainbow gradient border */}
-        <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 opacity-75 blur-sm group-hover:opacity-100 transition duration-500" />
+        {/* Animated gradient glow - outer layer */}
+        <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary-500 via-cyan-500 to-purple-500 opacity-30 blur-2xl animate-pulse" />
+
+        {/* Rotating gradient border */}
+        <div
+          className="absolute -inset-[3px] rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: 'linear-gradient(90deg, #84cc16, #06b6d4, #a855f7, #ec4899, #84cc16)',
+            backgroundSize: '300% 100%',
+            animation: 'gradientShift 3s ease infinite',
+          }}
+        />
+
+        {/* Inner glow */}
+        <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary-400/50 via-transparent to-cyan-400/50 blur-sm" />
 
         {/* Card content */}
         <div className="relative rounded-2xl bg-[var(--theme-background)] p-8 h-full flex flex-col">

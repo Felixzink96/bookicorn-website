@@ -210,7 +210,7 @@ export default function FeaturesPage() {
       {/* Hero with LiquidEther */}
       <div className="relative isolate overflow-hidden min-h-[60vh] flex items-center">
         <LazyLiquidEther />
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 w-full">
+        <div className="mx-auto max-w-7xl px-6 pt-32 pb-24 sm:pt-40 sm:pb-32 lg:px-8 w-full">
           <div className="mx-auto max-w-2xl text-center">
             <SplitText
               text="Alle Features auf einen Blick"

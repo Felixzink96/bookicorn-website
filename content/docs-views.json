@@ -1,5 +1,5 @@
 {
-  "credits/fifo-erklaert": 3,
+  "credits/fifo-erklaert": 4,
   "kurse/kurs-erstellen": 2,
   "credits/aktivierungsmodi": 1,
   "credits/gueltigkeit": 1,
@@ -10,5 +10,6 @@
   "credits/pakete-erstellen": 2,
   "trainer/verdienste": 1,
   "getting-started/erster-kurs": 1,
-  "kurse/warteliste": 1
+  "kurse/warteliste": 1,
+  "getting-started/studio-einrichten": 1
 }
