@@ -184,17 +184,17 @@ export default function ContactPage() {
           {!selectedType && !success && (
             <motion.div
               key="options"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="grid gap-6 md:grid-cols-3"
             >
               {contactOptions.map((option, i) => (
                 <motion.div
                   key={option.id}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  transition={{ delay: i * 0.1, duration: 0.4 }}
                   className="group relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
                   style={{
                     boxShadow: `0 0 0 0 ${option.color}00`,
