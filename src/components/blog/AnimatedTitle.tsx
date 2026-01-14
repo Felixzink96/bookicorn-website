@@ -13,6 +13,7 @@ export function AnimatedTitle({ title, className }: AnimatedTitleProps) {
       text={title}
       tag="h1"
       className={className}
+      textAlign="left"
       delay={25}
       duration={0.5}
       from={{ opacity: 0, y: 30 }}
