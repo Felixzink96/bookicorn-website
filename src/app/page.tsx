@@ -10,13 +10,12 @@ import {
   BarChart3,
   Palette,
   Shield,
-  ArrowRight,
   Check,
   Star,
   Zap,
 } from 'lucide-react'
-import { RegisterButton } from '@/components/ui/CTAButton'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
+import Button from '@/components/ui/Button'
 import SplitText from '@/components/ui/SplitText'
 import {
   EarlyBirdBadge,
@@ -174,22 +173,17 @@ export default function HomePage() {
               <SpotsCounter total={SPOTS_TOTAL} taken={SPOTS_TAKEN} />
             </motion.div>
 
-            {/* CTA Buttons */}
+            {/* CTA Button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+              className="mt-10 flex items-center justify-center"
             >
-              <RegisterButton variant="primary" size="lg">
-                Jetzt Platz sichern
-              </RegisterButton>
-              <Link
-                href="/features"
-                className="group flex items-center gap-2 px-6 py-3.5 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] font-medium hover:border-primary-500/50 transition-colors"
-              >
-                Demo ansehen
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <Link href="/contact">
+                <Button variant="primary" size="lg">
+                  Kontakt aufnehmen
+                </Button>
               </Link>
             </motion.div>
 
