@@ -38,12 +38,25 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
         transition={{ duration: 0.5, type: 'spring' }}
         className="relative group"
       >
-        {/* Animated gradient glow - outer pulsing layer */}
+        {/* Outer intense glow - large blur */}
         <motion.div
-          className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary-500 via-cyan-500 to-purple-500 blur-2xl"
+          className="absolute -inset-8 rounded-3xl bg-gradient-to-r from-primary-500 via-cyan-400 to-purple-500 blur-3xl"
           animate={{
-            opacity: [0.3, 0.5, 0.3],
-            scale: [1, 1.02, 1],
+            opacity: [0.4, 0.7, 0.4],
+            scale: [1, 1.05, 1],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+
+        {/* Mid glow layer - stronger */}
+        <motion.div
+          className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-primary-400 via-cyan-500 to-purple-400 blur-xl"
+          animate={{
+            opacity: [0.5, 0.8, 0.5],
           }}
           transition={{
             duration: 2,
@@ -52,28 +65,11 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
           }}
         />
 
-        {/* Rotating gradient border */}
+        {/* Inner glow - tight and bright */}
         <motion.div
-          className="absolute -inset-[3px] rounded-2xl"
-          style={{
-            background: 'linear-gradient(90deg, #84cc16, #06b6d4, #a855f7, #ec4899, #84cc16)',
-            backgroundSize: '300% 100%',
-          }}
+          className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary-500 via-cyan-400 to-purple-500 blur-md"
           animate={{
-            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: 'linear',
-          }}
-        />
-
-        {/* Inner shimmer glow */}
-        <motion.div
-          className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary-400/60 via-transparent to-cyan-400/60 blur-sm"
-          animate={{
-            opacity: [0.5, 0.8, 0.5],
+            opacity: [0.6, 1, 0.6],
           }}
           transition={{
             duration: 1.5,
