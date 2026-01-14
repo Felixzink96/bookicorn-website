@@ -38,12 +38,15 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
         transition={{ duration: 0.5, type: 'spring' }}
         className="relative group"
       >
-        {/* Outer intense glow - large blur */}
+        {/* Outer glow - Bookicorn unicorn colors */}
         <motion.div
-          className="absolute -inset-8 rounded-3xl bg-gradient-to-r from-primary-500 via-cyan-400 to-purple-500 blur-3xl"
+          className="absolute -inset-6 rounded-3xl blur-2xl"
+          style={{
+            background: 'linear-gradient(135deg, #EE4035 0%, #2D61F0 50%, #A6D30F 100%)',
+          }}
           animate={{
-            opacity: [0.4, 0.7, 0.4],
-            scale: [1, 1.05, 1],
+            opacity: [0.25, 0.4, 0.25],
+            scale: [1, 1.03, 1],
           }}
           transition={{
             duration: 3,
@@ -52,27 +55,17 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
           }}
         />
 
-        {/* Mid glow layer - stronger */}
+        {/* Inner glow - tighter */}
         <motion.div
-          className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-primary-400 via-cyan-500 to-purple-400 blur-xl"
+          className="absolute -inset-2 rounded-2xl blur-lg"
+          style={{
+            background: 'linear-gradient(135deg, #EE4035 0%, #2D61F0 50%, #A6D30F 100%)',
+          }}
           animate={{
-            opacity: [0.5, 0.8, 0.5],
+            opacity: [0.3, 0.5, 0.3],
           }}
           transition={{
             duration: 2,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-
-        {/* Inner glow - tight and bright */}
-        <motion.div
-          className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary-500 via-cyan-400 to-purple-500 blur-md"
-          animate={{
-            opacity: [0.6, 1, 0.6],
-          }}
-          transition={{
-            duration: 1.5,
             repeat: Infinity,
             ease: 'easeInOut',
           }}
@@ -92,8 +85,13 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
 
           {/* Header */}
           <div className="mb-6">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-400 mb-2">
-              POPULAR
+            <span
+              className="inline-block px-4 py-1.5 rounded-full text-xs font-bold text-white mb-3"
+              style={{
+                background: 'linear-gradient(135deg, #EE4035 0%, #2D61F0 50%, #A6D30F 100%)',
+              }}
+            >
+              BELIEBT
             </span>
             <h3 className="text-2xl font-bold text-[var(--theme-text)]">
               Early Bird
