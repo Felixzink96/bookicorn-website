@@ -179,7 +179,7 @@ export default function ContactPage() {
       </div>
 
       {/* Main Content */}
-      <div className="mx-auto max-w-5xl px-6 pb-24 lg:px-8 -mt-8">
+      <div className="mx-auto max-w-5xl px-6 pb-24 lg:px-8 pt-8">
         <AnimatePresence mode="wait">
           {!selectedType && !success && (
             <motion.div
@@ -287,13 +287,16 @@ export default function ContactPage() {
               exit={{ opacity: 0, x: -50 }}
               className="max-w-2xl mx-auto"
             >
-              <button
-                onClick={() => setSelectedType(null)}
-                className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Zurück zur Auswahl</span>
-              </button>
+              <div className="mb-8">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setSelectedType(null)}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Zurück zur Auswahl
+                </Button>
+              </div>
 
               <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 md:p-10">
                 <div className="flex items-center gap-4 mb-8">
@@ -375,13 +378,16 @@ export default function ContactPage() {
               exit={{ opacity: 0, x: -50 }}
               className="max-w-2xl mx-auto"
             >
-              <button
-                onClick={() => setSelectedType(null)}
-                className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Zurück zur Auswahl</span>
-              </button>
+              <div className="mb-8">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setSelectedType(null)}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Zurück zur Auswahl
+                </Button>
+              </div>
 
               <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 md:p-10">
                 <div className="flex items-center gap-4 mb-8">
@@ -478,13 +484,16 @@ export default function ContactPage() {
               exit={{ opacity: 0, x: -50 }}
               className="max-w-4xl mx-auto"
             >
-              <button
-                onClick={() => setSelectedType(null)}
-                className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Zurück zur Auswahl</span>
-              </button>
+              <div className="mb-8">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setSelectedType(null)}
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Zurück zur Auswahl
+                </Button>
+              </div>
 
               <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] overflow-hidden">
                 <div className="flex items-center gap-4 p-8 border-b border-[var(--theme-border)]">
