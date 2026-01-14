@@ -1,12 +1,14 @@
 {
   "credits/fifo-erklaert": 3,
-  "kurse/kurs-erstellen": 1,
+  "kurse/kurs-erstellen": 2,
   "credits/aktivierungsmodi": 1,
   "credits/gueltigkeit": 1,
   "credits/trainer-credits": 1,
   "trainer": 1,
-  "credits": 1,
-  "getting-started": 2,
-  "credits/pakete-erstellen": 1,
-  "trainer/verdienste": 1
+  "credits": 2,
+  "getting-started": 3,
+  "credits/pakete-erstellen": 2,
+  "trainer/verdienste": 1,
+  "getting-started/erster-kurs": 1,
+  "kurse/warteliste": 1
 }

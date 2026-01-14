@@ -50,6 +50,7 @@ const SplitText: React.FC<SplitTextProps> = ({
   const initialStyle: React.CSSProperties = {
     opacity: from.opacity as number ?? 0,
     transform: `translateY(${from.y ?? 40}px)`,
+    display: 'inline-block',
   }
 
   // Wait for mount + fonts
@@ -66,44 +67,42 @@ const SplitText: React.FC<SplitTextProps> = ({
     return () => clearTimeout(timer)
   }, [])
 
-  // Split text into elements with initial hidden state
+  // Split text into elements - words stay together, only break between words
   const splitElements = useMemo(() => {
     if (splitType === 'words') {
       return text.split(' ').map((word, i, arr) => (
-        <span
-          key={i}
-          className={`${wordClass} inline-block`}
-          style={initialStyle}
-        >
-          {word}
-          {i < arr.length - 1 && <span>&nbsp;</span>}
-        </span>
+        <React.Fragment key={i}>
+          <span className={`${wordClass}`} style={initialStyle}>
+            {word}
+          </span>
+          {i < arr.length - 1 && ' '}
+        </React.Fragment>
       ))
     }
 
-    return text.split('').map((char, i) => {
-      if (char === ' ') {
+    // Split by chars but keep words together
+    const words = text.split(' ')
+    let globalCharIndex = 0
+
+    return words.map((word, wordIdx) => {
+      const wordChars = word.split('').map((char) => {
+        const idx = globalCharIndex++
         return (
-          <span
-            key={i}
-            className={`${charClass} inline-block`}
-            style={initialStyle}
-          >
-            &nbsp;
+          <span key={idx} className={charClass} style={initialStyle}>
+            {char}
           </span>
         )
-      }
-      if (char === '\n') {
-        return <br key={i} />
-      }
+      })
+
       return (
-        <span
-          key={i}
-          className={`${charClass} inline-block`}
-          style={initialStyle}
-        >
-          {char}
-        </span>
+        <React.Fragment key={`word-${wordIdx}`}>
+          <span style={{ whiteSpace: 'nowrap', display: 'inline' }}>
+            {wordChars}
+          </span>
+          {wordIdx < words.length - 1 && (
+            <span className={charClass} style={initialStyle}>&nbsp;</span>
+          )}
+        </React.Fragment>
       )
     })
   }, [text, splitType, charClass, wordClass, initialStyle])
