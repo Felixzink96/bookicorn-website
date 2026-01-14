@@ -110,7 +110,7 @@ export default function PricingPage() {
       {/* Hero with LiquidEther */}
       <div className="relative isolate overflow-hidden min-h-[50vh] flex items-center">
         <LazyLiquidEther />
-        <div className="mx-auto max-w-7xl px-6 pt-32 pb-24 sm:pt-40 sm:pb-32 lg:px-8 w-full">
+        <div className="mx-auto max-w-7xl px-6 pt-40 pb-24 sm:pt-48 sm:pb-32 lg:px-8 w-full">
           <div className="mx-auto max-w-2xl text-center">
             <SplitText
               text="Einfache, transparente Preise"

@@ -38,21 +38,49 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
         transition={{ duration: 0.5, type: 'spring' }}
         className="relative group"
       >
-        {/* Animated gradient glow - outer layer */}
-        <div className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary-500 via-cyan-500 to-purple-500 opacity-30 blur-2xl animate-pulse" />
-
-        {/* Rotating gradient border */}
-        <div
-          className="absolute -inset-[3px] rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: 'linear-gradient(90deg, #84cc16, #06b6d4, #a855f7, #ec4899, #84cc16)',
-            backgroundSize: '300% 100%',
-            animation: 'gradientShift 3s ease infinite',
+        {/* Animated gradient glow - outer pulsing layer */}
+        <motion.div
+          className="absolute -inset-4 rounded-3xl bg-gradient-to-r from-primary-500 via-cyan-500 to-purple-500 blur-2xl"
+          animate={{
+            opacity: [0.3, 0.5, 0.3],
+            scale: [1, 1.02, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
           }}
         />
 
-        {/* Inner glow */}
-        <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary-400/50 via-transparent to-cyan-400/50 blur-sm" />
+        {/* Rotating gradient border */}
+        <motion.div
+          className="absolute -inset-[3px] rounded-2xl"
+          style={{
+            background: 'linear-gradient(90deg, #84cc16, #06b6d4, #a855f7, #ec4899, #84cc16)',
+            backgroundSize: '300% 100%',
+          }}
+          animate={{
+            backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            ease: 'linear',
+          }}
+        />
+
+        {/* Inner shimmer glow */}
+        <motion.div
+          className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-primary-400/60 via-transparent to-cyan-400/60 blur-sm"
+          animate={{
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
 
         {/* Card content */}
         <div className="relative rounded-2xl bg-[var(--theme-background)] p-8 h-full flex flex-col">

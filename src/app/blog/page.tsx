@@ -230,7 +230,7 @@ export default function BlogPage() {
       {/* Hero with LiquidEther */}
       <div className="relative isolate overflow-hidden min-h-[35vh] flex items-center">
         <LazyLiquidEther />
-        <div className="mx-auto max-w-7xl px-6 pt-28 pb-16 lg:px-8 w-full">
+        <div className="mx-auto max-w-7xl px-6 pt-32 pb-16 lg:px-8 w-full">
           <div className="mx-auto max-w-2xl text-center">
             <SplitText
               text="Blog"

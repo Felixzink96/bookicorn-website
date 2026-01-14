@@ -204,7 +204,7 @@ export default function DocsPage() {
       {/* Hero */}
       <div className="relative isolate overflow-hidden">
         <LazyLiquidEther />
-        <div className="mx-auto max-w-7xl px-6 pt-28 pb-20 lg:pt-36 lg:pb-28 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 pt-36 pb-20 lg:pt-44 lg:pb-28 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--theme-surface)]/80 backdrop-blur-sm border border-[var(--theme-border)] mb-6">
               <BookOpen className="w-4 h-4 text-primary-600" />
