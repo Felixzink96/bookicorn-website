@@ -80,18 +80,9 @@ body {
   color: var(--theme-text);
 }
 
-/* Typography */
+/* Typography - Headings always dark */
 h1, h2, h3, h4, h5, h6 {
-  color: var(--theme-text);
-}
-
-.dark h1,
-.dark h2,
-.dark h3,
-.dark h4,
-.dark h5,
-.dark h6 {
-  color: var(--theme-text);
+  color: var(--theme-text) !important;
 }
 
 /* Body text lighter than headings */
