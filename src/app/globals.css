@@ -99,6 +99,15 @@ p, li, td, th, blockquote {
   color: var(--theme-textSecondary) !important;
 }
 
+/* Bold text with Bookicorn gradient */
+strong, b {
+  background: linear-gradient(135deg, #EE4035 0%, #2D61F0 50%, #A6D30F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
