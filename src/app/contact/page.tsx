@@ -1,11 +1,64 @@
 'use client'
 
-import { Mail, Phone, MapPin, MessageSquare } from 'lucide-react'
+import { useState } from 'react'
+import { Mail, Phone, MapPin, MessageSquare, Loader2, CheckCircle } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
 import SplitText from '@/components/ui/SplitText'
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    studioName: '',
+    subject: '',
+    message: '',
+  })
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Fehler beim Senden')
+      }
+
+      setSuccess(true)
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        studioName: '',
+        subject: '',
+        message: '',
+      })
+    } catch (err: any) {
+      setError(err.message || 'Fehler beim Senden')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
   return (
     <div className="bg-[var(--theme-background)]">
       {/* Hero with LiquidEther */}
@@ -39,13 +92,13 @@ export default function ContactPage() {
             </div>
             <h3 className="mt-6 text-base font-semibold text-[var(--theme-text)]">Email</h3>
             <p className="mt-2 text-sm text-[var(--theme-textSecondary)]">
-              Für allgemeine Anfragen
+              Fur allgemeine Anfragen
             </p>
             <a
-              href="mailto:hello@bookicorn.com"
+              href="mailto:kontakt@bookicorn.net"
               className="mt-4 inline-block text-sm font-semibold text-primary-600 hover:text-primary-700"
             >
-              hello@bookicorn.com
+              kontakt@bookicorn.net
             </a>
           </div>
 
@@ -72,14 +125,11 @@ export default function ContactPage() {
               Telefon
             </h3>
             <p className="mt-2 text-sm text-[var(--theme-textSecondary)]">
-              Für Enterprise-Kunden
+              Fur Enterprise-Kunden
             </p>
-            <a
-              href="tel:+4930123456789"
-              className="mt-4 inline-block text-sm font-semibold text-primary-600 hover:text-primary-700"
-            >
-              +49 30 123 456 789
-            </a>
+            <span className="mt-4 inline-block text-sm font-semibold text-[var(--theme-textSecondary)]">
+              Auf Anfrage
+            </span>
           </div>
         </div>
       </div>
@@ -90,117 +140,161 @@ export default function ContactPage() {
           <h2 className="text-2xl font-bold tracking-tight text-[var(--theme-text)] text-center">
             Schreib uns eine Nachricht
           </h2>
-          <form className="mt-8 space-y-6">
-            <div className="grid gap-6 md:grid-cols-2">
+
+          {success ? (
+            <div className="mt-8 rounded-2xl bg-primary-50 dark:bg-primary-900/20 p-8 text-center">
+              <CheckCircle className="mx-auto h-12 w-12 text-primary-600" />
+              <h3 className="mt-4 text-xl font-semibold text-[var(--theme-text)]">
+                Nachricht gesendet!
+              </h3>
+              <p className="mt-2 text-[var(--theme-textSecondary)]">
+                Vielen Dank fur deine Nachricht. Wir melden uns schnellstmoglich bei dir.
+              </p>
+              <button
+                onClick={() => setSuccess(false)}
+                className="mt-6 text-sm font-semibold text-primary-600 hover:text-primary-700"
+              >
+                Weitere Nachricht senden
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+              {error && (
+                <div className="rounded-lg bg-red-50 dark:bg-red-900/20 p-4 text-red-600 dark:text-red-400 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <div className="grid gap-6 md:grid-cols-2">
+                <div>
+                  <label
+                    htmlFor="firstName"
+                    className="block text-sm font-medium text-[var(--theme-text)]"
+                  >
+                    Vorname *
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium text-[var(--theme-text)]"
+                  >
+                    Nachname *
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label
-                  htmlFor="firstName"
+                  htmlFor="email"
                   className="block text-sm font-medium text-[var(--theme-text)]"
                 >
-                  Vorname
+                  Email *
                 </label>
                 <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                   className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
+
               <div>
                 <label
-                  htmlFor="lastName"
+                  htmlFor="studioName"
                   className="block text-sm font-medium text-[var(--theme-text)]"
                 >
-                  Nachname
+                  Studio Name (optional)
                 </label>
                 <input
                   type="text"
-                  id="lastName"
-                  name="lastName"
-                  required
+                  id="studioName"
+                  name="studioName"
+                  value={formData.studioName}
+                  onChange={handleChange}
                   className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               </div>
-            </div>
 
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-[var(--theme-text)]"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              />
-            </div>
+              <div>
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium text-[var(--theme-text)]"
+                >
+                  Betreff *
+                </label>
+                <select
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                >
+                  <option value="">Bitte wahlen</option>
+                  <option value="general">Allgemeine Anfrage</option>
+                  <option value="demo">Demo anfordern</option>
+                  <option value="enterprise">Enterprise Anfrage</option>
+                  <option value="partnership">Partnerschaft</option>
+                  <option value="support">Technischer Support</option>
+                  <option value="feedback">Feedback</option>
+                </select>
+              </div>
 
-            <div>
-              <label
-                htmlFor="studioName"
-                className="block text-sm font-medium text-[var(--theme-text)]"
-              >
-                Studio Name (optional)
-              </label>
-              <input
-                type="text"
-                id="studioName"
-                name="studioName"
-                className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              />
-            </div>
+              <div>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-[var(--theme-text)]"
+                >
+                  Nachricht *
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows={5}
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                  placeholder="Wie konnen wir dir helfen?"
+                />
+              </div>
 
-            <div>
-              <label
-                htmlFor="subject"
-                className="block text-sm font-medium text-[var(--theme-text)]"
-              >
-                Betreff
-              </label>
-              <select
-                id="subject"
-                name="subject"
-                required
-                className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              >
-                <option value="">Bitte wählen</option>
-                <option value="general">Allgemeine Anfrage</option>
-                <option value="demo">Demo anfordern</option>
-                <option value="enterprise">Enterprise Anfrage</option>
-                <option value="partnership">Partnerschaft</option>
-                <option value="support">Technischer Support</option>
-                <option value="feedback">Feedback</option>
-              </select>
-            </div>
-
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium text-[var(--theme-text)]"
-              >
-                Nachricht
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={5}
-                required
-                className="mt-1 block w-full rounded-lg border border-[var(--theme-border)] bg-[var(--theme-background)] px-4 py-3 text-[var(--theme-text)] shadow-sm placeholder:text-[var(--theme-textTertiary)] focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                placeholder="Wie können wir dir helfen?"
-              />
-            </div>
-
-            <div>
-              <Button type="submit" variant="primary" fullWidth>
-                Nachricht senden
-              </Button>
-            </div>
-          </form>
+              <div>
+                <Button type="submit" variant="primary" fullWidth disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Wird gesendet...
+                    </>
+                  ) : (
+                    'Nachricht senden'
+                  )}
+                </Button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
 
