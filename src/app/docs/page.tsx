@@ -16,11 +16,11 @@ import {
   Search,
   ArrowRight,
   Sparkles,
-  CheckCircle2,
   HelpCircle,
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
+import { PopularDocs } from '@/components/docs/PopularDocs'
 
 // Icon mapping
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -87,10 +87,10 @@ const sections = [
     bgColor: 'bg-amber-500/10',
     links: [
       { name: 'Übersicht', href: '/docs/trainer', available: true },
-      { name: 'Trainer anlegen', href: '/docs/trainer/trainer-anlegen', available: false },
-      { name: 'Berechtigungen', href: '/docs/trainer/berechtigungen', available: false },
-      { name: 'Verdienste', href: '/docs/trainer/verdienste', available: false },
-      { name: 'Trainer-Dashboard', href: '/docs/trainer/trainer-dashboard', available: false },
+      { name: 'Trainer anlegen', href: '/docs/trainer/trainer-anlegen', available: true },
+      { name: 'Berechtigungen', href: '/docs/trainer/berechtigungen', available: true },
+      { name: 'Verdienste', href: '/docs/trainer/verdienste', available: true },
+      { name: 'Trainer-Dashboard', href: '/docs/trainer/trainer-dashboard', available: true },
     ],
   },
   {
@@ -100,10 +100,49 @@ const sections = [
     color: 'from-rose-500 to-pink-600',
     bgColor: 'bg-rose-500/10',
     links: [
-      { name: 'Übersicht', href: '/docs/buchungen', available: false },
-      { name: 'Bestätigung', href: '/docs/buchungen/buchung-bestaetigen', available: false },
-      { name: 'Check-In', href: '/docs/buchungen/check-in', available: false },
-      { name: 'Stornieren', href: '/docs/buchungen/stornieren', available: false },
+      { name: 'Übersicht', href: '/docs/buchungen', available: true },
+      { name: 'Bestätigung', href: '/docs/buchungen/buchung-bestaetigen', available: true },
+      { name: 'Teilnehmer', href: '/docs/buchungen/teilnehmer', available: true },
+      { name: 'Check-In', href: '/docs/buchungen/check-in', available: true },
+      { name: 'Stornieren', href: '/docs/buchungen/stornieren', available: true },
+    ],
+  },
+  {
+    name: 'Standorte',
+    description: 'Mehrere Locations verwalten',
+    icon: 'MapPin',
+    color: 'from-cyan-500 to-teal-600',
+    bgColor: 'bg-cyan-500/10',
+    links: [
+      { name: 'Übersicht', href: '/docs/standorte', available: true },
+      { name: 'Standort anlegen', href: '/docs/standorte/standort-anlegen', available: true },
+      { name: 'Räume', href: '/docs/standorte/raeume', available: true },
+    ],
+  },
+  {
+    name: 'Zahlungen',
+    description: 'Stripe, Rechnungen & Finanzen',
+    icon: 'Wallet',
+    color: 'from-green-500 to-emerald-600',
+    bgColor: 'bg-green-500/10',
+    links: [
+      { name: 'Übersicht', href: '/docs/zahlungen', available: false },
+      { name: 'Stripe einrichten', href: '/docs/zahlungen/stripe-einrichten', available: false },
+      { name: 'Direktzahlung', href: '/docs/zahlungen/direktzahlung', available: false },
+      { name: 'Rechnungen', href: '/docs/zahlungen/rechnungen', available: false },
+    ],
+  },
+  {
+    name: 'Kunden',
+    description: 'Kundenverwaltung & CRM',
+    icon: 'UserCircle',
+    color: 'from-indigo-500 to-purple-600',
+    bgColor: 'bg-indigo-500/10',
+    links: [
+      { name: 'Übersicht', href: '/docs/kunden', available: false },
+      { name: 'Kunden anlegen', href: '/docs/kunden/kunden-anlegen', available: false },
+      { name: 'Credits verwalten', href: '/docs/kunden/credits-verwalten', available: false },
+      { name: 'Kommunikation', href: '/docs/kunden/kommunikation', available: false },
     ],
   },
   {
@@ -119,13 +158,6 @@ const sections = [
       { name: 'Branding', href: '/docs/einstellungen/branding', available: false },
     ],
   },
-]
-
-const popularArticles = [
-  { name: 'Wie funktioniert das FIFO Credit-System?', href: '/docs/credits/fifo-erklaert' },
-  { name: 'Ersten Kurs erstellen', href: '/docs/getting-started/erster-kurs' },
-  { name: 'Credit-Pakete anlegen', href: '/docs/credits/pakete-erstellen' },
-  { name: 'Wartelisten verstehen', href: '/docs/kurse/warteliste' },
 ]
 
 const quickStartSteps = [
@@ -248,22 +280,8 @@ export default function DocsPage() {
         </div>
       </div>
 
-      {/* Popular Articles */}
-      <div className="mx-auto max-w-7xl px-6 py-6 lg:px-8">
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="text-sm font-medium text-[var(--theme-textTertiary)]">Beliebt:</span>
-          {popularArticles.map((article) => (
-            <Link
-              key={article.name}
-              href={article.href}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm bg-[var(--theme-surface)] border border-[var(--theme-border)] text-[var(--theme-textSecondary)] hover:border-primary-300 hover:text-primary-600 transition-all"
-            >
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              {article.name}
-            </Link>
-          ))}
-        </div>
-      </div>
+      {/* Popular Articles - Dynamisch basierend auf Views */}
+      <PopularDocs />
 
       {/* Sections Grid */}
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">

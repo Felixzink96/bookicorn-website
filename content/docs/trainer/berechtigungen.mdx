@@ -1,0 +1,169 @@
+---
+title: "Trainer-Berechtigungen"
+description: "Konfiguriere, was deine Trainer sehen und tun können"
+---
+
+# Trainer-Berechtigungen
+
+Das Berechtigungssystem ermöglicht dir, genau zu steuern, welche Funktionen deine Trainer nutzen können.
+
+## Übersicht
+
+Bookicorn nutzt ein **rollenbasiertes Berechtigungssystem**:
+
+- **Admin**: Voller Zugriff auf alle Funktionen
+- **Trainer**: Eingeschränkter Zugriff nach Konfiguration
+
+---
+
+## Verfügbare Berechtigungen
+
+### Kurse & Termine
+
+| Berechtigung | Beschreibung | Standard |
+|-------------|-------------|----------|
+| Eigene Kurse sehen | Trainer sieht seine zugewiesenen Kurse | Ja |
+| Alle Kurse sehen | Trainer sieht alle Studio-Kurse | Nein |
+| Kurse erstellen | Neue Kurse anlegen | Nein |
+| Eigene Kurse bearbeiten | Titel, Beschreibung ändern | Nein |
+| Termine ändern | Zeiten und Daten anpassen | Nein |
+| Kurse absagen | Termine stornieren | Nein |
+
+### Buchungen & Teilnehmer
+
+| Berechtigung | Beschreibung | Standard |
+|-------------|-------------|----------|
+| Teilnehmer sehen | Buchungslisten einsehen | Ja |
+| Check-In durchführen | Anwesenheit erfassen | Ja |
+| Buchungen hinzufügen | Kunden manuell einbuchen | Nein |
+| Buchungen stornieren | Bestehende Buchungen entfernen | Nein |
+| Warteliste verwalten | Warteliste bearbeiten | Nein |
+
+### Kunden & Kontakte
+
+| Berechtigung | Beschreibung | Standard |
+|-------------|-------------|----------|
+| Kundennamen sehen | Namen der Teilnehmer | Ja |
+| Kontaktdaten sehen | E-Mail und Telefon | Nein |
+| Kunden kontaktieren | Direkte Nachrichten | Nein |
+| Kundennotizen | Notizen zu Kunden | Nein |
+
+### Finanzen
+
+| Berechtigung | Beschreibung | Standard |
+|-------------|-------------|----------|
+| Eigene Verdienste | Übersicht eigener Einnahmen | Ja |
+| Buchungswerte sehen | Credit/Preis pro Buchung | Nein |
+| Umsatzübersicht | Studio-Finanzen | Nein |
+
+---
+
+## Berechtigungen konfigurieren
+
+### Einzeln pro Trainer
+
+1. Gehe zu **Admin → Trainer**
+2. Wähle den Trainer aus
+3. Klicke auf **"Berechtigungen"**
+4. Aktiviere/deaktiviere einzelne Rechte
+5. Speichern
+
+### Berechtigungs-Vorlagen
+
+Erstelle Vorlagen für typische Trainer-Rollen:
+
+**Basis-Trainer:**
+- Eigene Kurse sehen
+- Teilnehmer sehen
+- Check-In
+
+**Erweiterter Trainer:**
+- Alle Basis-Rechte
+- Eigene Kurse bearbeiten
+- Kontaktdaten sehen
+- Buchungen hinzufügen
+
+**Senior-Trainer:**
+- Alle erweiterten Rechte
+- Termine ändern
+- Buchungen stornieren
+- Kurse absagen
+
+---
+
+## Sicherheitshinweise
+
+### Prinzip der minimalen Rechte
+
+Vergib nur die Berechtigungen, die wirklich benötigt werden:
+
+- Startet mit Basis-Rechten
+- Erweitert bei Bedarf
+- Dokumentiert Änderungen
+
+### Sensible Daten
+
+Bedenke bei Kontaktdaten-Zugriff:
+
+- DSGVO-Konformität
+- Trainer-Vertrauen
+- Datenmissbrauch-Risiko
+
+### Regelmäßige Überprüfung
+
+- Prüfe Berechtigungen quartalsweise
+- Entferne ungenutzte Rechte
+- Aktualisiere bei Rollenänderung
+
+---
+
+## Berechtigungen in der Praxis
+
+### Neuer Trainer
+
+1. Starte mit Standard-Berechtigungen
+2. Beobachte 2-4 Wochen
+3. Erweitere nach Bedarf
+
+### Langjähriger Trainer
+
+1. Prüfe aktuelle Rechte
+2. Bespreche Bedürfnisse
+3. Passe individuell an
+
+### Ausscheidender Trainer
+
+1. Sofort alle Rechte entziehen
+2. Account deaktivieren
+3. Ggf. Passwort ändern
+
+---
+
+## Häufige Szenarien
+
+### Vertretung ermöglichen
+
+Für temporäre Vertretungen:
+- "Alle Kurse sehen" aktivieren
+- Nach Vertretung wieder deaktivieren
+
+### Kursleiter-Rolle
+
+Für selbstständig arbeitende Trainer:
+- Kurse bearbeiten
+- Termine ändern
+- Buchungen verwalten
+
+### Rezeption-Unterstützung
+
+Für Trainer die an der Rezeption helfen:
+- Kontaktdaten sehen
+- Buchungen hinzufügen
+- Check-In für alle
+
+---
+
+## Nächste Schritte
+
+- [Verdienste konfigurieren](/docs/trainer/verdienste)
+- [Trainer-Dashboard erkunden](/docs/trainer/trainer-dashboard)

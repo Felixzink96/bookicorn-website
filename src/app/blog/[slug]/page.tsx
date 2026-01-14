@@ -21,6 +21,7 @@ import { TableOfContents } from '@/components/blog/TableOfContents'
 import { SocialShare } from '@/components/blog/SocialShare'
 import { MobileTOC } from '@/components/blog/MobileTOC'
 import { BackToTop } from '@/components/blog/BackToTop'
+import { ContactCTA } from '@/components/blog/ContactCTA'
 
 // Types
 interface BlogPost {
@@ -705,6 +706,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
               {/* Author Card */}
               <AuthorCard author={post.author} />
+
+              <div className="h-px bg-[var(--theme-border)]" />
+
+              {/* Contact CTA */}
+              <ContactCTA />
             </div>
           </aside>
         </div>

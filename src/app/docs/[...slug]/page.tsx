@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { getDocBySlug, getDocsNavigation, getPrevNextDocs, getAllDocSlugs, type NavSection } from '@/lib/docs'
 import Button from '@/components/ui/Button'
+import { DocViewTracker } from '@/components/docs/DocViewTracker'
 
 // Icon mapping
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -194,6 +195,8 @@ export default async function DocPage({ params }: { params: Promise<{ slug: stri
 
   return (
     <div className="min-h-screen bg-[var(--theme-background)]">
+      {/* Track page view */}
+      <DocViewTracker slug={slugString} />
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-12 relative">
           {/* Sidebar */}

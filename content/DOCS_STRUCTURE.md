@@ -287,9 +287,9 @@ Die Docs nutzen die gleichen Blog-Block-Komponenten:
 - [x] Getting Started (4 Seiten) ✅
 - [x] Kurse (6 Seiten) ✅
 - [x] Credits (6 Seiten) ✅
-- [ ] Trainer (5 Seiten) - 1/5 erstellt
-- [ ] Buchungen (5 Seiten)
-- [ ] Standorte (3 Seiten)
+- [x] Trainer (5 Seiten) ✅
+- [x] Buchungen (5 Seiten) ✅
+- [x] Standorte (3 Seiten) ✅
 - [ ] Zahlungen (5 Seiten)
 - [ ] Kunden (4 Seiten)
 - [ ] Einstellungen (5 Seiten)
@@ -297,7 +297,7 @@ Die Docs nutzen die gleichen Blog-Block-Komponenten:
 - [ ] Mitglieder (4 Seiten)
 - [ ] FAQ (4 Seiten)
 
-**Gesamt: 17/55 Seiten erstellt**
+**Gesamt: 29/55 Seiten erstellt**
 
 ---
 
@@ -325,16 +325,26 @@ Die Docs nutzen die gleichen Blog-Block-Komponenten:
 - `credits/gueltigkeit.mdx` - Ablaufdaten & Verlängerung
 - `credits/trainer-credits.mdx` - Trainer-gebundene Credits
 
-### Trainer (in Arbeit)
+### Trainer ✅
 - `trainer/index.mdx` - Trainer-Verwaltung Übersicht
-- ❌ `trainer/trainer-anlegen.mdx` - Neuen Trainer erstellen
-- ❌ `trainer/berechtigungen.mdx` - Trainer-Berechtigungen
-- ❌ `trainer/verdienste.mdx` - 3 Verdienstmodelle erklärt
-- ❌ `trainer/trainer-dashboard.mdx` - Was Trainer sehen können
+- `trainer/trainer-anlegen.mdx` - Neuen Trainer erstellen
+- `trainer/berechtigungen.mdx` - Trainer-Berechtigungen
+- `trainer/verdienste.mdx` - 3 Verdienstmodelle erklärt
+- `trainer/trainer-dashboard.mdx` - Was Trainer sehen können
+
+### Buchungen ✅
+- `buchungen/index.mdx` - Buchungssystem Übersicht
+- `buchungen/buchung-bestaetigen.mdx` - Manuelle Bestätigung
+- `buchungen/teilnehmer.mdx` - Teilnehmer verwalten
+- `buchungen/check-in.mdx` - QR-Code Check-In
+- `buchungen/stornieren.mdx` - Buchungen stornieren
+
+### Standorte ✅
+- `standorte/index.mdx` - Standorte & Räume Übersicht
+- `standorte/standort-anlegen.mdx` - Neuen Standort erstellen
+- `standorte/raeume.mdx` - Räume konfigurieren
 
 ### Noch zu erstellen
-- Buchungen (5 Seiten)
-- Standorte (3 Seiten)
 - Zahlungen (5 Seiten)
 - Kunden (4 Seiten)
 - Einstellungen (5 Seiten)

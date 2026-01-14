@@ -1,0 +1,173 @@
+---
+title: "Buchungssystem"
+description: "Übersicht über das Bookicorn Buchungssystem"
+---
+
+# Buchungssystem
+
+Das Buchungssystem ist das Herzstück von Bookicorn. Hier erfährst du alles über Buchungen, Bestätigungen und Stornierungen.
+
+## Übersicht
+
+### Was ist eine Buchung?
+
+Eine Buchung verbindet:
+- Einen **Kunden** mit einem **Kurstermin**
+- Verbraucht **Credits** oder erfolgt per **Direktzahlung**
+- Hat einen **Status** (bestätigt, ausstehend, storniert)
+
+### Buchungswege
+
+Kunden können auf verschiedene Arten buchen:
+
+| Weg | Beschreibung |
+|-----|-------------|
+| **Kundenportal** | Selbstständig über das Mitglieder-Dashboard |
+| **Widget** | Über deine Website eingebettet |
+| **Admin** | Du buchst manuell für den Kunden |
+| **Vor Ort** | Check-In ohne vorherige Buchung |
+
+---
+
+## Buchungsprozess
+
+### Standard-Ablauf
+
+1. **Kunde wählt Kurs** aus dem Stundenplan
+2. **System prüft** Credits/Berechtigung
+3. **Buchung wird erstellt** mit Status "Bestätigt"
+4. **Bestätigung** per E-Mail
+5. **Erinnerung** vor dem Kurs
+6. **Check-In** am Kurstag
+
+### Mit Warteliste
+
+1. Kurs ist ausgebucht
+2. Kunde kommt auf Warteliste
+3. Bei Stornierung: Automatisches Nachrücken
+4. Benachrichtigung an nachrückenden Kunden
+5. Bestätigung der Buchung
+
+### Mit Bestätigung
+
+Falls aktiviert:
+1. Buchung mit Status "Ausstehend"
+2. Admin prüft und bestätigt
+3. Erst dann: Bestätigungs-E-Mail
+
+---
+
+## Buchungsstatus
+
+| Status | Bedeutung | Credits |
+|--------|-----------|---------|
+| **Bestätigt** | Platz reserviert | Verbraucht |
+| **Ausstehend** | Wartet auf Bestätigung | Reserviert |
+| **Auf Warteliste** | Wartet auf Platz | Nicht verbraucht |
+| **Erschienen** | Check-In erfolgt | Verbraucht |
+| **Nicht erschienen** | No-Show | Je nach Einstellung |
+| **Storniert** | Buchung abgesagt | Ggf. zurückgebucht |
+
+---
+
+## Buchungsregeln
+
+### Buchungsfenster
+
+Definiere, wann Buchungen möglich sind:
+
+- **Öffnung**: X Tage/Wochen vorher
+- **Schließung**: X Stunden vorher
+
+### Stornofrist
+
+Bis wann können Kunden stornieren:
+
+- Global für alle Kurse
+- Individuell pro Kurs
+- Mit/ohne Credit-Rückgabe
+
+### Maximale Buchungen
+
+Begrenze Buchungen pro Kunde:
+
+- Pro Tag
+- Pro Woche
+- Pro Monat
+
+---
+
+## Funktionen
+
+### Für Admins
+
+- [Buchungen manuell bestätigen](/docs/buchungen/buchung-bestaetigen)
+- [Teilnehmer verwalten](/docs/buchungen/teilnehmer)
+- [Check-In durchführen](/docs/buchungen/check-in)
+- [Buchungen stornieren](/docs/buchungen/stornieren)
+
+### Für Kunden
+
+- Selbstständig buchen
+- Buchungen einsehen
+- Stornieren (innerhalb der Frist)
+- Auf Warteliste setzen
+
+### Für Trainer
+
+- Teilnehmerlisten sehen
+- Check-In durchführen
+- Anwesenheit erfassen
+
+---
+
+## Benachrichtigungen
+
+### Bei Buchung
+
+- Buchungsbestätigung
+- Details zum Kurs
+- Stornierungsbedingungen
+
+### Vor dem Kurs
+
+- Erinnerung (24h, 2h, etc.)
+- Kursinformationen
+- Anfahrt/Location
+
+### Nach dem Kurs
+
+- Optional: Feedback-Anfrage
+- Credit-Status
+- Nächste Empfehlungen
+
+---
+
+## Best Practices
+
+### Klare Regeln
+
+- Definiere eindeutige Stornobedingungen
+- Kommuniziere Buchungsfenster
+- Erkläre No-Show-Policy
+
+### Faire Behandlung
+
+- Konsistente Regelanwendung
+- Kulanz bei Ersttätern
+- Dokumentation von Ausnahmen
+
+### Monitoring
+
+- Prüfe No-Show-Rate
+- Analysiere Buchungsmuster
+- Optimiere Kapazitäten
+
+---
+
+## Weitere Seiten
+
+- [Buchungen bestätigen](/docs/buchungen/buchung-bestaetigen)
+- [Teilnehmer verwalten](/docs/buchungen/teilnehmer)
+- [Check-In System](/docs/buchungen/check-in)
+- [Stornierungen](/docs/buchungen/stornieren)

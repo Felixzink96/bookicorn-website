@@ -1,0 +1,251 @@
+---
+title: "Check-In System"
+description: "QR-Code Check-In und Anwesenheitserfassung"
+---
+
+# Check-In System
+
+Das Check-In System hilft dir, die Anwesenheit deiner Kursteilnehmer zu erfassen. Nutze QR-Codes oder manuelle Check-Ins.
+
+## Übersicht
+
+### Warum Check-In?
+
+- **Anwesenheitsnachweis**: Dokumentation wer da war
+- **No-Show-Tracking**: Wer kommt nicht
+- **Statistiken**: Auslastung und Trends
+- **Kunden-Engagement**: Aktivität messen
+
+### Check-In Methoden
+
+| Methode | Beschreibung | Ideal für |
+|---------|-------------|-----------|
+| **QR-Code** | Kunde scannt selbst | Große Studios |
+| **Kunden-QR** | Trainer scannt Kunden | Schneller Flow |
+| **Manuell** | Klick in der Liste | Kleine Gruppen |
+| **Automatisch** | Bei Ankunft (Beacon) | Premium Studios |
+
+---
+
+## QR-Code Check-In
+
+### Kurs-QR-Code
+
+Jeder Kurstermin hat einen eigenen QR-Code:
+
+1. Gehe zum Termin
+2. Klicke **"QR-Code anzeigen"**
+3. Zeige auf Bildschirm oder drucke aus
+
+### Kunde scannt
+
+1. Kunde öffnet Bookicorn App
+2. Scannt den Kurs-QR-Code
+3. Check-In wird automatisch erfasst
+4. Bestätigung auf dem Bildschirm
+
+### QR-Code Optionen
+
+- **Zeitfenster**: Gültig X Minuten vor/nach Kurs
+- **Standort**: Optional: GPS-Verifizierung
+- **Mehrfach-Scan**: Verhindern oder erlauben
+
+---
+
+## Kunden-QR scannen
+
+### So funktioniert's
+
+Jeder Kunde hat einen persönlichen QR-Code:
+
+1. Öffne **"Scanner"** in der App
+2. Scanne Kunden-QR (aus App oder Karte)
+3. System zeigt heutige Buchungen
+4. Wähle Kurs für Check-In
+
+### Vorteile
+
+- Schnell bei vielen Teilnehmern
+- Kunde braucht keine App
+- QR auf Mitgliedskarte möglich
+
+---
+
+## Manueller Check-In
+
+### In der Teilnehmerliste
+
+1. Öffne Teilnehmerliste
+2. Klicke auf Teilnehmer
+3. Wähle **"Einchecken"**
+4. Status wechselt auf "Anwesend"
+
+### Schneller Check-In
+
+1. Halte Teilnehmername gedrückt
+2. Swipe nach rechts
+3. Sofortiger Check-In
+
+### Alle einchecken
+
+Bei kleinen Kursen:
+1. Klicke **"Alle einchecken"**
+2. Bestätige
+3. Fertig
+
+---
+
+## Check-In Station
+
+### Hardware einrichten
+
+Für Self-Service Check-In:
+
+- Tablet oder iPad am Eingang
+- Bookicorn im Kiosk-Modus
+- Optional: QR-Scanner-Hardware
+
+### Kiosk-Modus
+
+1. Gehe zu **Einstellungen → Check-In**
+2. Aktiviere **"Kiosk-Modus"**
+3. Lege Pin für Admin-Zugang fest
+4. Öffne URL auf dem Gerät
+
+### Darstellung
+
+- Großer QR-Code für aktuellen Kurs
+- Manuelle Eingabe möglich
+- Bestätigung mit Animation
+
+---
+
+## Zeitfenster
+
+### Standard-Einstellung
+
+- **Check-In öffnet**: 30 Min vor Kursbeginn
+- **Check-In schließt**: 15 Min nach Kursbeginn
+
+### Anpassen
+
+Unter **Einstellungen → Check-In**:
+
+- Global für alle Kurse
+- Oder pro Kurs individuell
+
+### Verspätete Check-Ins
+
+Optionen für Check-Ins außerhalb des Fensters:
+
+- **Blockieren**: Nicht möglich
+- **Warnung**: Mit Admin-Hinweis
+- **Erlauben**: Immer möglich
+
+---
+
+## No-Show Handling
+
+### Was ist ein No-Show?
+
+Kunde war gebucht, aber:
+- Nicht eingecheckt
+- Nicht storniert
+- Kurs ist vorbei
+
+### Automatische Markierung
+
+Nach Kursende werden nicht eingecheckte als "No-Show" markiert:
+
+- Wartezeit nach Kursende (z.B. 30 Min)
+- Automatischer Status-Wechsel
+
+### No-Show Konsequenzen
+
+Konfigurierbar:
+
+| Option | Bedeutung |
+|--------|-----------|
+| **Credits behalten** | Keine Rückgabe |
+| **Teilweise Rückgabe** | Z.B. 50% |
+| **Volle Rückgabe** | Kulanz |
+
+### No-Show Tracking
+
+Im Kundenprofil:
+- Anzahl No-Shows
+- No-Show-Rate
+- Letzte No-Shows
+
+---
+
+## Benachrichtigungen
+
+### An den Kunden
+
+- Optional: Check-In Bestätigung
+- Bei No-Show: Erinnerung an Stornofrist
+
+### An Admins
+
+- Tägliche Anwesenheitsliste
+- No-Show Report
+- Anomalien-Warnung
+
+### An Trainer
+
+- Live-Updates der Teilnehmerliste
+- No-Show Hinweis
+- Wartelisten-Info
+
+---
+
+## Statistiken
+
+### Anwesenheitsrate
+
+- Pro Kurs
+- Pro Zeitraum
+- Pro Trainer
+
+### No-Show Analyse
+
+- Trends erkennen
+- Problemkunden identifizieren
+- Muster verstehen
+
+### Reports
+
+- Wöchentlich
+- Monatlich
+- Exportierbar
+
+---
+
+## Häufige Fragen
+
+### Was wenn der QR-Code nicht funktioniert?
+
+1. Manueller Check-In möglich
+2. QR neu generieren
+3. Bei Problemen: Support
+
+### Kann ich Check-Ins nachträglich ändern?
+
+Ja, als Admin:
+1. Teilnehmerliste öffnen
+2. Status ändern
+3. Begründung optional
+
+### Wie verhindere ich Fake-Check-Ins?
+
+- GPS-Verifizierung aktivieren
+- QR-Code regelmäßig wechseln
+- Trainer-Bestätigung einrichten
+
+---
+
+## Nächste Schritte
+
+- [Stornierungen verwalten](/docs/buchungen/stornieren)
+- [Zurück zur Übersicht](/docs/buchungen)

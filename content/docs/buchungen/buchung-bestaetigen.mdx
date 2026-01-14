@@ -1,0 +1,198 @@
+---
+title: "Buchungen bestätigen"
+description: "Manuelle Buchungsbestätigung und Genehmigungsworkflows"
+---
+
+# Buchungen bestätigen
+
+In manchen Fällen möchtest du Buchungen vor der Bestätigung prüfen. Diese Anleitung zeigt dir, wie du den Bestätigungsprozess nutzt.
+
+## Wann manuelle Bestätigung?
+
+### Typische Szenarien
+
+- **Premium-Kurse**: Nur für bestimmte Mitglieder
+- **Workshops**: Mit begrenzter Teilnehmerzahl
+- **Probestunden**: Neue Kunden prüfen
+- **Spezielle Anforderungen**: Gesundheitscheck, Vorkenntnisse
+
+### Automatisch vs. Manuell
+
+| Modus | Buchung geht... | Ideal für |
+|-------|----------------|-----------|
+| **Automatisch** | Direkt durch | Standard-Kurse |
+| **Manuell** | An Admin zur Prüfung | Spezielle Kurse |
+
+---
+
+## Einrichtung
+
+### Global aktivieren
+
+1. Gehe zu **Einstellungen → Buchungen**
+2. Aktiviere **"Manuelle Bestätigung"**
+3. Wähle: Alle Buchungen oder nur bestimmte
+
+### Pro Kurs aktivieren
+
+1. Gehe zum Kurs
+2. Tab **"Einstellungen"**
+3. Aktiviere **"Bestätigung erforderlich"**
+4. Optional: Begründung angeben
+
+---
+
+## Der Bestätigungsprozess
+
+### 1. Buchung eingeht
+
+- Status: **"Ausstehend"**
+- Credits werden **reserviert** (nicht verbraucht)
+- Kunde erhält E-Mail: "Buchung wird geprüft"
+
+### 2. Admin prüft
+
+Du siehst unter **Buchungen → Ausstehend**:
+
+- Kundenname und Kontakt
+- Gebuchter Kurs
+- Credit-Status
+- Buchungszeit
+
+### 3. Entscheidung treffen
+
+**Bestätigen:**
+- Buchung wird aktiv
+- Credits werden verbraucht
+- Kunde erhält Bestätigung
+
+**Ablehnen:**
+- Buchung wird storniert
+- Credits werden freigegeben
+- Kunde erhält Absage (mit optionaler Begründung)
+
+---
+
+## Schnelle Aktionen
+
+### Einzelne Buchung
+
+1. Klicke auf die Buchung
+2. Wähle **Bestätigen** oder **Ablehnen**
+3. Optional: Nachricht hinzufügen
+
+### Mehrere Buchungen
+
+1. Markiere Buchungen in der Liste
+2. Klicke **"Ausgewählte bestätigen"**
+3. Alle werden gleichzeitig verarbeitet
+
+### Per E-Mail
+
+Mit Magic Links in der Benachrichtigung:
+- Klick auf "Bestätigen" → Buchung bestätigt
+- Klick auf "Ablehnen" → Formular öffnet sich
+
+---
+
+## Automatische Regeln
+
+### Auto-Bestätigung für
+
+Bestimmte Buchungen automatisch bestätigen:
+
+- Stammkunden (> X Buchungen)
+- Mitglieder bestimmter Pakete
+- Wiederkehrende Buchungen
+
+### Auto-Ablehnung für
+
+Automatisch ablehnen bei:
+
+- Gesperrten Kunden
+- Überschrittenen Limits
+- Fehlenden Voraussetzungen
+
+---
+
+## Benachrichtigungen
+
+### Für Admins
+
+- Neue ausstehende Buchung
+- Tägliche Zusammenfassung
+- Erinnerung bei lange ausstehenden
+
+### Für Kunden
+
+- Buchung eingegangen
+- Buchung bestätigt/abgelehnt
+- Wartezeit-Info
+
+### Konfigurieren
+
+Unter **Einstellungen → E-Mail**:
+- Templates anpassen
+- Empfänger festlegen
+- Timing einstellen
+
+---
+
+## Wartezeit
+
+### Empfehlung
+
+Bestätige Buchungen innerhalb von:
+
+- **Sofort-Kurse**: 1-2 Stunden
+- **Standard-Kurse**: 24 Stunden
+- **Workshops**: 2-3 Tage
+
+### Erinnerung einrichten
+
+1. Gehe zu **Einstellungen → Benachrichtigungen**
+2. Aktiviere **"Ausstehende Buchungen Reminder"**
+3. Wähle Zeitraum (z.B. nach 12 Stunden)
+
+---
+
+## Ablehnung kommunizieren
+
+### Mit Begründung
+
+Gute Ablehnungsgründe:
+
+- "Kurs erfordert Vorkenntnisse"
+- "Bitte zuerst Einführungskurs besuchen"
+- "Kurs leider ausgebucht"
+
+### Alternative anbieten
+
+- Anderen Termin vorschlagen
+- Warteliste anbieten
+- Alternative Kurse empfehlen
+
+---
+
+## Häufige Fragen
+
+### Was passiert mit reservierten Credits?
+
+- Bei Bestätigung: Credits werden verbraucht
+- Bei Ablehnung: Credits werden sofort freigegeben
+- Bei Timeout: Automatische Freigabe nach X Tagen
+
+### Kann der Kunde während der Prüfung stornieren?
+
+Ja, ausstehende Buchungen können jederzeit vom Kunden storniert werden. Credits werden dann freigegeben.
+
+### Wie lange kann eine Buchung ausstehend sein?
+
+Standardmäßig 7 Tage, dann automatische Ablehnung. Konfigurierbar in den Einstellungen.
+
+---
+
+## Nächste Schritte
+
+- [Teilnehmer verwalten](/docs/buchungen/teilnehmer)
+- [Check-In System](/docs/buchungen/check-in)
