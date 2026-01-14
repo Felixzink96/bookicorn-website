@@ -46,6 +46,12 @@ const SplitText: React.FC<SplitTextProps> = ({
   const charClass = `split-char-${uniqueId.replace(/:/g, '')}`
   const wordClass = `split-word-${uniqueId.replace(/:/g, '')}`
 
+  // Initial styles applied via CSS to prevent flash
+  const initialStyle: React.CSSProperties = {
+    opacity: from.opacity as number ?? 0,
+    transform: `translateY(${from.y ?? 40}px)`,
+  }
+
   // Wait for mount + fonts
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -56,15 +62,19 @@ const SplitText: React.FC<SplitTextProps> = ({
           document.fonts.ready.then(() => setIsReady(true))
         }
       }
-    }, 50)
+    }, 10)
     return () => clearTimeout(timer)
   }, [])
 
-  // Split text into elements
+  // Split text into elements with initial hidden state
   const splitElements = useMemo(() => {
     if (splitType === 'words') {
       return text.split(' ').map((word, i, arr) => (
-        <span key={i} className={`${wordClass} inline-block`}>
+        <span
+          key={i}
+          className={`${wordClass} inline-block`}
+          style={initialStyle}
+        >
           {word}
           {i < arr.length - 1 && <span>&nbsp;</span>}
         </span>
@@ -73,18 +83,30 @@ const SplitText: React.FC<SplitTextProps> = ({
 
     return text.split('').map((char, i) => {
       if (char === ' ') {
-        return <span key={i} className={`${charClass} inline-block`}>&nbsp;</span>
+        return (
+          <span
+            key={i}
+            className={`${charClass} inline-block`}
+            style={initialStyle}
+          >
+            &nbsp;
+          </span>
+        )
       }
       if (char === '\n') {
         return <br key={i} />
       }
       return (
-        <span key={i} className={`${charClass} inline-block`}>
+        <span
+          key={i}
+          className={`${charClass} inline-block`}
+          style={initialStyle}
+        >
           {char}
         </span>
       )
     })
-  }, [text, splitType, charClass, wordClass])
+  }, [text, splitType, charClass, wordClass, initialStyle])
 
   // GSAP Animation
   useEffect(() => {
@@ -95,9 +117,6 @@ const SplitText: React.FC<SplitTextProps> = ({
     const targets = container.querySelectorAll(selector)
 
     if (targets.length === 0) return
-
-    // Set initial state
-    gsap.set(targets, from)
 
     // Create animation
     const ctx = gsap.context(() => {
@@ -122,7 +141,7 @@ const SplitText: React.FC<SplitTextProps> = ({
     return () => {
       ctx.revert()
     }
-  }, [isReady, splitType, from, to, duration, ease, delay, threshold, startDelay, onAnimationComplete, charClass, wordClass])
+  }, [isReady, splitType, to, duration, ease, delay, threshold, startDelay, onAnimationComplete, charClass, wordClass])
 
   const content = splitElements
 

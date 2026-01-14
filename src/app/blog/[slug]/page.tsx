@@ -22,6 +22,7 @@ import { SocialShare } from '@/components/blog/SocialShare'
 import { MobileTOC } from '@/components/blog/MobileTOC'
 import { BackToTop } from '@/components/blog/BackToTop'
 import { ContactCTA } from '@/components/blog/ContactCTA'
+import { AnimatedTitle } from '@/components/blog/AnimatedTitle'
 
 // Types
 interface BlogPost {
@@ -551,9 +552,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 </span>
               )}
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--theme-text)] leading-tight">
-                {post.title}
-              </h1>
+              <AnimatedTitle
+                title={post.title}
+                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[var(--theme-text)] leading-tight"
+              />
 
               {post.excerpt && (
                 <p className="mt-6 text-lg text-[var(--theme-textSecondary)]">
