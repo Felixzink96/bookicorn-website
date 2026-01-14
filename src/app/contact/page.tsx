@@ -39,8 +39,8 @@ const contactOptions = [
   {
     id: 'meeting' as const,
     icon: Video,
-    title: 'Demo-Termin buchen',
-    description: 'Persönliche Demo per Video-Call',
+    title: 'Video-Call buchen',
+    description: 'Persönliches Gespräch per Video',
     color: '#A6D30F', // Lime/Grün
     buttonText: 'Termin wählen',
   },
@@ -180,22 +180,15 @@ export default function ContactPage() {
 
       {/* Main Content */}
       <div className="mx-auto max-w-5xl px-6 pb-24 lg:px-8 pt-8">
-        <AnimatePresence mode="wait">
-          {!selectedType && !success && (
-            <motion.div
-              key="options"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid gap-6 md:grid-cols-3"
-            >
-              {contactOptions.map((option, i) => (
-                <motion.div
-                  key={option.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1, duration: 0.4 }}
-                  className="group relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+        {!selectedType && !success && (
+          <div className="grid gap-6 md:grid-cols-3">
+            {contactOptions.map((option, i) => (
+              <motion.div
+                key={option.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.1 }}
+                className="group relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8"
                   style={{
                     boxShadow: `0 0 0 0 ${option.color}00`,
                   }}
@@ -236,11 +229,12 @@ export default function ContactPage() {
                       </Button>
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+              </motion.div>
+            ))}
+          </div>
+        )}
 
+        <AnimatePresence mode="wait">
           {/* Success State */}
           {success && (
             <motion.div
@@ -505,10 +499,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[var(--theme-text)]">
-                      Demo-Termin buchen
+                      Video-Call buchen
                     </h2>
                     <p className="text-sm text-[var(--theme-textSecondary)]">
-                      30 Minuten persönliche Produktdemo
+                      30 Minuten persönliches Gespräch
                     </p>
                   </div>
                 </div>

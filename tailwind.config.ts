@@ -49,6 +49,7 @@ const config: Config = {
         'float-medium': 'float-medium 15s ease-in-out infinite',
         'float-fast': 'float-fast 12s ease-in-out infinite',
         'float-slow-reverse': 'float-slow-reverse 18s ease-in-out infinite',
+        'fade-in-up': 'fade-in-up 0.6s ease-out both',
       },
       keyframes: {
         'float-slow': {
@@ -70,6 +71,10 @@ const config: Config = {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
           '33%': { transform: 'translate(-25px, 35px) scale(1.08)' },
           '66%': { transform: 'translate(35px, -25px) scale(0.92)' },
+        },
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
       },
     },
