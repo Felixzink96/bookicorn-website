@@ -96,7 +96,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Body text lighter than headings */
 p, li, td, th, blockquote {
-  color: green !important;
+  color: var(--theme-textSecondary) !important;
 }
 
 /* Custom scrollbar */
