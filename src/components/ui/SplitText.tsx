@@ -96,7 +96,7 @@ const SplitText: React.FC<SplitTextProps> = ({
 
       return (
         <React.Fragment key={`word-${wordIdx}`}>
-          <span style={{ whiteSpace: 'nowrap', display: 'inline' }}>
+          <span style={{ display: 'inline-flex', flexWrap: 'nowrap' }}>
             {wordChars}
           </span>
           {wordIdx < words.length - 1 && (
