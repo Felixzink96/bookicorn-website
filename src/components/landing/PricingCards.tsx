@@ -1,10 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Check, ArrowRight } from 'lucide-react'
+import { Check } from 'lucide-react'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
-import { RegisterButton } from '@/components/ui/CTAButton'
+import Button from '@/components/ui/Button'
 
 const earlyBirdFeatures = [
   'Unbegrenzte Kurse',
@@ -79,8 +78,8 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
           <ul className="space-y-4 mb-8 flex-1">
             {earlyBirdFeatures.map((feature, i) => (
               <li key={i} className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
-                  <Check className="w-3 h-3 text-primary-600 dark:text-primary-400" />
+                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary-500 flex items-center justify-center">
+                  <Check className="w-3 h-3 text-white" />
                 </div>
                 <span className="text-sm text-[var(--theme-text)]">{feature}</span>
               </li>
@@ -88,9 +87,11 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
           </ul>
 
           {/* CTA */}
-          <RegisterButton variant="primary" size="lg" className="w-full">
-            Jetzt Platz sichern
-          </RegisterButton>
+          <Link href="/contact">
+            <Button variant="primary" size="lg" fullWidth>
+              Kontakt aufnehmen
+            </Button>
+          </Link>
         </div>
       </motion.div>
 
@@ -126,8 +127,8 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
         <ul className="space-y-4 mb-8 flex-1">
           {enterpriseFeatures.map((feature, i) => (
             <li key={i} className="flex items-center gap-3">
-              <div className="flex-shrink-0 w-5 h-5 rounded-full bg-[var(--theme-border)] flex items-center justify-center">
-                <Check className="w-3 h-3 text-[var(--theme-textSecondary)]" />
+              <div className="flex-shrink-0 w-5 h-5 rounded-full bg-primary-500 flex items-center justify-center">
+                <Check className="w-3 h-3 text-white" />
               </div>
               <span className="text-sm text-[var(--theme-textSecondary)]">{feature}</span>
             </li>
@@ -135,16 +136,10 @@ export function PricingCards({ spotsLeft = 8 }: PricingCardsProps) {
         </ul>
 
         {/* CTA */}
-        <Link
-          href="/contact"
-          className={cn(
-            "group flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold border transition-colors",
-            "border-[var(--theme-border)] hover:bg-[var(--theme-background)]",
-            "text-[var(--theme-text)]"
-          )}
-        >
-          Kontakt aufnehmen
-          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        <Link href="/contact">
+          <Button variant="secondary" size="lg" fullWidth>
+            Kontakt aufnehmen
+          </Button>
         </Link>
       </motion.div>
     </div>
