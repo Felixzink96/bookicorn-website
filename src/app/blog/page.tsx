@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Clock, Calendar, User, BookOpen, Filter, X, ChevronDown, Search } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
+import SplitText from '@/components/ui/SplitText'
 import { LoadingState } from '@/components/patterns/LoadingState'
 import { client, isSanityConfigured } from '../../../sanity/lib/client'
 import { postsQuery, categoriesQuery } from '../../../sanity/lib/queries'
@@ -230,19 +231,20 @@ export default function BlogPage() {
       <div className="relative isolate overflow-hidden min-h-[35vh] flex items-center">
         <LazyLiquidEther />
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8 w-full">
-          <motion.div
-            className="mx-auto max-w-2xl text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-5xl">
-              Blog
-            </h1>
+          <div className="mx-auto max-w-2xl text-center">
+            <SplitText
+              text="Blog"
+              tag="h1"
+              className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-5xl"
+              delay={30}
+              duration={0.6}
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+            />
             <p className="mt-4 text-lg leading-8 text-[var(--theme-textSecondary)]">
               Tipps, Strategien und Neuigkeiten rund um Studio-Management.
             </p>
-          </motion.div>
+          </div>
         </div>
       </div>
 

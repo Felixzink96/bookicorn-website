@@ -20,6 +20,7 @@ import {
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
+import SplitText from '@/components/ui/SplitText'
 import { PopularDocs } from '@/components/docs/PopularDocs'
 
 // Icon mapping
@@ -204,19 +205,20 @@ export default function DocsPage() {
       <div className="relative isolate overflow-hidden">
         <LazyLiquidEther />
         <div className="mx-auto max-w-7xl px-6 py-20 lg:py-28 lg:px-8">
-          <motion.div
-            className="mx-auto max-w-2xl text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+          <div className="mx-auto max-w-2xl text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--theme-surface)]/80 backdrop-blur-sm border border-[var(--theme-border)] mb-6">
               <BookOpen className="w-4 h-4 text-primary-600" />
               <span className="text-sm font-medium text-[var(--theme-text)]">Dokumentation</span>
             </div>
-            <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-5xl lg:text-6xl">
-              Lerne Bookicorn kennen
-            </h1>
+            <SplitText
+              text="Lerne Bookicorn kennen"
+              tag="h1"
+              className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-5xl lg:text-6xl"
+              delay={30}
+              duration={0.6}
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+            />
             <p className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]">
               Alles was du wissen musst um dein Studio erfolgreich zu verwalten.
             </p>
@@ -237,7 +239,7 @@ export default function DocsPage() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 

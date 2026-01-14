@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Heart, Target, Zap } from 'lucide-react'
 import Button from '@/components/ui/Button'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
+import SplitText from '@/components/ui/SplitText'
 
 const values = [
   {
@@ -34,9 +35,15 @@ export default function AboutPage() {
         <LazyLiquidEther />
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 w-full">
           <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl">
-              Über Bookicorn
-            </h1>
+            <SplitText
+              text="Über Bookicorn"
+              tag="h1"
+              className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl"
+              delay={30}
+              duration={0.6}
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+            />
             <p className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]">
               Wir glauben dass Studio-Management einfach, fair und erschwinglich
               sein sollte.

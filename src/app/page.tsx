@@ -1,324 +1,422 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import {
-  Calendar,
   CreditCard,
+  Calendar,
   Users,
   BarChart3,
-  Zap,
+  Palette,
   Shield,
   ArrowRight,
   Check,
   Star,
+  Zap,
 } from 'lucide-react'
 import { RegisterButton } from '@/components/ui/CTAButton'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
+import SplitText from '@/components/ui/SplitText'
+import {
+  EarlyBirdBadge,
+  SpotsCounter,
+  PricingCards,
+  FeeSavingsCalculator,
+  ContentSlider,
+  StatsBar,
+  FAQAccordion,
+  FinalCTA,
+} from '@/components/landing'
+import { client, isSanityConfigured } from '../../sanity/lib/client'
+import { groq } from 'next-sanity'
+
+// Configuration
+const SPOTS_TOTAL = 10
+const SPOTS_TAKEN = 2
+const SPOTS_LEFT = SPOTS_TOTAL - SPOTS_TAKEN
 
 const features = [
   {
-    name: 'Intelligentes Credit-System',
-    description:
-      'FIFO-basiertes Credit-Management mit flexiblen Aktivierungsmodi. Credits verfallen automatisch nach Ablaufdatum.',
+    name: 'Smartes Credit-System',
+    description: 'FIFO-Prinzip, 4 Modi und volle Flexibilitat fur deine Kunden.',
     icon: CreditCard,
   },
   {
-    name: 'Einfache Kursverwaltung',
-    description:
-      'Erstelle Kurse, Serien und Termine in Sekunden. Online- und Offline-Kurse werden vollständig unterstützt.',
+    name: 'Kursverwaltung',
+    description: 'Erstelle Kursplane per Drag & Drop in Sekunden.',
     icon: Calendar,
   },
   {
-    name: 'Trainer-Management',
-    description:
-      '3 flexible Verdienstmodelle: Stundensatz, Prozentsatz oder Pauschal. Automatische Abrechnung inklusive.',
+    name: 'Trainer Management',
+    description: 'Abrechnungen und Zugriffsrechte einfach verwaltet.',
     icon: Users,
   },
   {
-    name: 'Umfassende Analytics',
-    description:
-      'Behalte den Überblick mit Echtzeit-Statistiken, Revenue-Charts und Health-Score für dein Studio.',
+    name: 'Analytics Dashboard',
+    description: 'Verstehe dein Studio mit Echtzeit-Daten und Graphen.',
     icon: BarChart3,
   },
   {
-    name: 'Blitzschnelle Performance',
-    description:
-      'Optimiert für Geschwindigkeit. Deine Kunden buchen Kurse in unter 3 Sekunden.',
-    icon: Zap,
+    name: 'Design & Branding',
+    description: 'Passe den Buchungskalender an deine CI-Farben an.',
+    icon: Palette,
   },
   {
-    name: 'Enterprise-Sicherheit',
-    description:
-      'Row-Level Security, verschlüsselte Zahlungen via Stripe, und DSGVO-konform.',
+    name: 'Sicherheit',
+    description: 'Verschlusselte Daten und Serverstandort Deutschland.',
     icon: Shield,
   },
 ]
 
 const testimonials = [
   {
-    quote:
-      'Bookicorn hat unsere Kursbuchung komplett revolutioniert. Das Credit-System ist genial!',
+    quote: 'Endlich eine Software ohne versteckte Gebuhren! Unsere Marge ist seit dem Wechsel deutlich gestiegen.',
     author: 'Maria S.',
-    role: 'Inhaberin, Yoga Studio München',
+    role: 'Inhaberin',
+    studio: 'Yoga Studio Munchen',
     rating: 5,
   },
   {
-    quote:
-      'Endlich eine Alternative ohne hohe Marketplace-Gebühren. Unsere Marge ist deutlich gestiegen.',
+    quote: 'Das Credit-System ist genial. Unsere Kunden lieben die Flexibilitat und wir den geringen Verwaltungsaufwand.',
     author: 'Thomas K.',
-    role: 'Geschäftsführer, CrossFit Box Berlin',
+    role: 'Geschaftsfuhrer',
+    studio: 'CrossFit Box Berlin',
     rating: 5,
   },
   {
-    quote:
-      'Die Trainer-Abrechnung spart uns jeden Monat Stunden an Arbeit. Absolut empfehlenswert!',
+    quote: 'Die Trainer-Abrechnung lauft jetzt automatisch. Spart uns jeden Monat Stunden an Arbeit!',
     author: 'Sandra M.',
-    role: 'Studio Managerin, Pilates & More',
+    role: 'Studio Managerin',
+    studio: 'Pilates & More Hamburg',
     rating: 5,
   },
 ]
 
-const comparisonPoints = [
-  { feature: 'Marketplace-Gebühren', bookicorn: '0%', competitor: '25%' },
-  { feature: 'Credit-Aktivierungsmodi', bookicorn: '4 Modi', competitor: '1 Modus' },
-  { feature: 'Trainer-Verdienstmodelle', bookicorn: '3 Modelle', competitor: 'Add-on' },
-  { feature: 'Custom Themes', bookicorn: '10+ Themes', competitor: 'Standard' },
-  { feature: 'Widget Builder', bookicorn: 'Drag & Drop', competitor: 'iFrame' },
-  { feature: 'Vertragsbindung', bookicorn: 'Keine', competitor: '12 Monate' },
-]
+// Fetch blog posts from Sanity
+const postsQuery = groq`*[_type == "blogPost"] | order(publishedAt desc)[0...6] {
+  _id,
+  title,
+  slug,
+  excerpt,
+  coverImage,
+  publishedAt,
+  "category": category->{title, color}
+}`
 
 export default function HomePage() {
+  const [blogPosts, setBlogPosts] = useState<any[]>([])
+
+  useEffect(() => {
+    if (isSanityConfigured() && client) {
+      client.fetch(postsQuery).then(setBlogPosts).catch(console.error)
+    }
+  }, [])
+
   return (
     <div className="bg-[var(--theme-background)]">
-      {/* Hero Section with LiquidEther Background */}
-      <div className="relative isolate overflow-hidden min-h-[90vh] flex items-center">
+      {/* ═══════════════════════════════════════════════════════════════════════
+          HERO SECTION
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="relative isolate overflow-hidden min-h-[95vh] flex items-center">
         <LazyLiquidEther />
 
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 lg:py-40 w-full">
-          <div className="mx-auto max-w-3xl text-center">
-            {/* Badge */}
-            <div className="mb-8 inline-flex items-center rounded-full bg-[var(--theme-surface)] px-4 py-1.5 text-sm font-medium text-primary-600 ring-1 ring-inset ring-primary-600/20 backdrop-blur-sm">
-              <span className="mr-2">Neu</span>
-              <span className="h-1 w-1 rounded-full bg-primary-600" />
-              <span className="ml-2">Ohne Marketplace-Gebühren</span>
-            </div>
+          <div className="mx-auto max-w-4xl text-center">
+            {/* Early Bird Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="flex justify-center mb-8"
+            >
+              <EarlyBirdBadge spotsLeft={SPOTS_LEFT} />
+            </motion.div>
 
             {/* Headline */}
-            <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl">
-              Die Kursplattform für{' '}
-              <span className="gradient-text">moderne Studios</span>
-            </h1>
+            <SplitText
+              text="Dein Studio verdient"
+              tag="h1"
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[var(--theme-text)]"
+              delay={30}
+              duration={0.6}
+              ease="power3.out"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+            />
+            <motion.div
+              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-lime-400 mt-2"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              bessere Software
+            </motion.div>
 
             {/* Subheadline */}
-            <p className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]">
-              Verwalte Kurse, Buchungen und Credits für dein Yoga, Fitness oder
-              Wellness Studio. Ohne versteckte Gebühren, ohne lange Vertragsbindung.
-            </p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mt-6 text-lg sm:text-xl leading-8 text-[var(--theme-textSecondary)] max-w-2xl mx-auto"
+            >
+              Keine versteckten Gebuhren. Volle Flexibilitat. Die moderne Plattform fur Yoga, Fitness und Wellness Studios, die dir gehort.
+            </motion.p>
+
+            {/* Spots Counter */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="mt-10"
+            >
+              <SpotsCounter total={SPOTS_TOTAL} taken={SPOTS_TAKEN} />
+            </motion.div>
 
             {/* CTA Buttons */}
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+            >
               <RegisterButton variant="primary" size="lg">
-                Kostenlos starten
+                Jetzt Platz sichern
               </RegisterButton>
               <Link
                 href="/features"
-                className="group text-sm font-semibold leading-6 text-[var(--theme-text)] flex items-center gap-1"
+                className="group flex items-center gap-2 px-6 py-3.5 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] font-medium hover:border-primary-500/50 transition-colors"
               >
-                Alle Features ansehen
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                Demo ansehen
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
-            </div>
+            </motion.div>
 
-            {/* Trust indicators */}
-            <div className="mt-10 flex items-center justify-center gap-x-6 text-sm text-[var(--theme-textSecondary)]">
-              <div className="flex items-center gap-1">
-                <Check className="h-4 w-4 text-primary-500" />
-                <span>Keine Kreditkarte nötig</span>
+            {/* Trust Indicators */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.8 }}
+              className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-[var(--theme-textSecondary)]"
+            >
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary-500" />
+                <span>Setup in 5 Min</span>
               </div>
-              <div className="flex items-center gap-1">
-                <Check className="h-4 w-4 text-primary-500" />
-                <span>Setup in 5 Minuten</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Check className="h-4 w-4 text-primary-500" />
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary-500" />
                 <span>DSGVO-konform</span>
               </div>
-            </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-primary-500" />
+                <span>Jederzeit kundbar</span>
+              </div>
+            </motion.div>
           </div>
         </div>
-      </div>
 
-      {/* Features Section */}
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-32">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-base font-semibold leading-7 text-primary-600">
-            Alles was du brauchst
-          </h2>
-          <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--theme-text)] sm:text-4xl">
-            Funktionen die den Unterschied machen
-          </p>
-          <p className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]">
-            Entwickelt für Studios die wachsen wollen. Ohne Kompromisse.
-          </p>
-        </div>
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-6 h-10 rounded-full border-2 border-[var(--theme-border)] flex items-start justify-center p-1.5"
+          >
+            <motion.div
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-primary-500"
+            />
+          </motion.div>
+        </motion.div>
+      </section>
 
-        <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-          <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-            {features.map((feature) => (
-              <div key={feature.name} className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-[var(--theme-text)]">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600">
-                    <feature.icon className="h-5 w-5 text-white" aria-hidden="true" />
-                  </div>
-                  {feature.name}
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-[var(--theme-textSecondary)]">
-                  <p className="flex-auto">{feature.description}</p>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </div>
-
-      {/* Comparison Section */}
-      <div className="bg-[var(--theme-surface)] py-24 sm:py-32">
+      {/* ═══════════════════════════════════════════════════════════════════════
+          PRICING SECTION
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 sm:py-32 bg-[var(--theme-surface)]">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-base font-semibold leading-7 text-primary-600">
-              Vergleich
-            </h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--theme-text)] sm:text-4xl">
-              Warum Studios zu Bookicorn wechseln
-            </p>
+          {/* Section header */}
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl sm:text-4xl font-bold text-[var(--theme-text)] mb-4"
+            >
+              Early Bird Angebot
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-lg text-[var(--theme-textSecondary)]"
+            >
+              Sichere dir den Preis fur immer.
+            </motion.p>
           </div>
 
-          <div className="mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-[var(--theme-border)] sm:mt-20 lg:mx-0 lg:flex lg:max-w-none bg-[var(--theme-background)]">
-            <div className="p-8 sm:p-10 lg:flex-auto">
-              <h3 className="text-2xl font-bold tracking-tight text-[var(--theme-text)]">
-                Der faire Vergleich
-              </h3>
-              <p className="mt-6 text-base leading-7 text-[var(--theme-textSecondary)]">
-                Wir verstecken nichts. Hier siehst du wie wir im Vergleich zu anderen
-                Anbietern abschneiden.
-              </p>
-              <div className="mt-10 flex items-center gap-x-4">
-                <h4 className="flex-none text-sm font-semibold leading-6 text-primary-600">
-                  Feature-Vergleich
-                </h4>
-                <div className="h-px flex-auto bg-[var(--theme-border)]" />
-              </div>
-              <ul
-                role="list"
-                className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-[var(--theme-textSecondary)] sm:grid-cols-2 sm:gap-6"
+          {/* Pricing Cards */}
+          <PricingCards spotsLeft={SPOTS_LEFT} />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          FEE SAVINGS CALCULATOR
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <FeeSavingsCalculator />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          FEATURES SECTION
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 sm:py-32 bg-[var(--theme-surface)]">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          {/* Section header */}
+          <div className="text-center mb-16">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl sm:text-4xl font-bold text-[var(--theme-text)] mb-4"
+            >
+              Alles was du brauchst
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-lg text-[var(--theme-textSecondary)]"
+            >
+              Ohne den unnotigen Ballast.
+            </motion.p>
+          </div>
+
+          {/* Features Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {features.map((feature, i) => (
+              <motion.div
+                key={feature.name}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="group p-6 rounded-2xl bg-[var(--theme-background)] border border-[var(--theme-border)] hover:border-primary-500/30 hover:shadow-lg hover:shadow-primary-500/5 hover:-translate-y-1 transition-all duration-300"
               >
-                {comparisonPoints.map((point) => (
-                  <li key={point.feature} className="flex gap-x-3">
-                    <Check
-                      className="h-6 w-5 flex-none text-primary-600"
-                      aria-hidden="true"
-                    />
-                    <span>
-                      <strong className="text-[var(--theme-text)]">{point.feature}:</strong> {point.bookicorn}{' '}
-                      <span className="text-[var(--theme-textTertiary)]">vs. {point.competitor}</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
-              <div className="rounded-2xl bg-[#09090b] py-10 text-center ring-1 ring-inset ring-white/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
-                <div className="mx-auto max-w-xs px-8">
-                  <p className="text-base font-semibold text-gray-300">
-                    Spare bis zu
-                  </p>
-                  <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                    <span className="text-5xl font-bold tracking-tight text-white">
-                      25%
-                    </span>
-                    <span className="text-sm font-semibold leading-6 tracking-wide text-gray-300">
-                      Gebühren
-                    </span>
-                  </p>
-                  <div className="mt-10">
-                    <RegisterButton variant="white" size="lg" className="w-full">
-                      Jetzt wechseln
-                    </RegisterButton>
-                  </div>
-                  <p className="mt-6 text-xs leading-5 text-gray-400">
-                    Keine Vertragsbindung. Jederzeit kündbar.
-                  </p>
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl bg-primary-500/10 flex items-center justify-center mb-4 group-hover:bg-primary-500/20 group-hover:scale-110 transition-all">
+                  <feature.icon className="w-6 h-6 text-primary-500" />
                 </div>
-              </div>
-            </div>
+
+                {/* Content */}
+                <h3 className="text-lg font-bold text-[var(--theme-text)] mb-2">
+                  {feature.name}
+                </h3>
+                <p className="text-sm text-[var(--theme-textSecondary)] leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Testimonials Section */}
-      <div className="py-24 sm:py-32">
+      {/* ═══════════════════════════════════════════════════════════════════════
+          CONTENT SLIDER (Blog + Docs)
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-base font-semibold leading-7 text-primary-600">
-              Testimonials
-            </h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-[var(--theme-text)] sm:text-4xl">
+          <ContentSlider blogPosts={blogPosts} />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          TESTIMONIALS SECTION
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 sm:py-32 bg-[var(--theme-surface)]">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          {/* Section header */}
+          <div className="text-center mb-12">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl sm:text-4xl font-bold text-[var(--theme-text)]"
+            >
               Das sagen unsere Kunden
-            </p>
+            </motion.h2>
           </div>
 
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <div
+          {/* Stats Bar */}
+          <StatsBar />
+
+          {/* Testimonials Grid */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, i) => (
+              <motion.div
                 key={testimonial.author}
-                className="flex flex-col justify-between rounded-3xl bg-[var(--theme-surface)] p-8 shadow-lg ring-1 ring-[var(--theme-border)]"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="flex flex-col justify-between p-8 rounded-2xl bg-[var(--theme-background)] border border-[var(--theme-border)] hover:shadow-lg transition-shadow"
               >
                 <div>
-                  <div className="flex gap-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-5 w-5 text-yellow-400 fill-current"
-                      />
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(testimonial.rating)].map((_, j) => (
+                      <Star key={j} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                     ))}
                   </div>
-                  <p className="mt-4 text-lg leading-7 text-[var(--theme-textSecondary)]">
-                    &ldquo;{testimonial.quote}&rdquo;
+
+                  {/* Quote */}
+                  <p className="text-[var(--theme-textSecondary)] leading-relaxed italic">
+                    "{testimonial.quote}"
                   </p>
                 </div>
-                <div className="mt-6 border-t border-[var(--theme-border)] pt-6">
-                  <p className="text-base font-semibold text-[var(--theme-text)]">
-                    {testimonial.author}
-                  </p>
-                  <p className="text-sm text-[var(--theme-textTertiary)]">{testimonial.role}</p>
+
+                {/* Author */}
+                <div className="mt-6 pt-6 border-t border-[var(--theme-border)] flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-lime-400" />
+                  <div>
+                    <p className="font-bold text-sm text-[var(--theme-text)]">
+                      {testimonial.author}
+                    </p>
+                    <p className="text-xs text-[var(--theme-textTertiary)]">
+                      {testimonial.role}, {testimonial.studio}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* CTA Section */}
-      <div className="bg-primary-600">
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:justify-between lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Bereit durchzustarten?
-            <br />
-            <span className="text-primary-200">Starte heute kostenlos.</span>
-          </h2>
-          <div className="mt-10 flex items-center gap-x-6 lg:mt-0 lg:flex-shrink-0">
-            <RegisterButton variant="white" size="lg">
-              Kostenlos starten
-            </RegisterButton>
-            <Link
-              href="/contact"
-              className="text-sm font-semibold leading-6 text-white hover:text-primary-100"
-            >
-              Kontakt aufnehmen <span aria-hidden="true">→</span>
-            </Link>
-          </div>
+      {/* ═══════════════════════════════════════════════════════════════════════
+          FAQ SECTION
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-24 sm:py-32">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <FAQAccordion />
         </div>
-      </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════════
+          FINAL CTA SECTION
+          ═══════════════════════════════════════════════════════════════════════ */}
+      <FinalCTA spotsLeft={SPOTS_LEFT} />
     </div>
   )
 }

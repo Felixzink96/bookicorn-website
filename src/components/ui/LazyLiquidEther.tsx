@@ -49,20 +49,6 @@ export function LazyLiquidEther() {
 
   return (
     <div className="absolute inset-0 -z-10">
-      {/* Mesh gradient background */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `
-            radial-gradient(at 20% 30%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
-            radial-gradient(at 80% 20%, rgba(236, 72, 153, 0.25) 0%, transparent 50%),
-            radial-gradient(at 60% 80%, rgba(250, 204, 21, 0.2) 0%, transparent 50%),
-            radial-gradient(at 30% 70%, rgba(34, 211, 238, 0.25) 0%, transparent 50%),
-            var(--theme-background)
-          `
-        }}
-      />
-
       {/* LiquidEther - loaded on user interaction */}
       {shouldLoad && (
         <div

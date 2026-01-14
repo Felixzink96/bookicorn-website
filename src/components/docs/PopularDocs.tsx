@@ -83,9 +83,9 @@ export function PopularDocs() {
             >
               <Flame className="w-3.5 h-3.5 text-orange-500 group-hover:text-primary-600 transition-colors" />
               {article.title}
-              {'views' in article && article.views > 1 && (
+              {'views' in article && (article as { views: number }).views > 1 && (
                 <span className="ml-1 text-[10px] text-[var(--theme-textTertiary)]">
-                  ({article.views})
+                  ({(article as { views: number }).views})
                 </span>
               )}
             </Link>

@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { RegisterButton } from '@/components/ui/CTAButton'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
+import SplitText from '@/components/ui/SplitText'
 import {
   Calendar,
   CreditCard,
@@ -211,9 +212,15 @@ export default function FeaturesPage() {
         <LazyLiquidEther />
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8 w-full">
           <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl">
-              Alle Features auf einen Blick
-            </h1>
+            <SplitText
+              text="Alle Features auf einen Blick"
+              tag="h1"
+              className="text-4xl font-bold tracking-tight text-[var(--theme-text)] sm:text-6xl"
+              delay={30}
+              duration={0.6}
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+            />
             <p className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]">
               Entwickelt für Studios die mehr wollen. Jede Funktion wurde
               designed um dir Zeit zu sparen und deinen Kunden das beste
