@@ -5,14 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   Mail,
   Phone,
-  Calendar,
-  ArrowRight,
   ArrowLeft,
   Loader2,
   CheckCircle,
   Sparkles,
   MessageSquare,
-  Clock,
   Video,
 } from 'lucide-react'
 import Button from '@/components/ui/Button'
@@ -21,30 +18,31 @@ import SplitText from '@/components/ui/SplitText'
 
 type ContactType = 'message' | 'callback' | 'meeting' | null
 
+// Bookicorn Logo Farben: #EE4035 (Rot), #2D61F0 (Blau), #A6D30F (Lime)
 const contactOptions = [
   {
     id: 'message' as const,
     icon: MessageSquare,
     title: 'Nachricht schreiben',
     description: 'Schreib uns und wir melden uns innerhalb von 24h',
-    gradient: 'from-blue-500 to-cyan-400',
-    bgGlow: 'bg-blue-500/20',
+    color: '#2D61F0', // Blau
+    buttonText: 'Nachricht verfassen',
   },
   {
     id: 'callback' as const,
     icon: Phone,
-    title: 'Ruckruf vereinbaren',
+    title: 'Rückruf vereinbaren',
     description: 'Wir rufen dich zu deiner Wunschzeit an',
-    gradient: 'from-purple-500 to-pink-400',
-    bgGlow: 'bg-purple-500/20',
+    color: '#EE4035', // Rot
+    buttonText: 'Rückruf anfordern',
   },
   {
     id: 'meeting' as const,
     icon: Video,
     title: 'Demo-Termin buchen',
-    description: 'Personliche Demo per Video-Call',
-    gradient: 'from-primary-500 to-lime-400',
-    bgGlow: 'bg-primary-500/20',
+    description: 'Persönliche Demo per Video-Call',
+    color: '#A6D30F', // Lime/Grün
+    buttonText: 'Termin wählen',
   },
 ]
 
@@ -116,7 +114,7 @@ export default function ContactPage() {
           lastName: callbackForm.lastName,
           email: callbackForm.email,
           subject: 'callback',
-          message: `Ruckruf gewunscht!\n\nTelefon: ${callbackForm.phone}\nBevorzugte Zeit: ${callbackForm.preferredTime}\n\nNotizen: ${callbackForm.notes || 'Keine'}`,
+          message: `Rückruf gewünscht!\n\nTelefon: ${callbackForm.phone}\nBevorzugte Zeit: ${callbackForm.preferredTime}\n\nNotizen: ${callbackForm.notes || 'Keine'}`,
           type: 'callback',
         }),
       })
@@ -154,7 +152,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
             >
-              <Sparkles className="w-4 h-4 text-primary-400" />
+              <Sparkles className="w-4 h-4 text-[#A6D30F]" />
               <span className="text-sm font-medium text-[var(--theme-text)]">
                 Wir antworten in unter 24 Stunden
               </span>
@@ -174,7 +172,7 @@ export default function ContactPage() {
               transition={{ delay: 0.3 }}
               className="mt-6 text-lg leading-8 text-[var(--theme-textSecondary)]"
             >
-              Wahle wie du uns erreichen mochtest
+              Wähle wie du uns erreichen möchtest
             </motion.p>
           </div>
         </div>
@@ -192,50 +190,53 @@ export default function ContactPage() {
               className="grid gap-6 md:grid-cols-3"
             >
               {contactOptions.map((option, i) => (
-                <motion.button
+                <motion.div
                   key={option.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
-                  onClick={() => setSelectedType(option.id)}
-                  className="group relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 text-left transition-all duration-500 hover:border-transparent hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2"
+                  className="group relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+                  style={{
+                    boxShadow: `0 0 0 0 ${option.color}00`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = `0 25px 50px -12px ${option.color}30`
+                    e.currentTarget.style.borderColor = option.color
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = `0 0 0 0 ${option.color}00`
+                    e.currentTarget.style.borderColor = ''
+                  }}
                 >
-                  {/* Glow effect */}
-                  <div
-                    className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ${option.bgGlow} blur-3xl`}
-                  />
-
-                  {/* Gradient border on hover */}
-                  <div
-                    className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${option.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                    style={{ padding: '1px' }}
-                  >
-                    <div className="absolute inset-[1px] rounded-3xl bg-[var(--theme-surface)]" />
-                  </div>
-
-                  <div className="relative z-10">
+                  <div className="flex flex-col h-full">
                     {/* Icon */}
                     <div
-                      className={`inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br ${option.gradient} mb-6 group-hover:scale-110 transition-transform duration-500`}
+                      className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6 transition-transform duration-500 group-hover:scale-110"
+                      style={{ backgroundColor: option.color }}
                     >
                       <option.icon className="w-7 h-7 text-white" />
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-xl font-bold text-[var(--theme-text)] mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[var(--theme-text)] group-hover:to-primary-500 transition-all duration-300">
+                    <h3 className="text-xl font-bold text-[var(--theme-text)] mb-2">
                       {option.title}
                     </h3>
-                    <p className="text-[var(--theme-textSecondary)] text-sm leading-relaxed">
+                    <p className="text-[var(--theme-textSecondary)] text-sm leading-relaxed mb-6 flex-grow">
                       {option.description}
                     </p>
 
-                    {/* Arrow */}
-                    <div className="mt-6 flex items-center gap-2 text-primary-500 font-medium text-sm opacity-0 group-hover:opacity-100 translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300">
-                      <span>Auswahlen</span>
-                      <ArrowRight className="w-4 h-4" />
+                    {/* Button */}
+                    <div className="mt-auto">
+                      <Button
+                        variant="secondary"
+                        fullWidth
+                        onClick={() => setSelectedType(option.id)}
+                      >
+                        {option.buttonText}
+                      </Button>
                     </div>
                   </div>
-                </motion.button>
+                </motion.div>
               ))}
             </motion.div>
           )}
@@ -250,13 +251,14 @@ export default function ContactPage() {
               className="max-w-lg mx-auto"
             >
               <div className="relative overflow-hidden rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-12 text-center">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 to-lime-400/10" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#A6D30F]/10 to-[#2D61F0]/10" />
                 <div className="relative z-10">
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }}
-                    className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-primary-500 to-lime-400 mb-6"
+                    className="inline-flex items-center justify-center w-20 h-20 rounded-full mb-6"
+                    style={{ backgroundColor: '#A6D30F' }}
                   >
                     <CheckCircle className="w-10 h-10 text-white" />
                   </motion.div>
@@ -265,7 +267,7 @@ export default function ContactPage() {
                   </h3>
                   <p className="text-[var(--theme-textSecondary)] mb-8">
                     {selectedType === 'callback'
-                      ? 'Wir rufen dich so schnell wie moglich zuruck!'
+                      ? 'Wir rufen dich so schnell wie möglich zurück!'
                       : 'Wir melden uns innerhalb von 24 Stunden bei dir.'}
                   </p>
                   <Button variant="secondary" onClick={resetForm}>
@@ -290,12 +292,15 @@ export default function ContactPage() {
                 className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Zuruck zur Auswahl</span>
+                <span>Zurück zur Auswahl</span>
               </button>
 
               <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 md:p-10">
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400">
+                  <div
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-xl"
+                    style={{ backgroundColor: '#2D61F0' }}
+                  >
                     <MessageSquare className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -303,7 +308,7 @@ export default function ContactPage() {
                       Nachricht schreiben
                     </h2>
                     <p className="text-sm text-[var(--theme-textSecondary)]">
-                      Erzahl uns von deinem Projekt
+                      Erzähl uns von deinem Projekt
                     </p>
                   </div>
                 </div>
@@ -346,7 +351,7 @@ export default function ContactPage() {
                     label="Deine Nachricht"
                     value={messageForm.message}
                     onChange={(v) => setMessageForm({ ...messageForm, message: v })}
-                    placeholder="Erzahl uns, wie wir dir helfen konnen..."
+                    placeholder="Erzähl uns, wie wir dir helfen können..."
                     required
                   />
                   <Button type="submit" variant="primary" fullWidth disabled={loading}>
@@ -375,20 +380,23 @@ export default function ContactPage() {
                 className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Zuruck zur Auswahl</span>
+                <span>Zurück zur Auswahl</span>
               </button>
 
               <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] p-8 md:p-10">
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-400">
+                  <div
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-xl"
+                    style={{ backgroundColor: '#EE4035' }}
+                  >
                     <Phone className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h2 className="text-xl font-bold text-[var(--theme-text)]">
-                      Ruckruf vereinbaren
+                      Rückruf vereinbaren
                     </h2>
                     <p className="text-sm text-[var(--theme-textSecondary)]">
-                      Wir rufen dich personlich an
+                      Wir rufen dich persönlich an
                     </p>
                   </div>
                 </div>
@@ -434,7 +442,7 @@ export default function ContactPage() {
                     value={callbackForm.preferredTime}
                     onChange={(v) => setCallbackForm({ ...callbackForm, preferredTime: v })}
                     options={[
-                      { value: '', label: 'Bitte wahlen' },
+                      { value: '', label: 'Bitte wählen' },
                       { value: 'morning', label: 'Vormittags (9-12 Uhr)' },
                       { value: 'afternoon', label: 'Nachmittags (12-17 Uhr)' },
                       { value: 'evening', label: 'Abends (17-19 Uhr)' },
@@ -446,14 +454,14 @@ export default function ContactPage() {
                     label="Worum geht es?"
                     value={callbackForm.notes}
                     onChange={(v) => setCallbackForm({ ...callbackForm, notes: v })}
-                    placeholder="Optional: Kurze Info zum Thema des Gesprachs..."
+                    placeholder="Optional: Kurze Info zum Thema des Gesprächs..."
                     rows={3}
                   />
                   <Button type="submit" variant="primary" fullWidth disabled={loading}>
                     {loading ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
-                      'Ruckruf anfordern'
+                      'Rückruf anfordern'
                     )}
                   </Button>
                 </form>
@@ -475,12 +483,15 @@ export default function ContactPage() {
                 className="flex items-center gap-2 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] mb-8 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
-                <span>Zuruck zur Auswahl</span>
+                <span>Zurück zur Auswahl</span>
               </button>
 
               <div className="rounded-3xl bg-[var(--theme-surface)] border border-[var(--theme-border)] overflow-hidden">
                 <div className="flex items-center gap-4 p-8 border-b border-[var(--theme-border)]">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-lime-400">
+                  <div
+                    className="inline-flex items-center justify-center w-12 h-12 rounded-xl"
+                    style={{ backgroundColor: '#A6D30F' }}
+                  >
                     <Video className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -488,7 +499,7 @@ export default function ContactPage() {
                       Demo-Termin buchen
                     </h2>
                     <p className="text-sm text-[var(--theme-textSecondary)]">
-                      30 Minuten personliche Produktdemo
+                      30 Minuten persönliche Produktdemo
                     </p>
                   </div>
                 </div>
@@ -496,7 +507,7 @@ export default function ContactPage() {
                 {/* Calendly Embed */}
                 <div className="relative bg-white" style={{ minHeight: '700px' }}>
                   <iframe
-                    src="https://calendly.com/bookicorn/demo?hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=22c55e"
+                    src="https://calendly.com/bookicorn/demo?hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=A6D30F"
                     width="100%"
                     height="700"
                     frameBorder="0"
@@ -522,7 +533,8 @@ export default function ContactPage() {
             </p>
             <a
               href="mailto:kontakt@bookicorn.net"
-              className="inline-flex items-center gap-2 text-primary-500 hover:text-primary-600 font-medium transition-colors"
+              className="inline-flex items-center gap-2 font-medium transition-colors"
+              style={{ color: '#2D61F0' }}
             >
               <Mail className="w-5 h-5" />
               kontakt@bookicorn.net
@@ -566,7 +578,7 @@ function InputField({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
-        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] placeholder:text-[var(--theme-textTertiary)] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] placeholder:text-[var(--theme-textTertiary)] focus:outline-none focus:ring-2 focus:ring-[#2D61F0]/50 focus:border-[#2D61F0] transition-all"
       />
     </div>
   )
@@ -599,7 +611,7 @@ function TextAreaField({
         placeholder={placeholder}
         required={required}
         rows={rows}
-        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] placeholder:text-[var(--theme-textTertiary)] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all resize-none"
+        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] placeholder:text-[var(--theme-textTertiary)] focus:outline-none focus:ring-2 focus:ring-[#2D61F0]/50 focus:border-[#2D61F0] transition-all resize-none"
       />
     </div>
   )
@@ -628,7 +640,7 @@ function SelectField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
-        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all"
+        className="w-full px-4 py-3 rounded-xl border border-[var(--theme-border)] bg-[var(--theme-background)] text-[var(--theme-text)] focus:outline-none focus:ring-2 focus:ring-[#2D61F0]/50 focus:border-[#2D61F0] transition-all"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
