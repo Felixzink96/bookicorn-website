@@ -42,9 +42,9 @@ function getCookieDomain(): string {
   }
 
   // Production: use root domain with leading dot for all subdomains
-  // .bookicorn.com covers: bookicorn.com, www.bookicorn.com, app.bookicorn.com, etc.
-  if (hostname.includes('bookicorn.com')) {
-    return '.bookicorn.com';
+  // .bookicorn.net covers: bookicorn.net, www.bookicorn.net, app.bookicorn.net, etc.
+  if (hostname.includes('bookicorn.net')) {
+    return '.bookicorn.net';
   }
 
   // Vercel preview URLs or other domains - use current hostname
