@@ -7,9 +7,11 @@ import { Settings } from 'lucide-react';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { useConsent } from '@/lib/cookie-consent/consent-context';
+import { useTranslation } from '@/lib/hooks/useTranslation';
 
 export default function CookieBanner() {
   const { showBanner, showSettings, acceptAll, rejectAll, openSettings } = useConsent();
+  const { t } = useTranslation('cookies');
 
   // Only render on client side
   if (typeof window === 'undefined') return null;
@@ -47,7 +49,7 @@ export default function CookieBanner() {
           >
             <div className="max-w-4xl mx-auto">
               <div
-                className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+                className="bg-[var(--theme-background)] rounded-2xl shadow-2xl border border-[var(--theme-border)] overflow-hidden"
                 style={{
                   boxShadow: '0 -10px 40px -10px rgba(0, 0, 0, 0.15)',
                 }}
@@ -56,30 +58,31 @@ export default function CookieBanner() {
                   {/* Title */}
                   <h2
                     id="cookie-banner-title"
-                    className="text-lg font-semibold text-gray-900 dark:text-white mb-2"
+                    className="text-lg font-semibold text-[var(--theme-text)] mb-2"
                   >
-                    Wir verwenden Cookies
+                    {t('banner.title')}
                   </h2>
 
                   {/* Description */}
                   <p
                     id="cookie-banner-description"
-                    className="text-sm text-gray-500 dark:text-gray-400 mb-6"
+                    className="text-sm text-[var(--theme-textSecondary)] mb-6"
                   >
-                    Wir nutzen Cookies und aehnliche Technologien, um unsere Website zu verbessern und dir ein besseres Nutzungserlebnis zu bieten. Du kannst selbst entscheiden, welche Kategorien du zulassen moechtest.
+                    {t('banner.description')}
                   </p>
 
                   {/* Actions - GDPR compliant: buttons same size/weight */}
-                  <div className="flex flex-col gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     {/* Primary actions - EQUAL styling for GDPR compliance */}
-                    <div className="flex gap-3">
+                    <div className="flex flex-1 gap-3">
                       {/* Reject All - SAME styling as Accept */}
                       <Button
                         variant="secondary"
                         onClick={rejectAll}
                         className="flex-1"
+                        aria-label={t('banner.rejectAll')}
                       >
-                        Alle ablehnen
+                        {t('banner.rejectAll')}
                       </Button>
 
                       {/* Accept All - SAME styling as Reject */}
@@ -87,20 +90,21 @@ export default function CookieBanner() {
                         variant="secondary"
                         onClick={acceptAll}
                         className="flex-1"
+                        aria-label={t('banner.acceptAll')}
                       >
-                        Alle akzeptieren
+                        {t('banner.acceptAll')}
                       </Button>
                     </div>
 
-                    {/* Settings link - always below on mobile */}
+                    {/* Settings link */}
                     <button
                       type="button"
                       onClick={openSettings}
-                      className="flex items-center justify-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors py-2"
-                      aria-label="Cookie-Einstellungen anpassen"
+                      className="flex items-center justify-center gap-2 text-sm font-medium text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] transition-colors py-2"
+                      aria-label={t('banner.settings')}
                     >
                       <Settings className="w-4 h-4" aria-hidden="true" />
-                      Einstellungen anpassen
+                      {t('banner.settings')}
                     </button>
                   </div>
 
@@ -108,9 +112,9 @@ export default function CookieBanner() {
                   <div className="mt-4 text-center">
                     <Link
                       href="/datenschutz"
-                      className="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 underline transition-colors"
+                      className="text-xs text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] underline transition-colors"
                     >
-                      Mehr in unserer Datenschutzerklaerung
+                      {t('banner.privacyLink')}
                     </Link>
                   </div>
                 </div>
