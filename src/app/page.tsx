@@ -410,7 +410,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════════════════════════
           FINAL CTA SECTION
           ═══════════════════════════════════════════════════════════════════════ */}
-      <FinalCTA spotsLeft={SPOTS_LEFT} />
+      <FinalCTA />
     </div>
   )
 }
