@@ -63,19 +63,19 @@ export default function CookieSettingsModal() {
       description="Hier kannst du deine Cookie-Praeferenzen verwalten. Du kannst jederzeit deine Einstellungen aendern."
       size="lg"
       footer={
-        <>
-          <Button variant="secondary" onClick={handleRejectAll}>
-            Nur essenzielle
-          </Button>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 w-full">
           <div className="flex gap-3">
-            <Button variant="secondary" onClick={handleAcceptAll}>
+            <Button variant="secondary" onClick={handleRejectAll} className="flex-1 sm:flex-none">
+              Nur essenzielle
+            </Button>
+            <Button variant="secondary" onClick={handleAcceptAll} className="flex-1 sm:flex-none">
               Alle akzeptieren
             </Button>
-            <Button variant="primary" onClick={handleSave}>
-              Auswahl speichern
-            </Button>
           </div>
-        </>
+          <Button variant="primary" onClick={handleSave} className="w-full sm:w-auto">
+            Auswahl speichern
+          </Button>
+        </div>
       }
     >
       <div className="space-y-4">
