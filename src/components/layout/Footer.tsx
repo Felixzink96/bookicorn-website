@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import BookicornLogo from '@/components/icons/BookicornLogo'
+import { useConsent } from '@/lib/cookie-consent'
 
 const footerNavigation = {
   produkt: [
@@ -18,9 +19,16 @@ const footerNavigation = {
     { name: 'Über uns', href: '/about' },
     { name: 'Kontakt', href: '/contact' },
   ],
+  rechtliches: [
+    { name: 'Datenschutz', href: '/datenschutz' },
+    { name: 'Impressum', href: '/impressum' },
+    { name: 'AGB', href: '/agb' },
+  ],
 }
 
 export default function Footer() {
+  const { openSettings } = useConsent();
+
   return (
     <footer
       className="bg-[var(--theme-background)] border-t border-[var(--theme-border)] pb-[env(safe-area-inset-bottom)]"
@@ -120,6 +128,29 @@ export default function Footer() {
                       </Link>
                     </li>
                   ))}
+                </ul>
+              </div>
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold leading-6 text-[var(--theme-text)]">Rechtliches</h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {footerNavigation.rechtliches.map((item) => (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="text-sm leading-6 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <button
+                      onClick={openSettings}
+                      className="text-sm leading-6 text-[var(--theme-textSecondary)] hover:text-[var(--theme-text)] transition-colors"
+                    >
+                      Cookie-Einstellungen
+                    </button>
+                  </li>
                 </ul>
               </div>
             </div>

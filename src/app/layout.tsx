@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { ThemeProvider } from '@/lib/theme-context'
+import CookieConsentWrapper from '@/components/cookies/CookieConsentWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -102,9 +103,11 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
+          <CookieConsentWrapper>
+            <Header />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+          </CookieConsentWrapper>
         </ThemeProvider>
       </body>
     </html>
