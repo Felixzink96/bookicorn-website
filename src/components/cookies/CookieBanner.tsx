@@ -72,7 +72,7 @@ export default function CookieBanner() {
                   </p>
 
                   {/* Actions - GDPR compliant: buttons same size/weight */}
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                     {/* Primary actions - EQUAL styling for GDPR compliance */}
                     <div className="flex gap-3">
                       {/* Accept All - links */}
@@ -84,7 +84,7 @@ export default function CookieBanner() {
                         {t('banner.acceptAll')}
                       </Button>
 
-                      {/* Reject All - rechts */}
+                      {/* Reject All */}
                       <Button
                         variant="secondary"
                         onClick={rejectAll}
@@ -94,7 +94,7 @@ export default function CookieBanner() {
                       </Button>
                     </div>
 
-                    {/* Settings link */}
+                    {/* Settings link - rechts */}
                     <button
                       type="button"
                       onClick={openSettings}
