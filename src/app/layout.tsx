@@ -15,10 +15,10 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.bookicorn.com'),
+  metadataBase: new URL('https://manager.bookicorn.net'),
   title: {
-    default: 'Bookicorn - Die Kursplattform für Yoga & Fitness Studios',
-    template: '%s | Bookicorn',
+    default: 'Bookicorn für Studios - Die moderne Kursplattform',
+    template: '%s | Bookicorn für Studios',
   },
   description:
     'Verwalte Kurse, Buchungen und Credits für dein Studio. Die moderne Alternative zu Eversports - ohne Marketplace-Gebühren.',
@@ -29,20 +29,32 @@ export const metadata: Metadata = {
     'Studio Management',
     'Eversports Alternative',
     'Credit System',
+    'Pilates Software',
   ],
   authors: [{ name: 'Bookicorn' }],
   creator: 'Bookicorn',
+  publisher: 'Bookicorn',
+  icons: {
+    icon: [
+      { url: '/bookicorn-icon.svg', type: 'image/svg+xml' },
+      { url: '/bookicorn-icon.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/bookicorn-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  manifest: '/manifest.json',
   openGraph: {
     type: 'website',
     locale: 'de_DE',
-    url: 'https://www.bookicorn.com',
-    siteName: 'Bookicorn',
-    title: 'Bookicorn - Die Kursplattform für Yoga & Fitness Studios',
+    url: 'https://manager.bookicorn.net',
+    siteName: 'Bookicorn für Studios',
+    title: 'Bookicorn für Studios - Die moderne Kursplattform',
     description:
       'Verwalte Kurse, Buchungen und Credits für dein Studio. Die moderne Alternative zu Eversports.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/bookicorn-logo.png',
         width: 1200,
         height: 630,
         alt: 'Bookicorn - Studio Management Software',
@@ -51,9 +63,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bookicorn - Die Kursplattform für Yoga & Fitness Studios',
+    title: 'Bookicorn für Studios - Die moderne Kursplattform',
     description: 'Verwalte Kurse, Buchungen und Credits für dein Studio.',
-    images: ['/og-image.png'],
+    images: ['/bookicorn-logo.png'],
   },
   robots: {
     index: true,
@@ -65,6 +77,9 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
+  },
+  alternates: {
+    canonical: 'https://manager.bookicorn.net',
   },
 }
 

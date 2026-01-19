@@ -1,0 +1,22 @@
+{
+  "name": "Bookicorn für Studios",
+  "short_name": "Bookicorn",
+  "description": "Die moderne Kursplattform für Yoga & Fitness Studios.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#EE4035",
+  "icons": [
+    {
+      "src": "/bookicorn-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/bookicorn-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
