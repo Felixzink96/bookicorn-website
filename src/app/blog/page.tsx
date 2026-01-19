@@ -8,7 +8,7 @@ import { ArrowRight, Clock, Calendar, User, BookOpen, Filter, X, ChevronDown, Se
 import Button from '@/components/ui/Button'
 import { LazyLiquidEther } from '@/components/ui/LazyLiquidEther'
 import SplitText from '@/components/ui/SplitText'
-import { LoadingState } from '@/components/patterns/LoadingState'
+import { LoadingState } from '@/components/ui/LoadingState'
 import { client, isSanityConfigured } from '../../../sanity/lib/client'
 import { postsQuery, categoriesQuery } from '../../../sanity/lib/queries'
 import { urlFor } from '../../../sanity/lib/image'
