@@ -72,27 +72,25 @@ export default function CookieBanner() {
                   </p>
 
                   {/* Actions - GDPR compliant: buttons same size/weight */}
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                     {/* Primary actions - EQUAL styling for GDPR compliance */}
-                    <div className="flex flex-1 gap-3">
-                      {/* Reject All - SAME styling as Accept */}
-                      <Button
-                        variant="secondary"
-                        onClick={rejectAll}
-                        className="flex-1"
-                        aria-label={t('banner.rejectAll')}
-                      >
-                        {t('banner.rejectAll')}
-                      </Button>
-
-                      {/* Accept All - SAME styling as Reject */}
+                    <div className="flex gap-3">
+                      {/* Accept All - links */}
                       <Button
                         variant="secondary"
                         onClick={acceptAll}
-                        className="flex-1"
                         aria-label={t('banner.acceptAll')}
                       >
                         {t('banner.acceptAll')}
+                      </Button>
+
+                      {/* Reject All - rechts */}
+                      <Button
+                        variant="secondary"
+                        onClick={rejectAll}
+                        aria-label={t('banner.rejectAll')}
+                      >
+                        {t('banner.rejectAll')}
                       </Button>
                     </div>
 
